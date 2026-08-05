@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN SYSTEM
+   All tokens live in @theme and become Tailwind utility classes
+   automatically (e.g. bg-brand, text-heading-sm, rounded-card)
+   ============================================================ */
+
+@theme {
+  /* -----------------------------------------------------------
+     Typography
+  ----------------------------------------------------------- */
+  --font-sans: "Satoshi", system-ui, sans-serif;
+
+  --text-display:    clamp(2.5rem, 6vw, 4.5rem); /* ~72px → 40px */
+  --text-heading-xl: clamp(2rem,   4vw, 3rem);   /* ~48px → 32px */
+  --text-heading-lg: clamp(1.5rem, 3vw, 2rem);   /* ~32px → 24px */
+  --text-heading-md: 1.25rem;                     /* 20px */
+  --text-heading-sm: 1rem;                        /* 16px */
+  --text-body-lg:   1.125rem;                     /* 18px */
+  --text-body-md:   1rem;                         /* 16px */
+  --text-body-sm:   0.875rem;                     /* 14px */
+  --text-caption:   0.75rem;                      /* 12px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:    700;
+
+  --leading-tight:  1.15;
+  --leading-snug:   1.35;
+  --leading-normal: 1.55;
+  --leading-loose:  1.75;
+
+  --tracking-tight:  -0.04em;
+  --tracking-snug:   -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.08em;
+
+  /* -----------------------------------------------------------
+     Color Palette
+  ----------------------------------------------------------- */
+
+  /* Brand */
+  --color-brand:         #7c3aed; /* violet-700 */
+  --color-brand-light:   #a78bfa; /* violet-400 */
+  --color-brand-dark:    #5b21b6; /* violet-800 */
+  --color-brand-subtle:  #ede9fe; /* violet-100 */
+
+  /* Accent */
+  --color-accent:        #06b6d4; /* cyan-500 */
+  --color-accent-light:  #67e8f9; /* cyan-300 */
+  --color-accent-subtle: #ecfeff; /* cyan-50  */
+
+  /* Neutrals — light mode */
+  --color-bg:            #ffffff;
+  --color-bg-subtle:     #f9f9fb;
+  --color-bg-muted:      #f0f0f5;
+  --color-surface:       #ffffff;
+  --color-surface-raised:#f4f4f8;
+
+  --color-border:        #e4e4eb;
+  --color-border-strong: #c8c8d8;
+
+  --color-text:          #1a1a2e;
+  --color-text-muted:    #6b6b80;
+  --color-text-subtle:   #9999b0;
+  --color-text-inverse:  #ffffff;
+
+  /* Semantic */
+  --color-success:       #16a34a;
+  --color-success-subtle:#f0fdf4;
+  --color-warning:       #d97706;
+  --color-warning-subtle:#fffbeb;
+  --color-error:         #dc2626;
+  --color-error-subtle:  #fef2f2;
+  --color-info:          #2563eb;
+  --color-info-subtle:   #eff6ff;
+}
+
+/* ============================================================
+   BASE LAYER — global resets & defaults
+   ============================================================ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    line-height: var(--leading-normal);
+  }
+
+  a {
+    color: var(--color-brand);
+    text-decoration: none;
+    transition: color var(--duration-base) var(--ease-out);
+  }
+
+  a:hover {
+    color: var(--color-brand-dark);
+  }
+
+  img, video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+}
