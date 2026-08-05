@@ -3,107 +3,134 @@ import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import gsap from 'gsap'
 import AsapModel from '../components/AsapModel'
+import BottomNav from '../components/BottomNav'
 
-// ─── Section data ───────────────────────────────────────────
+// ─── Data ────────────────────────────────────────────────────
+const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
+
 const SECTIONS = [
-  {
-    id: 'intro',
-    label: '01',
-    heading: 'Meet ASAP',
-    sub: 'A platform built for creatives who refuse to wait.',
-    align: 'left',
-  },
-  {
-    id: 'features',
-    label: '02',
-    heading: 'Everything\nyou need.',
-    sub: 'Instant booking, real-time collab, and a feed that puts your work first.',
-    align: 'right',
-  },
-  {
-    id: 'design',
-    label: '03',
-    heading: 'Designed\nwith intent.',
-    sub: 'Every pixel crafted to reduce friction and let your creativity shine through.',
-    align: 'left',
-  },
-  {
-    id: 'mobile',
-    label: '04',
-    heading: 'Always in\nyour pocket.',
-    sub: 'Native-feel mobile experience with silky-smooth interactions.',
-    align: 'right',
-  },
-  {
-    id: 'launch',
-    label: '05',
-    heading: 'Ready to\nship.',
-    sub: 'From concept to production — built fast, built right.',
-    align: 'left',
-  },
+  { id: 'home',       bgText: 0 },
+  { id: 'asap',       bgText: 1 },
+  { id: 'returnloop', bgText: 1 },
+  { id: 'petclear',   bgText: 1 },
+  { id: 'about',      bgText: 2 },
 ]
 
-// Phone keyframes per section: { posX, posY, posZ, rotX, rotY, rotZ, scale }
+// Phone world-space keyframes — camera at z=6, fov=45
+// Visible x range is roughly ±2.5 units; ±1 ≈ 40% from center
 const KEYFRAMES = [
-  { posX: 0,    posY: 0,     posZ: 0, rotX: 0,     rotY: 0,     rotZ: 0,    scale: 1     }, // 0 intro
-  { posX: 0.8,  posY: 0.1,   posZ: 0, rotX: 0.1,   rotY: -0.5,  rotZ: 0.05, scale: 1.05  }, // 1 features
-  { posX: -0.8, posY: -0.1,  posZ: 0, rotX: -0.15, rotY: 0.6,   rotZ: -0.06,scale: 1.1   }, // 2 design
-  { posX: 0,    posY: 0.3,   posZ: 0, rotX: 0.35,  rotY: 0.2,   rotZ: 0.08, scale: 1.15  }, // 3 mobile
-  { posX: 0,    posY: 0,     posZ: 0, rotX: 0,     rotY: Math.PI * 2, rotZ: 0, scale: 1   }, // 4 launch — full spin
+  // home: phone anchored right, partially cropped off edge
+  { posX:  1.5, posY: 0,     posZ: 0, rotX:  0,     rotY: -0.22, rotZ:  0,    scale: 1.30 },
+  // asap: right of center, tilted toward viewer
+  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: -0.50, rotZ:  0.03, scale: 1.10 },
+  // returnloop: left of center, mirror tilt
+  { posX: -0.9, posY:-0.05,  posZ: 0, rotX: -0.05,  rotY:  0.50, rotZ: -0.03, scale: 1.10 },
+  // petclear: right of center
+  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: -0.40, rotZ:  0.02, scale: 1.05 },
+  // about: slide off-screen to the right
+  { posX:  4.5, posY: 0,     posZ: 0, rotX:  0,     rotY: -0.30, rotZ:  0.05, scale: 1.00 },
 ]
 
+const WORK_PROJECTS = [
+  { title: 'ASAP',       subtitle: 'Platform for Creatives', align: 'left'  },
+  { title: 'ReturnLoop', subtitle: 'Digital Exhibition',     align: 'right' },
+  { title: 'PetClear',   subtitle: 'Interactive Guide',      align: 'left'  },
+]
+
+// ─── Component ───────────────────────────────────────────────
 export default function HomePage() {
-  const containerRef   = useRef(null)
-  const scrollStateRef = useRef({ ...KEYFRAMES[0] })
-  const activeRef      = useRef(0)
+  const containerRef    = useRef(null)
+  const canvasWrapperRef = useRef(null)
+  const scrollStateRef  = useRef({ ...KEYFRAMES[0] })
+  // Individual refs for bg texts (hooks can't be in loops)
+  const bgRef0 = useRef(null)
+  const bgRef1 = useRef(null)
+  const bgRef2 = useRef(null)
+  const bgRefs = [bgRef0, bgRef1, bgRef2]
   const [activeDot, setActiveDot] = useState(0)
 
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
-    const sectionEls = container.querySelectorAll('.scroll-section')
-    const N = SECTIONS.length
+    const N   = SECTIONS.length
+    const H   = () => container.clientHeight
+
     let currentIdx   = 0
+    let currentBgIdx = 0
     let isSnapping   = false
     let wheelAccum   = 0
-    let wheelCooldown = null
+    let wheelTimer   = null
     let touchStartY  = 0
     let touchStartST = 0
     let isTouching   = false
 
-    // ── Phone keyframe tween ────────────────────────
-    const animateTo = (kf) => {
-      gsap.to(scrollStateRef.current, {
-        ...kf,
-        duration: 1.3,
-        ease: 'power3.inOut',
+    const bgEls = bgRefs.map(r => r.current)
+
+    // ── Init bg texts ──────────────────────────────────────
+    gsap.set(bgEls[0], { y: 0 })
+    gsap.set(bgEls[1], { y: H() })
+    gsap.set(bgEls[2], { y: H() })
+
+    // ── Bg text transitions ────────────────────────────────
+    const updateBgText = (newIdx) => {
+      if (newIdx === currentBgIdx) return
+      const prev      = currentBgIdx
+      const goingDown = newIdx > prev
+      currentBgIdx    = newIdx
+
+      gsap.fromTo(
+        bgEls[newIdx],
+        { y: goingDown ? H() : -H() },
+        { y: 0, duration: 1.3, ease: 'expo.out', overwrite: 'auto' }
+      )
+      gsap.to(bgEls[prev], {
+        y: goingDown ? -H() : H(),
+        duration: 1.0,
+        ease: 'expo.in',
         overwrite: 'auto',
       })
     }
 
-    // ── Text in / out ───────────────────────────────
+    // ── Section content in / out ───────────────────────────
+    const sectionEls = container.querySelectorAll('.scroll-section')
+
     const showSection = (idx) => {
-      const el = sectionEls[idx]
-      if (!el) return
-      const overlay = el.querySelector('.text-overlay')
-      if (!overlay) return
+      const content = sectionEls[idx]?.querySelector('.section-content')
+      if (!content) return
       gsap.fromTo(
-        overlay.children,
-        { opacity: 0, y: 36, filter: 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, stagger: 0.11, ease: 'power3.out', overwrite: 'auto' }
+        content.children,
+        { opacity: 0, y: 30, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, stagger: 0.1, ease: 'power3.out', overwrite: 'auto' }
       )
     }
 
     const hideSection = (idx) => {
-      const el = sectionEls[idx]
-      if (!el) return
-      const overlay = el.querySelector('.text-overlay')
-      if (!overlay) return
-      gsap.to(overlay.children, { opacity: 0, y: -18, filter: 'blur(6px)', duration: 0.38, ease: 'power2.in', overwrite: 'auto' })
+      const content = sectionEls[idx]?.querySelector('.section-content')
+      if (!content) return
+      gsap.to(content.children, {
+        opacity: 0, y: -20, filter: 'blur(5px)',
+        duration: 0.35, ease: 'power2.in', overwrite: 'auto',
+      })
     }
 
-    // ── Core: elastic snap to a section index ───────
+    // ── Phone model ────────────────────────────────────────
+    const animateTo = (kf) => {
+      gsap.to(scrollStateRef.current, {
+        ...kf, duration: 1.3, ease: 'power3.inOut', overwrite: 'auto',
+      })
+    }
+
+    // Canvas wrapper fades out on About section
+    const animateCanvas = (idx) => {
+      gsap.to(canvasWrapperRef.current, {
+        opacity: idx === 4 ? 0 : 1,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      })
+    }
+
+    // ── Elastic snap ───────────────────────────────────────
     const snapTo = (idx, fromTouch = false) => {
       idx = Math.max(0, Math.min(N - 1, idx))
       const prev = currentIdx
@@ -111,16 +138,16 @@ export default function HomePage() {
       if (idx !== prev) {
         hideSection(prev)
         currentIdx = idx
-        activeRef.current = idx
         setActiveDot(idx)
         animateTo(KEYFRAMES[idx])
-        // slight delay so hide finishes before show
+        animateCanvas(idx)
+        updateBgText(SECTIONS[idx].bgText)
         gsap.delayedCall(fromTouch ? 0 : 0.08, () => showSection(idx))
       }
 
       isSnapping = true
       gsap.to(container, {
-        scrollTop: idx * container.clientHeight,
+        scrollTop: idx * H(),
         duration: 1.45,
         ease: 'elastic.out(1, 0.75)',
         overwrite: true,
@@ -128,59 +155,48 @@ export default function HomePage() {
       })
     }
 
-    // ── Wheel ────────────────────────────────────────
+    // ── Wheel ──────────────────────────────────────────────
     const onWheel = (e) => {
       e.preventDefault()
       if (isSnapping) return
-
       wheelAccum += e.deltaY
-      clearTimeout(wheelCooldown)
-
+      clearTimeout(wheelTimer)
       if (Math.abs(wheelAccum) >= 40) {
         const dir = wheelAccum > 0 ? 1 : -1
         wheelAccum = 0
         snapTo(currentIdx + dir)
       }
-
-      // Reset accumulation if user pauses
-      wheelCooldown = setTimeout(() => { wheelAccum = 0 }, 150)
+      wheelTimer = setTimeout(() => { wheelAccum = 0 }, 150)
     }
 
-    // ── Touch ────────────────────────────────────────
+    // ── Touch ──────────────────────────────────────────────
     const onTouchStart = (e) => {
       if (isSnapping) return
       touchStartY  = e.touches[0].clientY
       touchStartST = container.scrollTop
       isTouching   = true
-      // stop any in-progress snap so drag takes over
       gsap.killTweensOf(container)
     }
-
     const onTouchMove = (e) => {
       if (!isTouching) return
       e.preventDefault()
       const dy  = touchStartY - e.touches[0].clientY
-      const max = (N - 1) * container.clientHeight
+      const max = (N - 1) * H()
       let raw = touchStartST + dy
-
-      // Rubber-band resistance at edges
-      if (raw < 0)   raw = raw * 0.22
+      if (raw < 0)        raw = raw * 0.22
       else if (raw > max) raw = max + (raw - max) * 0.22
-
       container.scrollTop = raw
     }
-
     const onTouchEnd = (e) => {
       if (!isTouching) return
       isTouching = false
       const dy = touchStartY - e.changedTouches[0].clientY
-      const threshold = container.clientHeight * 0.12   // 12% of vh
       let target = currentIdx
-      if (Math.abs(dy) > threshold) target += dy > 0 ? 1 : -1
+      if (Math.abs(dy) > H() * 0.12) target += dy > 0 ? 1 : -1
       snapTo(target, true)
     }
 
-    // ── Keyboard ─────────────────────────────────────
+    // ── Keyboard ───────────────────────────────────────────
     const onKeyDown = (e) => {
       if (isSnapping) return
       if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); snapTo(currentIdx + 1) }
@@ -201,9 +217,9 @@ export default function HomePage() {
       container.removeEventListener('touchmove', onTouchMove)
       container.removeEventListener('touchend', onTouchEnd)
       window.removeEventListener('keydown', onKeyDown)
-      clearTimeout(wheelCooldown)
+      clearTimeout(wheelTimer)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -212,53 +228,64 @@ export default function HomePage() {
         position: 'relative',
         width: '100%',
         height: '100svh',
-        overflowY: 'scroll',   /* keep scrollTop writable */
+        overflowY: 'scroll',
         overflowX: 'hidden',
-        background: '#08080f',
+        background: '#fafafa',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
       }}
     >
-      {/* ── Nav ─────────────────────────────────────── */}
-      <nav style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0,
-        zIndex: 50,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '1.5rem 3rem',
-        pointerEvents: 'none',
-      }}>
-        <span style={{ fontWeight: 700, fontSize: '1.05rem', color: '#fff', letterSpacing: '-0.03em', pointerEvents: 'auto' }}>
-          asap<span style={{ color: '#a78bfa' }}>.</span>
-        </span>
-        <ul style={{ display: 'flex', gap: '2rem', listStyle: 'none', margin: 0, padding: 0, pointerEvents: 'auto' }}>
-          {['Features', 'Design', 'Launch'].map((item) => (
-            <li key={item}>
-              <a href={`#${item.toLowerCase()}`} style={{
-                color: 'rgba(255,255,255,0.45)',
-                fontSize: '0.8rem',
-                fontWeight: 500,
-                letterSpacing: '0.05em',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                transition: 'color 0.2s',
-              }}
-                onMouseEnter={e => e.target.style.color = '#fff'}
-                onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.45)'}
-              >
-                {item}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
-      {/* ── Fixed 3-D Canvas ────────────────────────── */}
+      {/* ── Ghost background text ──────────────────────────── */}
+      <div style={{
+        position: 'fixed', inset: 0,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        zIndex: 0,
+      }}>
+        {BG_TEXTS.map((text, i) => (
+          <div
+            key={i}
+            ref={bgRefs[i]}
+            style={{
+              position: 'absolute', inset: 0,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 clamp(1.5rem, 4vw, 4rem)',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span style={{
+              display: 'block',
+              fontSize: 'clamp(6.5rem, 16vw, 18rem)',
+              fontWeight: 900,
+              lineHeight: 0.87,
+              letterSpacing: '-0.028em',
+              color: 'rgba(17,17,24,0.07)',
+              wordBreak: 'break-word',
+              userSelect: 'none',
+            }}>
+              {text}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Decorative oval blob ───────────────────────────── */}
       <div style={{
         position: 'fixed',
-        inset: 0,
+        top: '50%', left: '42%',
+        transform: 'translate(-50%, -50%)',
+        width: '55vw', height: '55vh',
+        borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.06) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
+
+      {/* ── 3-D Canvas ─────────────────────────────────────── */}
+      <div ref={canvasWrapperRef} style={{
+        position: 'fixed', inset: 0,
         zIndex: 10,
         pointerEvents: 'none',
       }}>
@@ -267,164 +294,222 @@ export default function HomePage() {
           gl={{ antialias: true, alpha: true }}
           style={{ background: 'transparent', width: '100%', height: '100%' }}
         >
-          <ambientLight intensity={1.2} />
-          <directionalLight position={[5, 10, 5]} intensity={2.5} castShadow />
-          <directionalLight position={[-4, 3, -4]} intensity={0.6} />
-          <pointLight position={[0, 4, 2]} intensity={1} color="#a78bfa" />
-          <Environment preset="city" />
+          <ambientLight intensity={0.9} />
+          <directionalLight position={[5, 10, 5]} intensity={3.0} castShadow />
+          <directionalLight position={[-4, 4, -4]} intensity={0.5} />
+          <pointLight position={[-1, 3, 2]} intensity={0.5} color="#7c3aed" />
+          <Environment preset="studio" />
           <Suspense fallback={null}>
             <AsapModel scrollState={scrollStateRef} />
           </Suspense>
         </Canvas>
       </div>
 
-      {/* ── Radial bg glow ──────────────────────────── */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1,
-        background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(124,58,237,0.12) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-
-      {/* ── Scrollable sections ─────────────────────── */}
+      {/* ── Scrollable sections ─────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 20 }}>
-        {SECTIONS.map((sec, idx) => (
-          <section
-            key={sec.id}
-            id={sec.id}
-            className="scroll-section"
+
+        {/* Section 0 — Home */}
+        <section id="home" className="scroll-section" style={SECTION_STYLE}>
+          <div
+            className="section-content"
             style={{
-              height: '100svh',
-              width: '100%',
+              position: 'absolute',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              left: 'clamp(2rem, 8vw, 6rem)',
+              maxWidth: '520px',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: sec.align === 'right' ? 'flex-end' : 'flex-start',
-              padding: '0 clamp(2rem, 8vw, 8rem)',
-              boxSizing: 'border-box',
+              flexDirection: 'column',
+              gap: '0',
               pointerEvents: 'none',
             }}
           >
-            {/* Text overlay */}
-            <div
-              className="text-overlay"
-              style={{
-                maxWidth: '480px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.25rem',
-              }}
+            <p style={{
+              opacity: 0,
+              margin: 0,
+              fontSize: 'clamp(1.5rem, 2.6vw, 3rem)',
+              fontWeight: 700,
+              color: '#111118',
+              lineHeight: 1.18,
+              letterSpacing: '-0.025em',
+            }}>
+              I am a story teller,<br />
+              blending visual design<br />
+              &amp; strategy.
+            </p>
+          </div>
+        </section>
+
+        {/* Sections 1-3 — Work */}
+        {WORK_PROJECTS.map((proj, i) => {
+          const isLeft = proj.align === 'left'
+          return (
+            <section
+              key={proj.title}
+              id={SECTIONS[i + 1].id}
+              className="scroll-section"
+              style={SECTION_STYLE}
             >
-              {/* Section number */}
-              <span style={{
-                opacity: 0,
-                fontFamily: 'inherit',
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#a78bfa',
-              }}>
-                {sec.label} / {String(SECTIONS.length).padStart(2, '0')}
-              </span>
-
-              {/* Heading */}
-              <h2 style={{
-                opacity: 0,
-                margin: 0,
-                fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-                fontWeight: 700,
-                lineHeight: 1.0,
-                letterSpacing: '-0.04em',
-                color: '#fff',
-                whiteSpace: 'pre-line',
-              }}>
-                {sec.heading}
-              </h2>
-
-              {/* Divider */}
-              <div style={{
-                opacity: 0,
-                width: '2.5rem',
-                height: '2px',
-                borderRadius: '999px',
-                background: 'linear-gradient(90deg, #7c3aed, #06b6d4)',
-              }} />
-
-              {/* Subtitle */}
-              <p style={{
-                opacity: 0,
-                margin: 0,
-                fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)',
-                fontWeight: 400,
-                lineHeight: 1.65,
-                color: 'rgba(255,255,255,0.5)',
-              }}>
-                {sec.sub}
-              </p>
-
-              {/* CTA on last section */}
-              {idx === SECTIONS.length - 1 && (
+              <div
+                className="section-content"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  [isLeft ? 'left' : 'right']: 'clamp(2rem, 8vw, 6rem)',
+                  textAlign: isLeft ? 'left' : 'right',
+                  maxWidth: '380px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem',
+                  pointerEvents: 'auto',
+                }}
+              >
+                <span style={{
+                  opacity: 0,
+                  fontSize: '0.68rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  color: '#7c3aed',
+                }}>
+                  0{i + 1} / 03
+                </span>
+                <h2 style={{
+                  opacity: 0,
+                  margin: 0,
+                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                  fontWeight: 700,
+                  color: '#111118',
+                  lineHeight: 1.0,
+                  letterSpacing: '-0.03em',
+                }}>
+                  {proj.title}
+                </h2>
+                <p style={{
+                  opacity: 0,
+                  margin: 0,
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: '#6b6b80',
+                  letterSpacing: '-0.01em',
+                }}>
+                  {proj.subtitle}
+                </p>
                 <a
                   href="#"
                   style={{
                     opacity: 0,
-                    pointerEvents: 'auto',
+                    fontWeight: 600,
+                    fontSize: '0.85rem',
+                    color: '#7c3aed',
+                    textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.8rem 1.75rem',
-                    borderRadius: '9999px',
-                    background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
-                    color: '#fff',
-                    fontSize: '0.9rem',
-                    fontWeight: 600,
-                    textDecoration: 'none',
-                    boxShadow: '0 0 32px rgba(124,58,237,0.4)',
-                    width: 'fit-content',
-                    marginTop: '0.5rem',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    gap: '0.35rem',
+                    transition: 'gap 0.2s ease',
+                    alignSelf: isLeft ? 'flex-start' : 'flex-end',
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 0 48px rgba(124,58,237,0.6)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 0 32px rgba(124,58,237,0.4)'
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.gap = '0.6rem' }}
+                  onMouseLeave={e => { e.currentTarget.style.gap = '0.35rem' }}
                 >
-                  View case study →
+                  dive in →
                 </a>
-              )}
-            </div>
-
-            {/* Section indicator dots — driven by activeDot state */}
-            {idx === 0 && (
-              <div style={{
-                position: 'fixed',
-                right: '2rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.5rem',
-                zIndex: 30,
-              }}>
-                {SECTIONS.map((_, dotIdx) => (
-                  <div key={dotIdx} style={{
-                    width: dotIdx === activeDot ? '6px' : '4px',
-                    height: dotIdx === activeDot ? '24px' : '4px',
-                    borderRadius: '999px',
-                    background: dotIdx === activeDot ? '#a78bfa' : 'rgba(255,255,255,0.2)',
-                    transition: 'all 0.4s cubic-bezier(0.34,1.56,0.64,1)',
-                  }} />
-                ))}
               </div>
-            )}
-          </section>
+            </section>
+          )
+        })}
+
+        {/* Section 4 — About */}
+        <section id="about" className="scroll-section" style={SECTION_STYLE}>
+          <div
+            className="section-content"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              maxWidth: '500px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              pointerEvents: 'none',
+            }}
+          >
+            <span style={{
+              opacity: 0,
+              fontSize: '0.68rem',
+              fontWeight: 600,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: '#7c3aed',
+            }}>
+              About
+            </span>
+            <p style={{
+              opacity: 0,
+              margin: 0,
+              fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)',
+              fontWeight: 600,
+              color: '#111118',
+              lineHeight: 1.55,
+              letterSpacing: '-0.015em',
+            }}>
+              A multidisciplinary designer blending storytelling,
+              strategy, and craft to create digital experiences
+              that truly resonate.
+            </p>
+            <p style={{
+              opacity: 0,
+              margin: 0,
+              fontSize: '0.92rem',
+              fontWeight: 400,
+              color: '#6b6b80',
+              lineHeight: 1.7,
+            }}>
+              Currently available for freelance &amp; full-time opportunities.
+            </p>
+          </div>
+        </section>
+
+      </div>
+
+      {/* ── Side progress dots ─────────────────────────────── */}
+      <div style={{
+        position: 'fixed',
+        right: '1.75rem',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.45rem',
+      }}>
+        {SECTIONS.map((_, dotIdx) => (
+          <div
+            key={dotIdx}
+            style={{
+              width: dotIdx === activeDot ? '5px' : '4px',
+              height: dotIdx === activeDot ? '22px' : '4px',
+              borderRadius: '999px',
+              background: dotIdx === activeDot
+                ? '#7c3aed'
+                : 'rgba(17,17,24,0.14)',
+              transition: 'all 0.45s cubic-bezier(0.34,1.56,0.64,1)',
+            }}
+          />
         ))}
       </div>
+
+      <BottomNav />
     </div>
   )
+}
+
+// ─── Shared styles ───────────────────────────────────────────
+const SECTION_STYLE = {
+  height: '100svh',
+  width: '100%',
+  position: 'relative',
 }

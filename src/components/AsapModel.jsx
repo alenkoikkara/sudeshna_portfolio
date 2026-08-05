@@ -31,7 +31,7 @@ export default function AsapModel({ scrollState }) {
     const maxDim = Math.max(size.x, size.y, size.z) || 1
 
     clone.position.sub(center)
-    clone.scale.setScalar(5 / maxDim)
+    clone.scale.setScalar(3 / maxDim)
 
     return clone
   }, [scene])
