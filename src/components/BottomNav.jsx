@@ -18,7 +18,6 @@ export default function BottomNav() {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '1.1rem clamp(1.5rem, 5vw, 3rem)',
-        borderTop: '1px solid rgba(17,17,24,0.07)',
         background: 'rgba(250,250,250,0.88)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',

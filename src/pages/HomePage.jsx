@@ -1,9 +1,10 @@
-import { useRef, Suspense, useEffect, useState } from 'react'
+import { useRef, Suspense, useEffect, useState, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import gsap from 'gsap'
 import AsapModel from '../components/AsapModel'
 import BottomNav from '../components/BottomNav'
+import LoadingScreen from '../components/LoadingScreen'
 
 // ─── Data ────────────────────────────────────────────────────
 const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
@@ -41,13 +42,26 @@ const WORK_PROJECTS = [
 export default function HomePage() {
   const containerRef    = useRef(null)
   const canvasWrapperRef = useRef(null)
+  const navRef          = useRef(null)
   const scrollStateRef  = useRef({ ...KEYFRAMES[0] })
+  const revealRef       = useRef(null)   // stores reveal fn set inside useEffect
   // Individual refs for bg texts (hooks can't be in loops)
   const bgRef0 = useRef(null)
   const bgRef1 = useRef(null)
   const bgRef2 = useRef(null)
   const bgRefs = [bgRef0, bgRef1, bgRef2]
-  const [activeDot, setActiveDot] = useState(0)
+  const [activeDot, setActiveDot] = useState(0) // eslint-disable-line no-unused-vars
+  const [showLoader, setShowLoader] = useState(true)
+
+  // Called by LoadingScreen the moment text arrives at left position
+  const handleReveal = useCallback(() => {
+    if (revealRef.current) revealRef.current()
+  }, [])
+
+  // Called by LoadingScreen after overlay fully fades out
+  const handleLoadComplete = useCallback(() => {
+    setShowLoader(false)
+  }, [])
 
   useEffect(() => {
     const container = containerRef.current
@@ -66,6 +80,11 @@ export default function HomePage() {
     let isTouching   = false
 
     const bgEls = bgRefs.map(r => r.current)
+
+    // ── Hide everything initially (behind loader) ──────────
+    gsap.set(bgEls, { opacity: 0 })
+    gsap.set(canvasWrapperRef.current, { opacity: 0 })
+    if (navRef.current) gsap.set(navRef.current, { opacity: 0 })
 
     // ── Init bg texts ──────────────────────────────────────
     gsap.set(bgEls[0], { y: 0 })
@@ -209,7 +228,13 @@ export default function HomePage() {
     container.addEventListener('touchend', onTouchEnd, { passive: true })
     window.addEventListener('keydown', onKeyDown)
 
-    showSection(0)
+    // ── Reveal function (called by LoadingScreen) ──────────
+    revealRef.current = () => {
+      showSection(0)
+      gsap.to(bgEls[0],              { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.05 })
+      gsap.to(canvasWrapperRef.current, { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.15 })
+      if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 0.9, ease: 'power2.out', delay: 0.25 })
+    }
 
     return () => {
       container.removeEventListener('wheel', onWheel)
@@ -475,34 +500,19 @@ export default function HomePage() {
 
       </div>
 
-      {/* ── Side progress dots ─────────────────────────────── */}
-      <div style={{
-        position: 'fixed',
-        right: '1.75rem',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        zIndex: 50,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.45rem',
-      }}>
-        {SECTIONS.map((_, dotIdx) => (
-          <div
-            key={dotIdx}
-            style={{
-              width: dotIdx === activeDot ? '5px' : '4px',
-              height: dotIdx === activeDot ? '22px' : '4px',
-              borderRadius: '999px',
-              background: dotIdx === activeDot
-                ? '#7c3aed'
-                : 'rgba(17,17,24,0.14)',
-              transition: 'all 0.45s cubic-bezier(0.34,1.56,0.64,1)',
-            }}
-          />
-        ))}
+
+      {/* ── Bottom navigation bar ──────────────────────────── */}
+      <div ref={navRef}>
+        <BottomNav />
       </div>
 
-      <BottomNav />
+      {/* ── Intro loading screen ───────────────────────────── */}
+      {showLoader && (
+        <LoadingScreen
+          onReveal={handleReveal}
+          onComplete={handleLoadComplete}
+        />
+      )}
     </div>
   )
 }
