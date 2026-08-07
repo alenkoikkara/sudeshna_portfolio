@@ -53,13 +53,14 @@ export default function HomePage() {
   const [activeDot, setActiveDot] = useState(0) // eslint-disable-line no-unused-vars
   const [showLoader, setShowLoader] = useState(true)
 
-  // Called by LoadingScreen the moment text arrives at left position
+  // A — ghost text, phone, nav start fading in (overlay bg still fading)
   const handleReveal = useCallback(() => {
-    if (revealRef.current) revealRef.current()
+    revealRef.current?.reveal()
   }, [])
 
-  // Called by LoadingScreen after overlay fully fades out
+  // B — overlay bg gone; hero text fades in as loading text disappears
   const handleLoadComplete = useCallback(() => {
+    revealRef.current?.handoff()
     setShowLoader(false)
   }, [])
 
@@ -101,12 +102,12 @@ export default function HomePage() {
       gsap.fromTo(
         bgEls[newIdx],
         { y: goingDown ? H() : -H() },
-        { y: 0, duration: 1.3, ease: 'expo.out', overwrite: 'auto' }
+        { y: 0, duration: 1.8, ease: 'expo.inOut', overwrite: 'auto' }
       )
       gsap.to(bgEls[prev], {
         y: goingDown ? -H() : H(),
-        duration: 1.0,
-        ease: 'expo.in',
+        duration: 1.3,
+        ease: 'expo.inOut',
         overwrite: 'auto',
       })
     }
@@ -120,7 +121,7 @@ export default function HomePage() {
       gsap.fromTo(
         content.children,
         { opacity: 0, y: 30, filter: 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, stagger: 0.1, ease: 'power3.out', overwrite: 'auto' }
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.3, stagger: 0.12, ease: 'power3.inOut', overwrite: 'auto' }
       )
     }
 
@@ -129,14 +130,14 @@ export default function HomePage() {
       if (!content) return
       gsap.to(content.children, {
         opacity: 0, y: -20, filter: 'blur(5px)',
-        duration: 0.35, ease: 'power2.in', overwrite: 'auto',
+        duration: 0.55, ease: 'power2.inOut', overwrite: 'auto',
       })
     }
 
     // ── Phone model ────────────────────────────────────────
     const animateTo = (kf) => {
       gsap.to(scrollStateRef.current, {
-        ...kf, duration: 1.3, ease: 'power3.inOut', overwrite: 'auto',
+        ...kf, duration: 1.7, ease: 'power3.inOut', overwrite: 'auto',
       })
     }
 
@@ -144,7 +145,7 @@ export default function HomePage() {
     const animateCanvas = (idx) => {
       gsap.to(canvasWrapperRef.current, {
         opacity: idx === 4 ? 0 : 1,
-        duration: 0.8,
+        duration: 1.1,
         ease: 'power2.inOut',
       })
     }
@@ -228,12 +229,27 @@ export default function HomePage() {
     container.addEventListener('touchend', onTouchEnd, { passive: true })
     window.addEventListener('keydown', onKeyDown)
 
-    // ── Reveal function (called by LoadingScreen) ──────────
-    revealRef.current = () => {
-      showSection(0)
-      gsap.to(bgEls[0],              { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.05 })
-      gsap.to(canvasWrapperRef.current, { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.15 })
-      if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 0.9, ease: 'power2.out', delay: 0.25 })
+    // ── Reveal functions (called by LoadingScreen) ────────
+    revealRef.current = {
+      // Step A: background elements fade in while overlay bg fades out
+      reveal: () => {
+        gsap.to(bgEls[0],               { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.05 })
+        gsap.to(canvasWrapperRef.current, { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.15 })
+        if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 1.3, ease: 'power2.inOut', delay: 0.25 })
+      },
+      // Step B: hero text handoff — fires after overlay bg is fully gone.
+      // Use gsap.set (not showSection) so the real hero text appears instantly
+      // at the same position as the loading text — no y-offset, no blur, no stagger.
+      handoff: () => {
+        const content = sectionEls[0]?.querySelector('.section-content')
+        if (content) {
+          gsap.set(Array.from(content.children), {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+          })
+        }
+      },
     }
 
     return () => {
