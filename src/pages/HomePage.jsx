@@ -45,6 +45,7 @@ export default function HomePage() {
   const navRef          = useRef(null)
   const scrollStateRef  = useRef({ ...KEYFRAMES[0] })
   const revealRef       = useRef(null)   // stores reveal fn set inside useEffect
+  const snapToRef       = useRef(null)   // stores snapTo fn set inside useEffect
   // Individual refs for bg texts (hooks can't be in loops)
   const bgRef0 = useRef(null)
   const bgRef1 = useRef(null)
@@ -229,11 +230,14 @@ export default function HomePage() {
     container.addEventListener('touchend', onTouchEnd, { passive: true })
     window.addEventListener('keydown', onKeyDown)
 
+    // expose snapTo so BottomNav can call it
+    snapToRef.current = snapTo
+
     // ── Reveal functions (called by LoadingScreen) ────────
     revealRef.current = {
       // Step A: background elements fade in while overlay bg fades out
       reveal: () => {
-        gsap.to(bgEls[0],               { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.05 })
+        gsap.to(bgEls,               { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.05 })
         gsap.to(canvasWrapperRef.current, { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.15 })
         if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 1.3, ease: 'power2.inOut', delay: 0.25 })
       },
@@ -519,7 +523,7 @@ export default function HomePage() {
 
       {/* ── Bottom navigation bar ──────────────────────────── */}
       <div ref={navRef}>
-        <BottomNav />
+        <BottomNav onNavigate={(idx) => snapToRef.current?.(idx)} />
       </div>
 
       {/* ── Intro loading screen ───────────────────────────── */}

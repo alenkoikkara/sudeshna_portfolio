@@ -1,11 +1,24 @@
+// Section indices the nav items map to
+const NAV_ITEMS = [
+  { label: 'Sudeshna Gangoli', section: 0 },
+  { label: 'Work',             section: 1 },
+  { label: 'About',            section: 4 },
+]
+
 const NAV_STYLE = {
   fontSize: '0.78rem',
   fontWeight: 500,
   color: '#111118',
   letterSpacing: '0.005em',
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  transition: 'opacity 0.2s ease',
 }
 
-export default function BottomNav() {
+export default function BottomNav({ onNavigate }) {
   return (
     <nav
       role="navigation"
@@ -23,9 +36,18 @@ export default function BottomNav() {
         WebkitBackdropFilter: 'blur(16px)',
       }}
     >
-      <span style={NAV_STYLE}>Sudeshna Gangoli</span>
-      <span style={NAV_STYLE}>Work</span>
-      <span style={NAV_STYLE}>About</span>
+      {NAV_ITEMS.map(({ label, section }) => (
+        <button
+          key={label}
+          style={NAV_STYLE}
+          onClick={() => onNavigate?.(section)}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.45' }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+          aria-label={`Go to ${label} section`}
+        >
+          {label}
+        </button>
+      ))}
     </nav>
   )
 }
