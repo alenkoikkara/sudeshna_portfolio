@@ -10,7 +10,7 @@ import * as THREE from 'three'
  */
 export default function AsapModel({ scrollState }) {
   const groupRef = useRef()
-  const { scene } = useGLTF('/asap.glb')
+  const { scene } = useGLTF('/iphone17.glb')
 
   const model = useMemo(() => {
     const clone = scene.clone()
@@ -64,4 +64,4 @@ export default function AsapModel({ scrollState }) {
   )
 }
 
-useGLTF.preload('/asap.glb')
+useGLTF.preload('/iphone17.glb')

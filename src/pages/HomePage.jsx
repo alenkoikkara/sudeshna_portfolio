@@ -1,4 +1,5 @@
-import { useRef, Suspense, useEffect, useState, useCallback } from 'react'
+import { useRef, Suspense, useEffect, useState, useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Canvas } from '@react-three/fiber'
 import { Environment } from '@react-three/drei'
 import gsap from 'gsap'
@@ -18,18 +19,19 @@ const SECTIONS = [
 ]
 
 // Phone world-space keyframes — camera at z=6, fov=45
-// Visible x range is roughly ±2.5 units; ±1 ≈ 40% from center
+// rotY values have Math.PI added so front face points toward camera
+// (model is back-facing at rotY:0; Math.PI flips it to front-facing)
 const KEYFRAMES = [
   // home: phone anchored right, partially cropped off edge
-  { posX:  1.5, posY: 0,     posZ: 0, rotX:  0,     rotY: -0.22, rotZ:  0,    scale: 1.30 },
+  { posX:  1.5, posY: 0,     posZ: 0, rotX:  0,     rotY: Math.PI - 0.22, rotZ:  0,    scale: 1.30 },
   // asap: right of center, tilted toward viewer
-  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: -0.50, rotZ:  0.03, scale: 1.10 },
+  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: Math.PI - 0.50, rotZ:  0.03, scale: 1.10 },
   // returnloop: left of center, mirror tilt
-  { posX: -0.9, posY:-0.05,  posZ: 0, rotX: -0.05,  rotY:  0.50, rotZ: -0.03, scale: 1.10 },
+  { posX: -0.9, posY:-0.05,  posZ: 0, rotX: -0.05,  rotY: Math.PI + 0.50, rotZ: -0.03, scale: 1.10 },
   // petclear: right of center
-  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: -0.40, rotZ:  0.02, scale: 1.05 },
+  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: Math.PI - 0.40, rotZ:  0.02, scale: 1.05 },
   // about: slide off-screen to the right
-  { posX:  4.5, posY: 0,     posZ: 0, rotX:  0,     rotY: -0.30, rotZ:  0.05, scale: 1.00 },
+  { posX:  4.5, posY: 0,     posZ: 0, rotX:  0,     rotY: Math.PI - 0.30, rotZ:  0.05, scale: 1.00 },
 ]
 
 const WORK_PROJECTS = [
@@ -43,9 +45,10 @@ export default function HomePage() {
   const containerRef    = useRef(null)
   const canvasWrapperRef = useRef(null)
   const navRef          = useRef(null)
-  const scrollStateRef  = useRef({ ...KEYFRAMES[0] })
+  const scrollStateRef  = useRef({ posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8 })
   const revealRef       = useRef(null)   // stores reveal fn set inside useEffect
   const snapToRef       = useRef(null)   // stores snapTo fn set inside useEffect
+  const navigate        = useNavigate()
   // Individual refs for bg texts (hooks can't be in loops)
   const bgRef0 = useRef(null)
   const bgRef1 = useRef(null)
@@ -83,12 +86,20 @@ export default function HomePage() {
 
     const bgEls = bgRefs.map(r => r.current)
 
-    // ── Hide everything initially (behind loader) ──────────
+    // ── Hide non-phone elements (phone visible from the start) ───
     gsap.set(bgEls, { opacity: 0 })
-    gsap.set(canvasWrapperRef.current, { opacity: 0 })
     if (navRef.current) gsap.set(navRef.current, { opacity: 0 })
 
-    // ── Init bg texts ──────────────────────────────────────
+    // ── Loading sequence ───────────────────────────────
+    // Zoom phone out from full-viewport fill to its home position
+    // Starts after hero text has faded in and held briefly (t=1.5s)
+    gsap.to(scrollStateRef.current, {
+      ...KEYFRAMES[0], duration: 3.0, ease: 'power2.inOut', delay: 1.5,
+    })
+    // Ghost bg text fades in midway through the slow zoom-out
+    gsap.to(bgEls, { opacity: 1, duration: 2.0, ease: 'power2.inOut', delay: 3.0 })
+
+    // ── Init bg text positions ───────────────────────────
     gsap.set(bgEls[0], { y: 0 })
     gsap.set(bgEls[1], { y: H() })
     gsap.set(bgEls[2], { y: H() })
@@ -235,11 +246,10 @@ export default function HomePage() {
 
     // ── Reveal functions (called by LoadingScreen) ────────
     revealRef.current = {
-      // Step A: background elements fade in while overlay bg fades out
+      // Step A: nav fades in when hero text arrives at left position
+      // (bg text is driven by the loading timeline above; canvas always visible)
       reveal: () => {
-        gsap.to(bgEls,               { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.05 })
-        gsap.to(canvasWrapperRef.current, { opacity: 1, duration: 1.6, ease: 'power2.inOut', delay: 0.15 })
-        if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 1.3, ease: 'power2.inOut', delay: 0.25 })
+        if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 1.3, ease: 'power2.inOut' })
       },
       // Step B: hero text handoff — fires after overlay bg is fully gone.
       // Use gsap.set (not showSection) so the real hero text appears instantly
@@ -443,6 +453,10 @@ export default function HomePage() {
                 </p>
                 <a
                   href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/work/${proj.title}`);
+                  }}
                   style={{
                     opacity: 0,
                     fontWeight: 600,
@@ -454,6 +468,7 @@ export default function HomePage() {
                     gap: '0.35rem',
                     transition: 'gap 0.2s ease',
                     alignSelf: isLeft ? 'flex-start' : 'flex-end',
+                    cursor: 'pointer'
                   }}
                   onMouseEnter={e => { e.currentTarget.style.gap = '0.6rem' }}
                   onMouseLeave={e => { e.currentTarget.style.gap = '0.35rem' }}
@@ -531,6 +546,7 @@ export default function HomePage() {
         <LoadingScreen
           onReveal={handleReveal}
           onComplete={handleLoadComplete}
+          startDelay={0.3}
         />
       )}
     </div>

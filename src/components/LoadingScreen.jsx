@@ -2,99 +2,93 @@ import { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 
 /**
- * LoadingScreen
+ * LoadingScreen — cinematic, story-like intro
  *
- * Sequence:
- *  1. Hero copy centered on white screen (1.2s delay)
- *  2. Text slides left to its final position  (1.6s, power3.inOut)
- *  3. onReveal fires → background elements start fading in
- *  4. Overlay *background* fades to transparent — text stays visible  (1.0s)
- *  5. onComplete fires → real hero text fades in (handoff)
- *  6. Loading text quickly fades out  (0.08s)
+ *  t = delay + 0.0s : text fades in centered, white (on top of filled-viewport phone)
+ *  t = delay + 0.8s : brief hold — white text glowing on dark phone
+ *  t = delay + 1.2s : text slides left + color white → dark  (3.0s, phone zooms out simultaneously)
+ *  t = delay + 4.2s : text arrives at left, dark — onReveal + onComplete fire
+ *  t = delay + 4.3s : loading text disappears, real hero text takes its place
  */
-export default function LoadingScreen({ onReveal, onComplete }) {
-  const overlayRef = useRef(null)
+export default function LoadingScreen({ onReveal, onComplete, startDelay = 0.3 }) {
   const textRef = useRef(null)
 
   useEffect(() => {
-    const overlay = overlayRef.current
     const text = textRef.current
-    if (!overlay || !text) return
+    if (!text) return
 
-    // Match hero section's left: clamp(2rem, 8vw, 6rem)
+    // Target x matches hero section's left: clamp(2rem, 8vw, 6rem)
     const targetX = Math.min(Math.max(32, window.innerWidth * 0.08), 96)
 
-    // Center text horizontally via transform (top: 50% is in CSS)
+    // Start: centered, invisible, white
     gsap.set(text, {
       xPercent: -50,
       yPercent: -50,
       x: window.innerWidth / 2,
+      opacity: 0,
+      color: '#cccccc',
     })
 
-    const tl = gsap.timeline({ delay: 1.2 })
+    const tl = gsap.timeline({ delay: startDelay })
 
-    // 1 — slide text to left position
+    // 1 — fade in centered, white (phone still fills viewport)
     tl.to(text, {
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power2.inOut',
+    })
+
+    // 2 — hold: white text on dark phone (no movement)
+    .to(text, { duration: 0.4 })
+
+    // 3 — phone starts zooming out here (handled in HomePage);
+    //     text slides left + color shifts from white → dark
+    .to(text, {
+      color: '#111118',
       x: targetX,
       xPercent: 0,
-      duration: 1.6,
-      ease: 'power3.inOut',
+      duration: 3.0,
+      ease: 'power2.inOut',
     })
 
-      // 2 — signal: ghost text / phone / nav can start fading in
-      .call(() => onReveal?.())
+    // 4 — nav fades in
+    .call(() => onReveal?.())
 
-      // 3 — fade out ONLY the background color; text remains fully visible
-      .to(overlay, {
-        backgroundColor: 'rgba(250,250,250,0)',
-        duration: 1.0,
-        ease: 'power2.inOut',
-      })
+    // 5 — hero text handoff + loader unmounts
+    .call(() => onComplete?.())
 
-      // 4 — handoff: real hero text appears at the same spot; notify parent to unmount
-      .call(() => onComplete?.())
-
-      // 5 — loading text quietly disappears (real hero text is now in its place)
-      .to(text, {
-        autoAlpha: 0,
-        duration: 0.08,
-        ease: 'none',
-      })
+    // 6 — loading text quietly disappears
+    .to(text, {
+      autoAlpha: 0,
+      duration: 0.08,
+      ease: 'none',
+    })
 
     return () => tl.kill()
-  }, [onReveal, onComplete])
+  }, [onReveal, onComplete, startDelay])
 
   return (
-    <div
-      ref={overlayRef}
+    <p
+      ref={textRef}
       aria-hidden="true"
       style={{
         position: 'fixed',
-        inset: 0,
+        top: '50%',
+        left: 0,
         zIndex: 100,
-        backgroundColor: '#fafafa',
+        margin: 0,
+        fontSize: 'clamp(1.5rem, 2.6vw, 3rem)',
+        fontWeight: 700,
+        color: '#cccccc',
+        lineHeight: 1.18,
+        letterSpacing: '-0.025em',
+        maxWidth: '520px',
         pointerEvents: 'none',
       }}
     >
-      <p
-        ref={textRef}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: 0,
-          margin: 0,
-          fontSize: 'clamp(1.5rem, 2.6vw, 3rem)',
-          fontWeight: 700,
-          color: '#111118',
-          lineHeight: 1.18,
-          letterSpacing: '-0.025em',
-          maxWidth: '520px',
-        }}
-      >
-        I am a story teller,<br />
-        blending visual design<br />
-        &amp; strategy.
-      </p>
-    </div>
+      I am a story teller,<br />
+      blending visual design<br />
+      &amp; strategy.
+    </p>
   )
 }
