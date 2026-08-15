@@ -416,25 +416,15 @@ export default function HomePage() {
                   maxWidth: '380px',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.75rem',
+                  gap: '0.20rem',
                   pointerEvents: 'auto',
                 }}
               >
-                <span style={{
-                  opacity: 0,
-                  fontSize: '0.68rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.16em',
-                  textTransform: 'uppercase',
-                  color: '#7c3aed',
-                }}>
-                  0{i + 1} / 03
-                </span>
                 <h2 style={{
                   opacity: 0,
                   margin: 0,
-                  fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                  fontWeight: 700,
+                  fontSize: 'clamp(3.5rem, 6vw, 5.5rem)',
+                  fontWeight: 800,
                   color: '#111118',
                   lineHeight: 1.0,
                   letterSpacing: '-0.03em',

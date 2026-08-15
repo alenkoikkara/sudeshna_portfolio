@@ -67,16 +67,6 @@
   --color-text-muted:    #6b6b80;
   --color-text-subtle:   #9999b0;
   --color-text-inverse:  #ffffff;
-
-  /* Semantic */
-  --color-success:       #16a34a;
-  --color-success-subtle:#f0fdf4;
-  --color-warning:       #d97706;
-  --color-warning-subtle:#fffbeb;
-  --color-error:         #dc2626;
-  --color-error-subtle:  #fef2f2;
-  --color-info:          #2563eb;
-  --color-info-subtle:   #eff6ff;
 }
 
 /* ============================================================
