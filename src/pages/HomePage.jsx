@@ -1,11 +1,17 @@
 import { useRef, Suspense, useEffect, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Canvas } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Environment, useGLTF } from '@react-three/drei'
+import * as THREE from 'three'
 import gsap from 'gsap'
+
 import AsapModel from '../components/AsapModel'
 import BottomNav from '../components/BottomNav'
 import LoadingScreen from '../components/LoadingScreen'
+import iphoneMockup from '../assets/iphone mockup/iphone_mockup.png'
+import petclearTripVideo from '../assets/videos/petclear/petclear_trip.mov'
+import petclearCommentVideo from '../assets/videos/petclear/petclear_comment.mov'
+import petclearDocumentVideo from '../assets/videos/petclear/petclear_document.mov'
 
 // ─── Data ────────────────────────────────────────────────────
 const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
@@ -22,11 +28,11 @@ const KEYFRAMES = [
   // home: phone anchored right, partially cropped off edge
   { posX: 1.5, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI - 0.22, rotZ: 0, scale: 1.30 },
   // asap: replace center block
-  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.09 },
   // returnloop: replace center block
-  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.09 },
   // petclear: replace center block
-  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.09 },
   // about: slide off-screen to the right
   { posX: 4.5, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI - 0.30, rotZ: 0.05, scale: 1.00 },
 ]
@@ -42,7 +48,7 @@ const GRID_BLOCKS = (() => {
   const cols = 20;
   const rows = 12;
   const w = 260;
-  const h = 563;
+  const h = 534.25;
   const gap = 20;
 
   for (let c = 0; c < cols; c++) {
@@ -59,61 +65,71 @@ const GRID_BLOCKS = (() => {
     }
   }
 
-  // Color the clusters
-  const applyColors = (startC, endC, startR, endR, colors) => {
+  // Apply mockups
+  const applyMockups = (startC, endC, startR, endR) => {
     blocks.forEach(b => {
       if (b.c >= startC && b.c <= endC && b.r >= startR && b.r <= endR) {
-        b.color = colors[(b.c * 7 + b.r * 3) % colors.length];
+        b.isMockup = true;
+        b.color = 'transparent'; // Remove background color
       }
     });
   };
 
   // ASAP: cols 2-5, rows 2-4
-  applyColors(2, 5, 2, 4, ['#e9d5ff', '#d8b4fe', '#c084fc', '#a855f7']); // Purples
+  applyMockups(2, 5, 2, 4);
   // ReturnLoop: cols 8-11, rows 6-8
-  applyColors(8, 11, 6, 8, ['#fca5a5', '#f87171', '#ef4444', '#dc2626']); // Reds
+  applyMockups(8, 11, 6, 8);
   // PetClear: cols 14-17, rows 2-4
-  applyColors(14, 17, 2, 4, ['#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']); // Blues
+  applyMockups(14, 17, 2, 4);
 
   // Color the blocks behind the text areas white
   blocks.forEach(b => {
     // ASAP Text Area (Left)
-    if (b.c <= 2 && b.r >= 1 && b.r <= 5) b.color = 'transparent';
+    if (b.c <= 2 && b.r >= 1 && b.r <= 5) { b.color = 'transparent'; b.isMockup = false; }
     // ReturnLoop Text Area (Right)
-    if (b.c >= 11 && b.c <= 13 && b.r >= 5 && b.r <= 9) b.color = 'transparent';
+    if (b.c >= 11 && b.c <= 13 && b.r >= 5 && b.r <= 9) { b.color = 'transparent'; b.isMockup = false; }
     // PetClear Text Area (Left)
-    if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) b.color = 'transparent';
+    if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) { b.color = 'transparent'; b.isMockup = false; }
   });
 
   // Specific user overrides
   const block7_7 = blocks.find(b => b.c === 7 && b.r === 7);
-  if (block7_7) block7_7.color = '#ef4444';
+  if (block7_7) { block7_7.color = '#ef4444'; }
+
+  const block16_3 = blocks.find(b => b.c === 16 && b.r === 3);
+  if (block16_3) { block16_3.video = petclearTripVideo; }
+
+  const block17_3 = blocks.find(b => b.c === 17 && b.r === 3);
+  if (block17_3) { block17_3.video = petclearCommentVideo; }
+
+  const block17_4 = blocks.find(b => b.c === 17 && b.r === 4);
+  if (block17_4) { block17_4.video = petclearDocumentVideo; }
 
   const block10_6 = blocks.find(b => b.c === 10 && b.r === 6);
-  if (block10_6) block10_6.color = 'transparent';
+  if (block10_6) { block10_6.color = 'transparent'; block10_6.isMockup = false; }
 
   const block10_7 = blocks.find(b => b.c === 10 && b.r === 7);
-  if (block10_7) block10_7.color = 'transparent';
+  if (block10_7) { block10_7.color = 'transparent'; block10_7.isMockup = false; }
 
   // Hide the center blocks so the iPhone can replace them
   const asapTarget = blocks.find(b => b.c === 3 && b.r === 3);
-  if (asapTarget) asapTarget.color = 'transparent';
+  if (asapTarget) { asapTarget.color = 'transparent'; asapTarget.isMockup = false; }
 
   const rlTarget = blocks.find(b => b.c === 9 && b.r === 7);
-  if (rlTarget) rlTarget.color = 'transparent';
+  if (rlTarget) { rlTarget.color = 'transparent'; rlTarget.isMockup = false; }
 
   const pcTarget = blocks.find(b => b.c === 15 && b.r === 3);
-  if (pcTarget) pcTarget.color = 'transparent';
+  if (pcTarget) { pcTarget.color = 'transparent'; pcTarget.isMockup = false; }
 
   return blocks;
 })();
 
 const MAP_KEYFRAMES = [
   { x: 0, y: 0, opacity: 0 }, // Home
-  { x: -840, y: -2066, opacity: 1 }, // ASAP
-  { x: -2520, y: -4232, opacity: 1 }, // ReturnLoop
-  { x: -4200, y: -2134, opacity: 1 }, // PetClear
-  { x: -4200, y: -2134, opacity: 0 }, // About
+  { x: -840, y: -1979.75, opacity: 1 }, // ASAP
+  { x: -2520, y: -4030.75, opacity: 1 }, // ReturnLoop
+  { x: -4200, y: -2047.75, opacity: 1 }, // PetClear
+  { x: -4200, y: -2047.75, opacity: 0 }, // About
 ]
 
 // ─── Component ───────────────────────────────────────────────
@@ -454,17 +470,30 @@ export default function HomePage() {
               backgroundColor: block.color,
               borderRadius: '32px',
               transform: 'translate(-50%, -50%)',
-              boxShadow: block.color === 'transparent' ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
+              boxShadow: block.color === 'transparent' && !block.isMockup ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: block.color === '#ffffff' || block.color === 'transparent' ? 'transparent' : 'rgba(0,0,0,0.25)',
+              color: block.color === '#ffffff' || (block.color === 'transparent' && !block.isMockup) ? 'transparent' : 'rgba(0,0,0,0.5)',
               fontSize: '2rem',
               fontWeight: 800,
-              fontFamily: 'sans-serif'
+              fontFamily: 'sans-serif',
+              overflow: 'hidden'
             }}
           >
-            {block.c},{block.r}
+            {block.isMockup && (
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                {block.video && (
+                  <video
+                    src={block.video}
+                    autoPlay loop muted playsInline
+                    style={{ position: 'absolute', padding: "1% 0%", top: '2%', left: '4%', width: '92%', height: '96%', objectFit: 'cover', borderRadius: '32px', zIndex: 0 }}
+                  />
+                )}
+                <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
+              </div>
+            )}
+            <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span>
           </div>
         ))}
       </div>
@@ -543,11 +572,12 @@ export default function HomePage() {
                   top: '50%',
                   transform: 'translateY(-50%)',
                   [isLeft ? 'left' : 'right']: 'clamp(2rem, 8vw, 6rem)',
+                  paddingRight: proj.title === 'ReturnLoop' ? '0' : '0',
                   textAlign: isLeft ? 'left' : 'right',
-                  maxWidth: '380px',
+                  maxWidth: '500px',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.20rem',
+                  gap: '0rem',
                   pointerEvents: 'auto',
                 }}
               >
@@ -557,8 +587,9 @@ export default function HomePage() {
                   fontSize: 'clamp(3.5rem, 6vw, 5.5rem)',
                   fontWeight: 800,
                   color: '#111118',
-                  lineHeight: 1.0,
+                  lineHeight: 1.2,
                   letterSpacing: '-0.03em',
+                  textAlign: isLeft ? 'left' : 'right',
                 }}>
                   {proj.title}
                 </h2>
@@ -569,6 +600,7 @@ export default function HomePage() {
                   fontWeight: 500,
                   color: '#6b6b80',
                   letterSpacing: '-0.01em',
+                  textAlign: isLeft ? 'left' : 'right',
                 }}>
                   {proj.subtitle}
                 </p>
@@ -582,6 +614,7 @@ export default function HomePage() {
                     opacity: 0,
                     fontWeight: 600,
                     fontSize: '0.85rem',
+                    lineHeight: 1,
                     color: '#7c3aed',
                     textDecoration: 'none',
                     display: 'inline-flex',
