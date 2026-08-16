@@ -40,10 +40,70 @@ const WORK_PROJECTS = [
   { title: 'PetClear',   subtitle: 'Interactive Guide',      align: 'left'  },
 ]
 
+const GRID_BLOCKS = (() => {
+  const blocks = [];
+  const cols = 20;
+  const rows = 12;
+  const w = 260;
+  const h = 563;
+  const gap = 20;
+
+  for (let c = 0; c < cols; c++) {
+    // stagger columns vertically to make it asymmetrical
+    const staggerY = (c * 239) % 400; 
+    for (let r = 0; r < rows; r++) {
+      const x = c * (w + gap);
+      const y = r * (h + gap) + staggerY;
+      
+      // Default placeholder colors
+      let color = (c + r) % 2 === 0 ? '#e5e7eb' : '#f3f4f6'; 
+
+      blocks.push({ id: `block-${c}-${r}`, c, r, x, y, w, h, color });
+    }
+  }
+  
+  // Color the clusters
+  const applyColors = (startC, endC, startR, endR, colors) => {
+    blocks.forEach(b => {
+      if (b.c >= startC && b.c <= endC && b.r >= startR && b.r <= endR) {
+        b.color = colors[(b.c * 7 + b.r * 3) % colors.length];
+      }
+    });
+  };
+
+  // ASAP: cols 2-5, rows 2-4
+  applyColors(2, 5, 2, 4, ['#e9d5ff', '#d8b4fe', '#c084fc', '#a855f7']); // Purples
+  // ReturnLoop: cols 8-11, rows 6-8
+  applyColors(8, 11, 6, 8, ['#fca5a5', '#f87171', '#ef4444', '#dc2626']); // Reds
+  // PetClear: cols 14-17, rows 2-4
+  applyColors(14, 17, 2, 4, ['#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6']); // Blues
+
+  // Color the blocks behind the text areas white
+  blocks.forEach(b => {
+    // ASAP Text Area (Left)
+    if (b.c <= 2 && b.r >= 1 && b.r <= 5) b.color = '#ffffff';
+    // ReturnLoop Text Area (Right)
+    if (b.c >= 11 && b.c <= 13 && b.r >= 5 && b.r <= 9) b.color = '#ffffff';
+    // PetClear Text Area (Left)
+    if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) b.color = '#ffffff';
+  });
+
+  return blocks;
+})();
+
+const MAP_KEYFRAMES = [
+  { x: 0,      y: 0,       opacity: 0 }, // Home
+  { x: -980,   y: -1949,   opacity: 1 }, // ASAP (Center on col 3.5, row 3)
+  { x: -2660,  y: -4281,   opacity: 1 }, // ReturnLoop (Center on col 9.5, row 7)
+  { x: -4340,  y: -1949,   opacity: 1 }, // PetClear (Center on col 15.5, row 3)
+  { x: -4340,  y: -1949,   opacity: 0 }, // About
+]
+
 // ─── Component ───────────────────────────────────────────────
 export default function HomePage() {
   const containerRef    = useRef(null)
   const canvasWrapperRef = useRef(null)
+  const gridMapRef      = useRef(null)
   const navRef          = useRef(null)
   const scrollStateRef  = useRef({ posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8 })
   const revealRef       = useRef(null)   // stores reveal fn set inside useEffect
@@ -89,6 +149,7 @@ export default function HomePage() {
     // ── Hide non-phone elements (phone visible from the start) ───
     gsap.set(bgEls, { opacity: 0 })
     if (navRef.current) gsap.set(navRef.current, { opacity: 0 })
+    if (gridMapRef.current) gsap.set(gridMapRef.current, { opacity: 0 })
 
     // ── Loading sequence ───────────────────────────────
     // Zoom phone out from full-viewport fill to its home position
@@ -153,12 +214,26 @@ export default function HomePage() {
       })
     }
 
-    // Canvas wrapper fades out on About section
+    // Canvas wrapper fades out on work sections and About section
     const animateCanvas = (idx) => {
       gsap.to(canvasWrapperRef.current, {
-        opacity: idx === 4 ? 0 : 1,
+        opacity: idx === 0 ? 1 : 0,
         duration: 1.1,
         ease: 'power2.inOut',
+        overwrite: 'auto',
+      })
+    }
+
+    // Grid map translation and opacity
+    const animateGridMap = (idx) => {
+      if (!gridMapRef.current) return
+      gsap.to(gridMapRef.current, {
+        x: MAP_KEYFRAMES[idx].x,
+        y: MAP_KEYFRAMES[idx].y,
+        opacity: MAP_KEYFRAMES[idx].opacity,
+        duration: 1.7,
+        ease: 'power3.inOut',
+        overwrite: 'auto',
       })
     }
 
@@ -173,6 +248,7 @@ export default function HomePage() {
         setActiveDot(idx)
         animateTo(KEYFRAMES[idx])
         animateCanvas(idx)
+        animateGridMap(idx)
         updateBgText(SECTIONS[idx].bgText)
         gsap.delayedCall(fromTouch ? 0 : 0.08, () => showSection(idx))
       }
@@ -337,6 +413,35 @@ export default function HomePage() {
         pointerEvents: 'none',
         zIndex: 1,
       }} />
+
+      {/* ── Translating Grid Map ─────────────────────────────── */}
+      <div
+        ref={gridMapRef}
+        style={{
+          position: 'fixed',
+          top: '50%', left: '50%',
+          width: 0, height: 0,
+          pointerEvents: 'none',
+          zIndex: 5,
+        }}
+      >
+        {GRID_BLOCKS.map(block => (
+          <div
+            key={block.id}
+            style={{
+              position: 'absolute',
+              left: block.x,
+              top: block.y,
+              width: block.w,
+              height: block.h,
+              backgroundColor: block.color,
+              borderRadius: '32px',
+              transform: 'translate(-50%, -50%)',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.05)',
+            }}
+          />
+        ))}
+      </div>
 
       {/* ── 3-D Canvas ─────────────────────────────────────── */}
       <div ref={canvasWrapperRef} style={{
