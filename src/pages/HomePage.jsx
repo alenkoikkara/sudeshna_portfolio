@@ -11,33 +11,30 @@ import LoadingScreen from '../components/LoadingScreen'
 const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
 
 const SECTIONS = [
-  { id: 'home',       bgText: 0 },
-  { id: 'asap',       bgText: 1 },
+  { id: 'home', bgText: 0 },
+  { id: 'asap', bgText: 1 },
   { id: 'returnloop', bgText: 1 },
-  { id: 'petclear',   bgText: 1 },
-  { id: 'about',      bgText: 2 },
+  { id: 'petclear', bgText: 1 },
+  { id: 'about', bgText: 2 },
 ]
 
-// Phone world-space keyframes — camera at z=6, fov=45
-// rotY values have Math.PI added so front face points toward camera
-// (model is back-facing at rotY:0; Math.PI flips it to front-facing)
 const KEYFRAMES = [
   // home: phone anchored right, partially cropped off edge
-  { posX:  1.5, posY: 0,     posZ: 0, rotX:  0,     rotY: Math.PI - 0.22, rotZ:  0,    scale: 1.30 },
-  // asap: right of center, tilted toward viewer
-  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: Math.PI - 0.50, rotZ:  0.03, scale: 1.10 },
-  // returnloop: left of center, mirror tilt
-  { posX: -0.9, posY:-0.05,  posZ: 0, rotX: -0.05,  rotY: Math.PI + 0.50, rotZ: -0.03, scale: 1.10 },
-  // petclear: right of center
-  { posX:  0.9, posY: 0.05,  posZ: 0, rotX:  0.05,  rotY: Math.PI - 0.40, rotZ:  0.02, scale: 1.05 },
+  { posX: 1.5, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI - 0.22, rotZ: 0, scale: 1.30 },
+  // asap: replace center block
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
+  // returnloop: replace center block
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
+  // petclear: replace center block
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.15 },
   // about: slide off-screen to the right
-  { posX:  4.5, posY: 0,     posZ: 0, rotX:  0,     rotY: Math.PI - 0.30, rotZ:  0.05, scale: 1.00 },
+  { posX: 4.5, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI - 0.30, rotZ: 0.05, scale: 1.00 },
 ]
 
 const WORK_PROJECTS = [
-  { title: 'ASAP',       subtitle: 'Platform for Creatives', align: 'left'  },
-  { title: 'ReturnLoop', subtitle: 'Digital Exhibition',     align: 'right' },
-  { title: 'PetClear',   subtitle: 'Interactive Guide',      align: 'left'  },
+  { title: 'ASAP', subtitle: 'Platform for Creatives', align: 'left' },
+  { title: 'ReturnLoop', subtitle: 'Digital Exhibition', align: 'right' },
+  { title: 'PetClear', subtitle: 'Interactive Guide', align: 'left' },
 ]
 
 const GRID_BLOCKS = (() => {
@@ -50,18 +47,18 @@ const GRID_BLOCKS = (() => {
 
   for (let c = 0; c < cols; c++) {
     // stagger columns vertically to make it asymmetrical
-    const staggerY = (c * 239) % 400; 
+    const staggerY = (c * 239) % 400;
     for (let r = 0; r < rows; r++) {
       const x = c * (w + gap);
       const y = r * (h + gap) + staggerY;
-      
+
       // Default placeholder colors
-      let color = (c + r) % 2 === 0 ? '#e5e7eb' : '#f3f4f6'; 
+      let color = (c + r) % 2 === 0 ? '#e5e7eb' : '#f3f4f6';
 
       blocks.push({ id: `block-${c}-${r}`, c, r, x, y, w, h, color });
     }
   }
-  
+
   // Color the clusters
   const applyColors = (startC, endC, startR, endR, colors) => {
     blocks.forEach(b => {
@@ -88,27 +85,37 @@ const GRID_BLOCKS = (() => {
     if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) b.color = '#ffffff';
   });
 
+  // Hide the center blocks so the iPhone can replace them
+  const asapTarget = blocks.find(b => b.c === 3 && b.r === 3);
+  if (asapTarget) asapTarget.color = 'transparent';
+
+  const rlTarget = blocks.find(b => b.c === 9 && b.r === 7);
+  if (rlTarget) rlTarget.color = 'transparent';
+
+  const pcTarget = blocks.find(b => b.c === 15 && b.r === 3);
+  if (pcTarget) pcTarget.color = 'transparent';
+
   return blocks;
 })();
 
 const MAP_KEYFRAMES = [
-  { x: 0,      y: 0,       opacity: 0 }, // Home
-  { x: -980,   y: -1949,   opacity: 1 }, // ASAP (Center on col 3.5, row 3)
-  { x: -2660,  y: -4281,   opacity: 1 }, // ReturnLoop (Center on col 9.5, row 7)
-  { x: -4340,  y: -1949,   opacity: 1 }, // PetClear (Center on col 15.5, row 3)
-  { x: -4340,  y: -1949,   opacity: 0 }, // About
+  { x: 0, y: 0, opacity: 0 }, // Home
+  { x: -840, y: -2066, opacity: 1 }, // ASAP
+  { x: -2520, y: -4232, opacity: 1 }, // ReturnLoop
+  { x: -4200, y: -2134, opacity: 1 }, // PetClear
+  { x: -4200, y: -2134, opacity: 0 }, // About
 ]
 
 // ─── Component ───────────────────────────────────────────────
 export default function HomePage() {
-  const containerRef    = useRef(null)
+  const containerRef = useRef(null)
   const canvasWrapperRef = useRef(null)
-  const gridMapRef      = useRef(null)
-  const navRef          = useRef(null)
-  const scrollStateRef  = useRef({ posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8 })
-  const revealRef       = useRef(null)   // stores reveal fn set inside useEffect
-  const snapToRef       = useRef(null)   // stores snapTo fn set inside useEffect
-  const navigate        = useNavigate()
+  const gridMapRef = useRef(null)
+  const navRef = useRef(null)
+  const scrollStateRef = useRef({ posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8 })
+  const revealRef = useRef(null)   // stores reveal fn set inside useEffect
+  const snapToRef = useRef(null)   // stores snapTo fn set inside useEffect
+  const navigate = useNavigate()
   // Individual refs for bg texts (hooks can't be in loops)
   const bgRef0 = useRef(null)
   const bgRef1 = useRef(null)
@@ -132,17 +139,17 @@ export default function HomePage() {
     const container = containerRef.current
     if (!container) return
 
-    const N   = SECTIONS.length
-    const H   = () => container.clientHeight
+    const N = SECTIONS.length
+    const H = () => container.clientHeight
 
-    let currentIdx   = 0
+    let currentIdx = 0
     let currentBgIdx = 0
-    let isSnapping   = false
-    let wheelAccum   = 0
-    let wheelTimer   = null
-    let touchStartY  = 0
+    let isSnapping = false
+    let wheelAccum = 0
+    let wheelTimer = null
+    let touchStartY = 0
     let touchStartST = 0
-    let isTouching   = false
+    let isTouching = false
 
     const bgEls = bgRefs.map(r => r.current)
 
@@ -168,9 +175,9 @@ export default function HomePage() {
     // ── Bg text transitions ────────────────────────────────
     const updateBgText = (newIdx) => {
       if (newIdx === currentBgIdx) return
-      const prev      = currentBgIdx
+      const prev = currentBgIdx
       const goingDown = newIdx > prev
-      currentBgIdx    = newIdx
+      currentBgIdx = newIdx
 
       gsap.fromTo(
         bgEls[newIdx],
@@ -214,10 +221,10 @@ export default function HomePage() {
       })
     }
 
-    // Canvas wrapper fades out on work sections and About section
+    // Canvas wrapper fades out on About section only
     const animateCanvas = (idx) => {
       gsap.to(canvasWrapperRef.current, {
-        opacity: idx === 0 ? 1 : 0,
+        opacity: idx === 4 ? 0 : 1,
         duration: 1.1,
         ease: 'power2.inOut',
         overwrite: 'auto',
@@ -280,18 +287,18 @@ export default function HomePage() {
     // ── Touch ──────────────────────────────────────────────
     const onTouchStart = (e) => {
       if (isSnapping) return
-      touchStartY  = e.touches[0].clientY
+      touchStartY = e.touches[0].clientY
       touchStartST = container.scrollTop
-      isTouching   = true
+      isTouching = true
       gsap.killTweensOf(container)
     }
     const onTouchMove = (e) => {
       if (!isTouching) return
       e.preventDefault()
-      const dy  = touchStartY - e.touches[0].clientY
+      const dy = touchStartY - e.touches[0].clientY
       const max = (N - 1) * H()
       let raw = touchStartST + dy
-      if (raw < 0)        raw = raw * 0.22
+      if (raw < 0) raw = raw * 0.22
       else if (raw > max) raw = max + (raw - max) * 0.22
       container.scrollTop = raw
     }
@@ -308,7 +315,7 @@ export default function HomePage() {
     const onKeyDown = (e) => {
       if (isSnapping) return
       if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); snapTo(currentIdx + 1) }
-      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); snapTo(currentIdx - 1) }
+      if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); snapTo(currentIdx - 1) }
     }
 
     container.addEventListener('wheel', onWheel, { passive: false })

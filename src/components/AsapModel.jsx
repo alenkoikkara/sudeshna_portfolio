@@ -36,18 +36,14 @@ export default function AsapModel({ scrollState }) {
     return clone
   }, [scene])
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
     const g = groupRef.current
     if (!g) return
-
-    // Subtle idle float/breathe
-    const t = clock.getElapsedTime()
-    const idleY = Math.sin(t * 0.6) * 0.05
 
     if (scrollState?.current) {
       const s = scrollState.current
       g.position.x = s.posX ?? 0
-      g.position.y = (s.posY ?? 0) + idleY
+      g.position.y = s.posY ?? 0
       g.position.z = s.posZ ?? 0
       g.rotation.x = s.rotX ?? 0
       g.rotation.y = s.rotY ?? 0
