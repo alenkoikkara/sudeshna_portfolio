@@ -78,12 +78,22 @@ const GRID_BLOCKS = (() => {
   // Color the blocks behind the text areas white
   blocks.forEach(b => {
     // ASAP Text Area (Left)
-    if (b.c <= 2 && b.r >= 1 && b.r <= 5) b.color = '#ffffff';
+    if (b.c <= 2 && b.r >= 1 && b.r <= 5) b.color = 'transparent';
     // ReturnLoop Text Area (Right)
-    if (b.c >= 11 && b.c <= 13 && b.r >= 5 && b.r <= 9) b.color = '#ffffff';
+    if (b.c >= 11 && b.c <= 13 && b.r >= 5 && b.r <= 9) b.color = 'transparent';
     // PetClear Text Area (Left)
-    if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) b.color = '#ffffff';
+    if (b.c >= 12 && b.c <= 14 && b.r >= 1 && b.r <= 5) b.color = 'transparent';
   });
+
+  // Specific user overrides
+  const block7_7 = blocks.find(b => b.c === 7 && b.r === 7);
+  if (block7_7) block7_7.color = '#ef4444';
+
+  const block10_6 = blocks.find(b => b.c === 10 && b.r === 6);
+  if (block10_6) block10_6.color = 'transparent';
+
+  const block10_7 = blocks.find(b => b.c === 10 && b.r === 7);
+  if (block10_7) block10_7.color = 'transparent';
 
   // Hide the center blocks so the iPhone can replace them
   const asapTarget = blocks.find(b => b.c === 3 && b.r === 3);
@@ -444,9 +454,18 @@ export default function HomePage() {
               backgroundColor: block.color,
               borderRadius: '32px',
               transform: 'translate(-50%, -50%)',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.05)',
+              boxShadow: block.color === 'transparent' ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: block.color === '#ffffff' || block.color === 'transparent' ? 'transparent' : 'rgba(0,0,0,0.25)',
+              fontSize: '2rem',
+              fontWeight: 800,
+              fontFamily: 'sans-serif'
             }}
-          />
+          >
+            {block.c},{block.r}
+          </div>
         ))}
       </div>
 
@@ -465,7 +484,7 @@ export default function HomePage() {
           <directionalLight position={[5, 10, 5]} intensity={3.0} castShadow />
           <directionalLight position={[-4, 4, -4]} intensity={0.5} />
           <pointLight position={[-1, 3, 2]} intensity={0.5} color="#7c3aed" />
-          <Environment preset="studio" />
+          {/* <Environment preset="studio" /> */}
           <Suspense fallback={null}>
             <AsapModel scrollState={scrollStateRef} />
           </Suspense>

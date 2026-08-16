@@ -62,6 +62,12 @@ export const caseStudiesData = {
     ],
     solutionsQuote: 'The success of this app is measured by the student needing it less over time.',
 
+    competitiveHeading: 'Competitive Analysis',
+    competitiveText: 'Google Calendar, Notion, Todoist, Apple Reminders, Monday.com, and Focus To-Do all sit in that left cluster — different feature sets, same job: hold the list for you, forever. Trevor AI gets closer, coaching and auto-scheduling, but it never lets go of the wheel.\n\nASAP is the only one built to work its way out of a job. Every other product wins when you open it again tomorrow. ASAP wins when you don\'t need to.',
+
+    flowHeading: 'User Flow',
+    flowSummary: 'One task in, one step out — ASAP never shows the user more than the single next action, with the AI escalating help (clarify → break down → coach) only when needed.',
+
     insightHeading: 'Synthetic vs. Human Testing',
     insightText: 'Synthetic users were logical and consistent. Real users aren\'t. Kshitij\'s insight — that mood determines what\'s actually doable — completely changed how we think about priority.',
     insightGrid: [
@@ -98,7 +104,12 @@ export const caseStudiesData = {
       { title: 'What we\'d do next', desc: 'Design for the worst day. Mood & energy need to be first-class inputs not edge cases. Next version needs a low-friction "I can\'t right now" mode.' }
     ],
     conclusion: 'The goal is not helping students finish work faster. It is helping them eventually not need the system at all.',
-    images: [asap1, asap2, asap3, asap4]
+    images: [
+      'https://placehold.co/1200x800/e9d5ff/111118?text=App+Mockup+-+Focus+Mode',
+      'https://placehold.co/1200x800/f3f4f6/111118?text=Wireframes+-+Initial+Sketches',
+      'https://placehold.co/1200x800/e9d5ff/111118?text=Prototype+-+4+Screens',
+      'https://placehold.co/1200x800/f3f4f6/111118?text=Before+%26+After+-+Confidence+Label'
+    ]
   },
   ReturnLoop: {
     title: 'ReturnLoop',
@@ -107,7 +118,11 @@ export const caseStudiesData = {
     role: 'Lead UX Designer',
     timeline: '2 Months (Winter 2025)',
     services: 'UX Research, Interaction Design, Service Design',
-    images: [asap5, asap6],
+    images: [
+      'https://placehold.co/1200x800/fca5a5/111118?text=App+Mockup+-+Home+Screen',
+      'https://placehold.co/1200x800/fef2f2/111118?text=Personas+-+Alex+%26+Margaret',
+      'https://placehold.co/1200x800/fca5a5/111118?text=Key+Screens+-+Scan+%26+Track'
+    ],
     
     aboutTitle: 'About Project',
     aboutText: "Returning something online takes twelve minutes. It usually takes five days to active find time for it. ReturnLoop connects people who have a package ready to go with drivers already passing through their neighborhoods, so the return happens instantly.",
@@ -173,71 +188,76 @@ export const caseStudiesData = {
     competitiveSummary: 'Driver aggregates: multiple returns in one trip. Keeps cost low.',
 
     insightsHeading: 'What the research revealed, and what it changed.',
+    insightsSubheading: 'Three patterns appeared across every conversation. Each one directly shaped a design decision.',
     insightsTable: [
       {
-        research: 'Print label was the main friction point — Alex',
-        design: 'A free label-printing service, no printer required.'
+        research: '"It just sits there. I\'ll do it tomorrow." — Jack',
+        design: 'A flexible pickup window, not instant dispatch'
       },
       {
-        research: '"If I want to return it, I have to print..."',
-        design: 'Monitor driver in real-time, transparency first.'
+        research: '"If I need to print a label, I give up." — Alex',
+        design: 'Sender scans the digital label / barcode'
       },
       {
-        research: '"Who is this, and is it verified?" — anxiety tracker',
-        design: 'Driver verification, background checked.'
+        research: '"Who is this, and did it arrive?" — nearly everyone',
+        design: 'Three notifications: on the way, picked up, carrier confirmed'
       }
     ],
 
     pivotHeading: 'The Moment the Design Had to Change',
-    pivotText: 'The first version failed when we completed the human testing. In the interviews, we discovered that user anxiety and trust issues existed: users felt that since they didn\'t know who the driver was, they were letting a stranger take their packages. We realized we had to make driver verification and tracking prominent, shifting from purely functional tracking to human-centric safety.',
+    pivotText: 'The first version marked a return "complete" the instant a driver scanned it. Two interview stories proved that wasn\'t enough — one refund had already issued before the trip, another reached a carrier as it was closing. So the flow now waits for the carrier\'s own confirmation, and the copy shifted from "Carrier confirmed" to "FedEx has your package."',
 
+    personasHeading: 'User Personas',
+    personasText: 'I built personas straight from the interviews — grouping people by why they stalled, not just who they were, so each persona represents a distinct reason the process breaks down.',
     personas: [
       {
         name: 'Alex, 28',
         type: 'The Avoidant Planner',
-        quote: '"No printer. No tape. The box sits in the hallway for weeks."'
+        quote: '"If I need to print a label, I give up."'
       },
       {
-        name: 'Margaret, 55',
+        name: 'Margaret, 65',
         type: 'The Hesitant Outsourcer',
-        quote: '"I don\'t want a stranger taking my package. How do I know it gets there?"'
+        quote: 'Lack of confidence, not lack of time. Needed help printing.'
       }
     ],
 
+    journeyHeading: 'Journey Map',
+    journeySubheading: 'Current experience vs ReturnLoop — where emotional low points occur and what resolves them.',
     journeyMap: [
       {
         stage: 'Decide',
-        today: 'I need to return this',
-        returnloop: 'One-tap request'
+        today: 'Low urgency',
+        returnloop: 'Deadline captured'
       },
       {
         stage: 'Prepare',
-        today: 'Print label, pack box',
-        returnloop: 'No label, no tape needed'
+        today: 'Prints label, packs',
+        returnloop: 'Scans digital label / barcode, if no printing'
       },
       {
         stage: 'Drop-off',
-        today: 'Drive to store',
-        returnloop: 'Driver picks up at door'
+        today: 'Carrier/Closed',
+        returnloop: 'Driver comes to door'
       },
       {
         stage: 'Delay',
-        today: 'Wait in line',
-        returnloop: 'Real-time tracking'
+        today: 'Sits, window ticking',
+        returnloop: 'One booking, done'
       },
       {
         stage: 'Outcome',
-        today: 'Refund received after 5 days',
-        returnloop: 'Instant drop-off verification'
+        today: 'Makes it or gives up',
+        returnloop: 'Refund secured'
       }
     ],
 
-    flowHeading: 'User Flow Map',
-    flowSteps: ['Login', 'Home', 'Scan Label', 'Pick-up Window', 'Live Tracking', 'Carrier Confirmed', 'Chat with Driver'],
-    flowSummary: 'Each step is mapped to solve specific pain points: printing (gone), travel (gone), waiting (gone). Simple design is key. Mobile UI simplifies returns into 3 steps.',
+    flowHeading: 'Key Screens',
+    flowSteps: ['Welcome', 'Login', 'Home', 'Scan Label', 'Pickup Window', 'Live Tracking', 'Carrier Confirmed', 'Chat with Driver'],
+    flowSummary: 'Each answers a specific finding: scanning removes printing (Alex), flexible windows replace instant dispatch (Jack), live tracking gives proof (Saddie), carrier confirmation closes the loop independently, and driver chat gives a human channel (Margaret).',
 
-    methodologyHeading: 'Methodology & Reflection',
-    methodologyText: 'We built a return pick-up service. In testing, the prototype was run through 15 simulated returns, and we found that users didn\'t want a cheaper return, they wanted a frictionless return. Uber and DoorDash focused on food delivery. What they didn\'t build is the trust. People don\'t want a cheaper return, they want a verified return where they don\'t have to print anything.'
+    methodologyHeading: 'Key Takeaway',
+    methodologyText: 'DoorDash built a return pickup feature in 2023. None of the participants knew it existed. The problem wasn\'t a missing feature — it was a missing experience designed around how returns actually fail for real people.\n\nUber and DoorDash proved the mechanic works. What they didn\'t build is the trust. People don\'t want a cheaper return — they want one they don\'t have to think about twice.'
   },
   PetClear: {
     title: 'PetClear',
@@ -246,143 +266,98 @@ export const caseStudiesData = {
     role: 'Product Strategist',
     timeline: '4 Months (Spring 2026)',
     services: 'UX Research, Information Architecture, Web App Design',
-    images: [asap7, asap8],
+    images: [
+      'https://placehold.co/1200x800/bfdbfe/111118?text=App+Mockup+-+PetClear+Dashboard',
+      'https://placehold.co/1200x800/eff6ff/111118?text=Airline+Audit+-+Spreadsheet',
+      'https://placehold.co/1200x800/bfdbfe/111118?text=User+Flow+-+Onboarding+%26+Scan'
+    ],
     aboutTitle: 'About Project',
-    aboutText: "Traveling with a pet shouldn't be a guessing game. Every country, airline, and encounter comes with different rules, deadlines, and requirements. PetClear gives you a personalized checklist based on your pet and travel route, showing exactly what you need, where to get it, and when it's due. Everything organized. Everything tracked. No surprises at the airport.",
+    aboutText: "Traveling with a pet shouldn't be a guessing game. Every country, airline, and document comes with different rules, deadlines, and requirements. PetClear gives you a personalized checklist based on your pet and travel route showing exactly what you need, where to get it, and when it's due. Everything organized. Everything tracked. No surprises at the airport.",
     
-    problemHeading: 'Not a failure of effort, but information at exact moments matter the most. PetClear fixes that.',
-    problemText: 'Pet owners have no single place that tells them exactly what their pet needs to travel. Airlines take the payment and say nothing about what comes next. Owners show up at the gate missing a document they never knew existed.',
+    problemHeading: 'Not a failure of effort, but information at exact moments matter the most. PetDoc fixes that.',
+    problemText: 'Pet owners have no single place that tells them exactly what their pet needs to travel. Airlines take the pet fee and say nothing about what comes next. Owners show up at the airport missing a document they never knew existed.',
     
-    gaps: [
+    insightHeading: 'The Three Gaps',
+    insightGrid: [
       {
-        title: 'Information Gap',
-        desc: 'Information is scattered across airline websites, blogs, and government sites.'
+        name: 'Information Gap',
+        tag: 'Requirements invisible during booking',
+        desc: 'NOC, fitness certs, timing windows'
       },
       {
-        title: 'Trust Gap',
-        desc: 'Official sources conflict, and online forums contain outdated advice.'
+        name: 'Trust Gap',
+        tag: 'No single source of truth',
+        desc: 'Airline, vet, blog, forum all say different things.'
       },
       {
-        title: 'Memory Gap',
-        desc: 'Deadlines vary widely by country, vaccine, and travel date.'
+        name: 'Memory Gap',
+        tag: 'Every trip starts from scratch',
+        desc: 'Docs in camera rolls. Requirements change silently.'
       }
     ],
 
-    researchHeading: 'Research: Pet Policy Pages (110 Pages), 4 Airline Audits, and User Model.',
-    researchSubheading: 'Revealed Drift. We called it "The Policy Gap" — no route-specific animal policies, conflicting requirements.',
+    researchHeading: 'Research',
+    researchSubheading: 'I reviewed pet policy pages of 10 airlines and read Reddit threads on r/pettravel and r/expats. I then called each airline directly. The same gap appeared every time — no route-specific, animal-specific document checklist anywhere.',
     
-    researchTableTitle: 'Airline Website Audit — 10 Airlines Reviewed',
-    researchTableSubtitle: 'Audits showed standard size and weight, but 0/10 showed route-specific rules, timing rules, or entry/exit formalities.',
-    
-    researchTable: [
+    auditHeading: 'Airline Website Audit — 10 airlines reviewed',
+    auditSubheading: 'All 10 showed carrier size and pet fee. None showed route specific requirements, timing rules, or a document checklist.',
+    auditTable: [
+      { airline1: 'Air India', finding1: 'No NOC mention anywhere on the page', airline2: 'Singapore Airlines', finding2: 'Approved lab list for titre tests not mentioned' },
+      { airline1: 'IndiGo', finding1: '48hr fitness cert window not stated', airline2: 'Qatar Airways', finding2: 'No country specific import rules shown' },
+      { airline1: 'Emirates', finding1: 'Checklist only appears after booking — too late', airline2: 'British Airways', finding2: 'AHC 10-day validity window absent' },
+      { airline1: 'United Airlines', finding1: 'Check destination requirements — no link, no detail', airline2: 'Air France', finding2: 'No processing timelines or layover rules' },
+      { airline1: 'Lufthansa', finding1: 'No timing windows or USDA endorsement mentioned', airline2: 'Akasa Air', finding2: 'No health cert guidance at all' }
+    ],
+    auditSummary: 'Pattern: every airline listed carrier sizes and fees. None generated a route-specific, animal-specific document checklist.\n\n5 of 7 airlines could not or would not give complete documentation requirements on call. Lufthansa explicitly refused. Only United gave a clear answer for domestic travel.',
+
+    personasHeading: 'User Persona',
+    personasText: 'Five real participants. Different failure points.\nAny age • any pet • domestic or international • always underprepared by the system',
+    personas: [
       {
-        rule: 'Air India: No NYC entry mention anywhere on the page',
-        impact: 'Baggage staff have to search for the rule, adding wait'
+        name: 'Goals',
+        type: 'Travel with pet, no last minute surprises',
+        quote: 'One source, fully trusted. Confirmed ready before the airport.'
       },
       {
-        rule: 'JetBlue: 10 min transit safety window not stated',
-        impact: 'Some airways have country-specific import rules closed'
-      },
-      {
-        rule: 'Emirates: Class details appear after booking screen',
-        impact: 'British Airways: USD 350 standard fee, window not shown'
-      },
-      {
-        rule: 'United Airlines: Must call station manager directly, no info on detail',
-        impact: 'Authorities not accepting the animal, rules bypass'
-      },
-      {
-        rule: 'Lufthansa: Warning windows on USDA endorsements missing days',
-        impact: 'Abuse: Airline Health certificate expired'
+        name: 'Pain Points',
+        type: 'Airline website incomplete or vague',
+        quote: 'Conflicting answers across sources. Requirements discovered too late to act.'
       }
     ],
-    
-    researchSummary: [
-      'Policies vary, airlines fail to provide standard checklist.',
-      '7 out of 7 airlines failed to provide complete documentation list for international travel, with most explicitly stating "check with government" for correct requirements.'
-    ],
-
-    persona: {
-      name: 'Amy, 31',
-      tag: 'Cat owner • Domestic & International travel • First-time traveler • Needs guidance & control',
-      wants: [
-        'Simple, outlined step-by-step guidelines',
-        'Safe journey, fully checked',
-        'Continuous check-ins before the flight'
-      ],
-      barriers: [
-        'Airline website details are too vague',
-        'Confusing international forms',
-        'High anxiety, feels like something is missing'
-      ],
-      quote: 'I did everything I was supposed to do. Nobody told me there was more.',
-      scenario: 'USDA endorsement, international travel',
-      mistakes: 'Incorrect signature format, missing USDA stamp — flight can\'t be boarded'
+    researchSpotlight: {
+      quote: '"I did everything I was supposed to do. Nobody told me there was more."',
+      author: 'Participants: Kshitij (missing NOC), Aryan (fitness cert via WhatsApp), Akansha (4 conflicting answers), Peter (vaccine 5 days short), Osaris (cert expired unnoticed)'
     },
 
-    solutionHeading: 'PetClear — a standalone tool, not a feature inside an airline app.',
-    solutionText: 'Enter your pet and route. See what documentation you need, where to get them, and how long they take. Everything is clear.',
-    solutionCallout: 'Designed specifically, PetClear converts complex regulations into a visual, organized, and timely format — at the right moment.',
-    solutionTabs: ['Airport scan', 'Project checklist', 'Vaccine tracker', 'Document vault', 'Community'],
-    solutionFeatures: [
-      {
-        title: 'Identify',
-        desc: 'Identify travel, rules, profile'
-      },
-      {
-        title: 'Checklist',
-        desc: 'Route-specific checklist with deadlines'
-      },
-      {
-        title: 'Alerts',
-        desc: 'Timely alerts for country requirements'
-      },
-      {
-        title: 'Vault',
-        desc: 'One place: all docs. Always current'
-      },
-      {
-        title: 'Community',
-        desc: 'Post-travel tips, reminders'
-      }
+    solutionsHeading: 'PetClear — a standalone tool, not a feature inside an airline app.',
+    solutionsQuote: 'Enter your pet and your route. Get the exact documents you need, where to get them, and how long you have. Everything in one place.',
+    solutionsList: [
+      'Design principle: PetClear does not change any regulation. It makes existing requirements visible, organised, and timely — at the right moment.',
+      'AI pet scan: Identifies breed, starts profile',
+      'Trip checkpoint: Route specific checklist with lead times',
+      'Vaccine tracker: Expiry alerts + country validity',
+      'Document vault: One place, all docs, always current',
+      'Community: Real travelers, same route'
     ],
 
+    flowHeading: 'User Flow',
+    flowSteps: ['Sign up', 'Create profile', 'AI pet scan', 'Trip checkpoint', 'Vaccine tracker', 'Document vault', 'History', 'Community'],
+    flowSummary: 'One entry, one profile - sign-up and login converge fast so onboarding only happens once.\nThe scan is the trigger - everything upstream is setup; everything downstream is the live trip.\nBranch to track, merge to remember - destination and document tracking run in parallel, then fold into one shared history.',
+
+    beforeAfterHeading: 'Before & After',
     beforeAfterTable: [
-      {
-        before: 'Search across 5 sources — all say something different',
-        after: 'Single personalized, route checklist generated'
-      },
-      {
-        before: 'Pay fee — no document requirements shown',
-        after: 'Missing docs flagged with exact location/link'
-      },
-      {
-        before: 'Arrive at airport — find out missing document',
-        after: '4-day check — notifications warning of expirations'
-      },
-      {
-        before: 'Denied boarding. Pet left behind.',
-        after: 'Animal verified. Pet boards.'
-      }
+      { before: 'Search across 5 sources — all say something different', after: 'Scan pet — profile started, route checklist generated' },
+      { before: 'Pay pet fee — no document requirements shown', after: 'Missing docs flagged with sources and lead times' },
+      { before: 'Arrive at airport — first time hearing about the document', after: 'Upload docs — vault tracks everything automatically' },
+      { before: 'Denied boarding. Pet left behind.', after: 'Arrive verified. Pet travels.' }
     ],
 
-    impactPoints: [
-      {
-        title: 'Zero anxiety',
-        desc: 'Clear picture of what is required'
-      },
-      {
-        title: 'Support team',
-        desc: 'Help custom emergency check'
-      },
-      {
-        title: 'Safer travel',
-        desc: 'Fewer denied boardings, fewer pets left behind'
-      },
-      {
-        title: 'Confidence',
-        desc: 'Peace of mind when traveling with a beloved pet'
-      }
+    impactHeading: 'Impact',
+    impactList: [
+      'Transparency — no surprises at the check-in counter',
+      'Less confusion — one source, one checklist',
+      'Safer travel — fewer denied boardings, fewer pets left behind',
+      'Confidence — pet owners who avoided traveling now have clarity to go ahead'
     ],
 
     conclusion: 'The problem was never the rules. It was that nobody made them visible. PetClear makes what already exists visible, organized, and timely for the person who needs it most.'
