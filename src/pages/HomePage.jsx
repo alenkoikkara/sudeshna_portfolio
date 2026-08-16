@@ -12,6 +12,7 @@ import iphoneMockup from '../assets/iphone mockup/iphone_mockup.png'
 import petclearTripVideo from '../assets/videos/petclear/petclear_trip.mov'
 import petclearCommentVideo from '../assets/videos/petclear/petclear_comment.mov'
 import petclearDocumentVideo from '../assets/videos/petclear/petclear_document.mov'
+import petclearLoginFlowVideo from '../assets/videos/petclear/petclear_login_flow.mov'
 
 // ─── Data ────────────────────────────────────────────────────
 const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
@@ -97,7 +98,10 @@ const GRID_BLOCKS = (() => {
   if (block7_7) { block7_7.color = '#ef4444'; }
 
   const block16_3 = blocks.find(b => b.c === 16 && b.r === 3);
-  if (block16_3) { block16_3.video = petclearTripVideo; }
+  if (block16_3) { block16_3.video = petclearLoginFlowVideo; }
+
+  const block16_4 = blocks.find(b => b.c === 16 && b.r === 4);
+  if (block16_4) { block16_4.video = petclearTripVideo; }
 
   const block17_3 = blocks.find(b => b.c === 17 && b.r === 3);
   if (block17_3) { block17_3.video = petclearCommentVideo; }
