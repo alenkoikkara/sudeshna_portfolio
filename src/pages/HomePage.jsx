@@ -9,10 +9,16 @@ import AsapModel from '../components/AsapModel'
 import BottomNav from '../components/BottomNav'
 import LoadingScreen from '../components/LoadingScreen'
 import iphoneMockup from '../assets/iphone mockup/iphone_mockup.png'
+
 import petclearTripVideo from '../assets/videos/petclear/petclear_trip.mov'
 import petclearCommentVideo from '../assets/videos/petclear/petclear_comment.mov'
 import petclearDocumentVideo from '../assets/videos/petclear/petclear_document.mov'
 import petclearLoginFlowVideo from '../assets/videos/petclear/petclear_login_flow.mov'
+
+import returnloopUpdateVideo from '../assets/videos/returnloop/returnloop_update.mov'
+import returnloopMapVideo from '../assets/videos/returnloop/returnloop_map.mov'
+import returnloopLoginVideo from '../assets/videos/returnloop/returnloop_login.mov'
+
 
 // ─── Data ────────────────────────────────────────────────────
 const BG_TEXTS = ['Sudeshna Gangoli.', 'Work', 'About']
@@ -95,7 +101,7 @@ const GRID_BLOCKS = (() => {
 
   // Specific user overrides
   const block7_7 = blocks.find(b => b.c === 7 && b.r === 7);
-  if (block7_7) { block7_7.color = '#ef4444'; }
+  if (block7_7) { block7_7.color = 'transparent'; block7_7.isMockup = true; block7_7.video = returnloopLoginVideo; }
 
   const block16_3 = blocks.find(b => b.c === 16 && b.r === 3);
   if (block16_3) { block16_3.video = petclearLoginFlowVideo; }
@@ -108,6 +114,12 @@ const GRID_BLOCKS = (() => {
 
   const block17_4 = blocks.find(b => b.c === 17 && b.r === 4);
   if (block17_4) { block17_4.video = petclearDocumentVideo; }
+
+  const block8_7 = blocks.find(b => b.c === 8 && b.r === 7);
+  if (block8_7) { block8_7.video = returnloopUpdateVideo; }
+
+  const block8_6 = blocks.find(b => b.c === 8 && b.r === 6);
+  if (block8_6) { block8_6.video = returnloopMapVideo; }
 
   const block10_6 = blocks.find(b => b.c === 10 && b.r === 6);
   if (block10_6) { block10_6.color = 'transparent'; block10_6.isMockup = false; }
