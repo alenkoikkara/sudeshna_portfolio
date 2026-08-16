@@ -503,7 +503,7 @@ export default function HomePage() {
                   <video
                     src={block.video}
                     autoPlay loop muted playsInline
-                    style={{ position: 'absolute', padding: "1% 0%", top: '2%', left: '4%', width: '92%', height: '96%', objectFit: 'cover', borderRadius: '32px', zIndex: 0 }}
+                    style={{ position: 'absolute', padding: "1% 0%", top: '0%', left: '4%', width: '92%', height: '100%', objectFit: 'contain', borderRadius: '32px', zIndex: 0 }}
                   />
                 )}
                 <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
