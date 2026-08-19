@@ -45,9 +45,24 @@ const KEYFRAMES = [
 ]
 
 const WORK_PROJECTS = [
-  { title: 'ASAP', subtitle: 'Platform for Creatives', align: 'left' },
-  { title: 'ReturnLoop', subtitle: 'Digital Exhibition', align: 'right' },
-  { title: 'PetClear', subtitle: 'Interactive Guide', align: 'left' },
+  { 
+    title: 'ASAP', 
+    subtitle: 'AI-Powered Planning', 
+    description: 'Helping college students build independent planning skills by breaking assignments into manageable steps until they no longer need the tool.',
+    align: 'left' 
+  },
+  { 
+    title: 'ReturnLoop', 
+    subtitle: 'Effortless Returns', 
+    description: 'Connecting people with neighborhood drivers to eliminate the errand of returning online purchases.',
+    align: 'right' 
+  },
+  { 
+    title: 'PetClear', 
+    subtitle: 'Pet Travel Guide', 
+    description: 'Personalized checklists for pet travel that tell you exactly what documents you need, where to get them, and when they are due.',
+    align: 'left' 
+  },
 ]
 
 const GRID_BLOCKS = (() => {
@@ -619,6 +634,17 @@ export default function HomePage() {
                   textAlign: isLeft ? 'left' : 'right',
                 }}>
                   {proj.subtitle}
+                </p>
+                <p style={{
+                  opacity: 0,
+                  marginTop: '0.8rem',
+                  fontSize: '0.95rem',
+                  fontWeight: 400,
+                  color: '#8b8b99',
+                  lineHeight: 1.5,
+                  textAlign: isLeft ? 'left' : 'right',
+                }}>
+                  {proj.description}
                 </p>
                 <a
                   href="#"
