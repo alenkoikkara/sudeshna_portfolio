@@ -26,7 +26,7 @@ export default function LoadingScreen({ onReveal, onComplete, startDelay = 0.3 }
       yPercent: -50,
       x: window.innerWidth / 2,
       opacity: 0,
-      color: '#cccccc',
+      color: '#ffffff',
     })
 
     const tl = gsap.timeline({ delay: startDelay })
@@ -79,7 +79,7 @@ export default function LoadingScreen({ onReveal, onComplete, startDelay = 0.3 }
         margin: 0,
         fontSize: 'clamp(1.5rem, 2.6vw, 3rem)',
         fontWeight: 700,
-        color: '#cccccc',
+        color: '#ffffff',
         lineHeight: 1.18,
         letterSpacing: '-0.025em',
         maxWidth: '520px',
