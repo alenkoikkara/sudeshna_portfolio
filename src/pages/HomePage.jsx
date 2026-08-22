@@ -1,6 +1,6 @@
 import { useRef, Suspense, useEffect, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import gsap from 'gsap'
@@ -164,6 +164,14 @@ const MAP_KEYFRAMES = [
 ]
 
 // ─── Component ───────────────────────────────────────────────
+
+function ResponsiveGroup({ children }) {
+  const { size } = useThree()
+  // Reduced to 820 to make the 3D phone exactly match the 534px block height
+  const scale = 820 / size.height
+  return <group scale={scale}>{children}</group>
+}
+
 export default function HomePage() {
   const containerRef = useRef(null)
   const canvasWrapperRef = useRef(null)
@@ -524,7 +532,7 @@ export default function HomePage() {
                 <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
               </div>
             )}
-            <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span>
+            {/* <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span> */}
           </div>
         ))}
       </div>
@@ -546,7 +554,9 @@ export default function HomePage() {
           <pointLight position={[-1, 3, 2]} intensity={0.5} color="#7c3aed" />
           {/* <Environment preset="studio" /> */}
           <Suspense fallback={null}>
-            <AsapModel scrollState={scrollStateRef} />
+            <ResponsiveGroup>
+              <AsapModel scrollState={scrollStateRef} />
+            </ResponsiveGroup>
           </Suspense>
         </Canvas>
       </div>
