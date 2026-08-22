@@ -229,6 +229,12 @@ export default function HomePage() {
     gsap.to(scrollStateRef.current, {
       ...KEYFRAMES[0], duration: 3.0, ease: 'power2.inOut', delay: 1.5,
     })
+    
+    // Hide the 3D model during the ending time of the zoom-out flip
+    gsap.to(canvasWrapperRef.current, {
+      opacity: 0, duration: 1.0, ease: 'power2.inOut', delay: 3.0, overwrite: 'auto'
+    })
+
     // Ghost bg text fades in midway through the slow zoom-out
     gsap.to(bgEls, { opacity: 1, duration: 2.0, ease: 'power2.inOut', delay: 3.0 })
 
@@ -286,10 +292,10 @@ export default function HomePage() {
       })
     }
 
-    // Canvas wrapper fades out on About section only
+    // Canvas wrapper is hidden on Home (0) and About (4)
     const animateCanvas = (idx) => {
       gsap.to(canvasWrapperRef.current, {
-        opacity: idx === 4 ? 0 : 1,
+        opacity: (idx === 0 || idx === 4) ? 0 : 1,
         duration: 1.1,
         ease: 'power2.inOut',
         overwrite: 'auto',
