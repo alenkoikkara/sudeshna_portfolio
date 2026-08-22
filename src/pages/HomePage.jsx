@@ -1,4 +1,4 @@
-import { useRef, Suspense, useEffect, useState, useCallback, useMemo } from 'react'
+import { useRef, useEffect, useState, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, useGLTF } from '@react-three/drei'
@@ -7,7 +7,6 @@ import gsap from 'gsap'
 
 import AsapModel from '../components/AsapModel'
 import BottomNav from '../components/BottomNav'
-import LoadingScreen from '../components/LoadingScreen'
 import iphoneMockup from '../assets/iphone mockup/iphone_mockup.png'
 
 import petclearTripVideo from '../assets/videos/petclear/petclear_trip.mov'
@@ -32,8 +31,8 @@ const SECTIONS = [
 ]
 
 const KEYFRAMES = [
-  // home: phone anchored right, partially cropped off edge
-  { posX: 1.5, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI - 0.22, rotZ: 0, scale: 1.30 },
+  // home: huge phone filling the viewport (loading state)
+  { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8, burst: 0 },
   // asap: replace center block
   { posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: Math.PI, rotZ: 0, scale: 1.09 },
   // returnloop: replace center block
@@ -178,7 +177,6 @@ export default function HomePage() {
   const gridMapRef = useRef(null)
   const navRef = useRef(null)
   const scrollStateRef = useRef({ posX: 0, posY: 0, posZ: 0, rotX: 0, rotY: 0, rotZ: Math.PI / 2, scale: 8 })
-  const revealRef = useRef(null)   // stores reveal fn set inside useEffect
   const snapToRef = useRef(null)   // stores snapTo fn set inside useEffect
   const navigate = useNavigate()
   // Individual refs for bg texts (hooks can't be in loops)
@@ -186,19 +184,7 @@ export default function HomePage() {
   const bgRef1 = useRef(null)
   const bgRef2 = useRef(null)
   const bgRefs = [bgRef0, bgRef1, bgRef2]
-  const [activeDot, setActiveDot] = useState(0) // eslint-disable-line no-unused-vars
-  const [showLoader, setShowLoader] = useState(true)
-
-  // A — ghost text, phone, nav start fading in (overlay bg still fading)
-  const handleReveal = useCallback(() => {
-    revealRef.current?.reveal()
-  }, [])
-
-  // B — overlay bg gone; hero text fades in as loading text disappears
-  const handleLoadComplete = useCallback(() => {
-    revealRef.current?.handoff()
-    setShowLoader(false)
-  }, [])
+  const [activeDot, setActiveDot] = useState(0)
 
   useEffect(() => {
     const container = containerRef.current
@@ -217,26 +203,26 @@ export default function HomePage() {
     let isTouching = false
 
     const bgEls = bgRefs.map(r => r.current)
+    const sectionEls = container.querySelectorAll('.scroll-section')
+    const heroContent = sectionEls[0]?.querySelector('.section-content')
 
-    // ── Hide non-phone elements (phone visible from the start) ───
+    // ── Hide all elements initially ───
     gsap.set(bgEls, { opacity: 0 })
-    if (navRef.current) gsap.set(navRef.current, { opacity: 0 })
-    if (gridMapRef.current) gsap.set(gridMapRef.current, { opacity: 0 })
+    gsap.set(canvasWrapperRef.current, { opacity: 0 })
+    gsap.set('#home-blur', { opacity: 0 })
+    gsap.set('#bottom-nav', { opacity: 0, y: 50 })
+    if (heroContent) gsap.set(heroContent.children, { opacity: 0, y: 20 })
 
     // ── Loading sequence ───────────────────────────────
-    // Zoom phone out from full-viewport fill to its home position
-    // Starts after hero text has faded in and held briefly (t=1.5s)
-    gsap.to(scrollStateRef.current, {
-      ...KEYFRAMES[0], duration: 3.0, ease: 'power2.inOut', delay: 1.5,
-    })
+    const tl = gsap.timeline({ delay: 0.2 })
     
-    // Hide the 3D model during the ending time of the zoom-out flip
-    gsap.to(canvasWrapperRef.current, {
-      opacity: 0, duration: 1.0, ease: 'power2.inOut', delay: 3.0, overwrite: 'auto'
-    })
-
-    // Ghost bg text fades in midway through the slow zoom-out
-    gsap.to(bgEls, { opacity: 1, duration: 2.0, ease: 'power2.inOut', delay: 3.0 })
+    if (heroContent) {
+      tl.to(heroContent.children, { opacity: 1, y: 0, duration: 1.5, stagger: 0.15, ease: 'power3.out' })
+    }
+    // Only background elements and blur fade in on load, phone remains hidden
+    tl.to([bgEls, '#home-blur'], { opacity: 1, duration: 2.0, ease: 'power2.inOut' }, '-=0.5')
+    
+    tl.to('#bottom-nav', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '<0.5')
 
     // ── Init bg text positions ───────────────────────────
     gsap.set(bgEls[0], { y: 0 })
@@ -264,8 +250,6 @@ export default function HomePage() {
     }
 
     // ── Section content in / out ───────────────────────────
-    const sectionEls = container.querySelectorAll('.scroll-section')
-
     const showSection = (idx) => {
       const content = sectionEls[idx]?.querySelector('.section-content')
       if (!content) return
@@ -328,6 +312,22 @@ export default function HomePage() {
         animateCanvas(idx)
         animateGridMap(idx)
         updateBgText(SECTIONS[idx].bgText)
+        gsap.set('#bg-text-container', { zIndex: idx === 0 ? 15 : 0 })
+        
+        gsap.to('#bottom-nav', {
+          background: idx === 0 ? 'transparent' : 'rgba(250,250,250,0.88)',
+          backdropFilter: idx === 0 ? 'blur(0px)' : 'blur(16px)',
+          WebkitBackdropFilter: idx === 0 ? 'blur(0px)' : 'blur(16px)',
+          duration: 0.8, ease: 'power2.inOut', overwrite: 'auto'
+        })
+        
+        gsap.to('#home-blur', {
+          opacity: idx === 0 ? 1 : 0,
+          duration: 1.1,
+          ease: 'power2.inOut',
+          overwrite: 'auto'
+        })
+        
         gsap.delayedCall(fromTouch ? 0 : 0.08, () => showSection(idx))
       }
 
@@ -398,28 +398,6 @@ export default function HomePage() {
     // expose snapTo so BottomNav can call it
     snapToRef.current = snapTo
 
-    // ── Reveal functions (called by LoadingScreen) ────────
-    revealRef.current = {
-      // Step A: nav fades in when hero text arrives at left position
-      // (bg text is driven by the loading timeline above; canvas always visible)
-      reveal: () => {
-        if (navRef.current) gsap.to(navRef.current, { opacity: 1, duration: 1.3, ease: 'power2.inOut' })
-      },
-      // Step B: hero text handoff — fires after overlay bg is fully gone.
-      // Use gsap.set (not showSection) so the real hero text appears instantly
-      // at the same position as the loading text — no y-offset, no blur, no stagger.
-      handoff: () => {
-        const content = sectionEls[0]?.querySelector('.section-content')
-        if (content) {
-          gsap.set(Array.from(content.children), {
-            opacity: 1,
-            y: 0,
-            filter: 'blur(0px)',
-          })
-        }
-      },
-    }
-
     return () => {
       container.removeEventListener('wheel', onWheel)
       container.removeEventListener('touchstart', onTouchStart)
@@ -446,11 +424,11 @@ export default function HomePage() {
     >
 
       {/* ── Ghost background text ──────────────────────────── */}
-      <div style={{
+      <div id="bg-text-container" style={{
         position: 'fixed', inset: 0,
         overflow: 'hidden',
         pointerEvents: 'none',
-        zIndex: 0,
+        zIndex: 15,
       }}>
         {BG_TEXTS.map((text, i) => (
           <div
@@ -470,7 +448,7 @@ export default function HomePage() {
               fontWeight: 900,
               lineHeight: 0.87,
               letterSpacing: '-0.028em',
-              color: 'rgba(17,17,24,0.07)',
+              color: 'rgba(17,17,24,0.12)',
               wordBreak: 'break-word',
               userSelect: 'none',
             }}>
@@ -566,6 +544,20 @@ export default function HomePage() {
           </Suspense>
         </Canvas>
       </div>
+
+      {/* ── Home Section Blur Layer (Grained Glass) ──────────────────────────── */}
+      <div id="home-blur" style={{
+        position: 'fixed', inset: 0,
+        zIndex: 12,
+        pointerEvents: 'none',
+        backdropFilter: 'blur(32px)',
+        WebkitBackdropFilter: 'blur(32px)',
+        backgroundColor: 'rgba(250, 250, 250, 0.08)',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'repeat',
+        backgroundSize: '150px 150px',
+        opacity: 0,
+      }} />
 
       {/* ── Scrollable sections ─────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 20 }}>
@@ -753,14 +745,7 @@ export default function HomePage() {
         <BottomNav onNavigate={(idx) => snapToRef.current?.(idx)} />
       </div>
 
-      {/* ── Intro loading screen ───────────────────────────── */}
-      {showLoader && (
-        <LoadingScreen
-          onReveal={handleReveal}
-          onComplete={handleLoadComplete}
-          startDelay={0.3}
-        />
-      )}
+      {/* ── Intro loading screen removed per user request ───────────────────────────── */}
     </div>
   )
 }

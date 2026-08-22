@@ -21,6 +21,7 @@ const NAV_STYLE = {
 export default function BottomNav({ onNavigate }) {
   return (
     <nav
+      id="bottom-nav"
       role="navigation"
       aria-label="Site navigation"
       style={{
@@ -31,9 +32,9 @@ export default function BottomNav({ onNavigate }) {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '1.1rem clamp(1.5rem, 5vw, 3rem)',
-        background: 'rgba(250,250,250,0.88)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        background: 'transparent',
+        backdropFilter: 'blur(0px)',
+        WebkitBackdropFilter: 'blur(0px)',
       }}
     >
       {NAV_ITEMS.map(({ label, section }) => (
