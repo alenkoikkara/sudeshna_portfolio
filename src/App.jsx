@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import CaseStudyPage from './pages/CaseStudyPage'
+import AsapCaseStudy from './pages/AsapCaseStudy'
+import PetClearCaseStudy from './pages/PetClearCaseStudy'
+import ReturnLoopCaseStudy from './pages/ReturnLoopCaseStudy'
 
 export default function App() {
   return (
@@ -8,7 +10,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/work/:projectId" element={<CaseStudyPage />} />
+        <Route path="/work/ASAP" element={<AsapCaseStudy />} />
+        <Route path="/work/PetClear" element={<PetClearCaseStudy />} />
+        <Route path="/work/ReturnLoop" element={<ReturnLoopCaseStudy />} />
       </Routes>
     </BrowserRouter>
   )

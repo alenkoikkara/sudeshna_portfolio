@@ -239,12 +239,12 @@ export default function HomePage() {
       gsap.fromTo(
         bgEls[newIdx],
         { y: goingDown ? H() : -H() },
-        { y: 0, duration: 1.8, ease: 'expo.inOut', overwrite: 'auto' }
+        { y: 0, duration: 1.5, ease: 'power3.inOut', overwrite: 'auto' }
       )
       gsap.to(bgEls[prev], {
         y: goingDown ? -H() : H(),
-        duration: 1.3,
-        ease: 'expo.inOut',
+        duration: 1.5,
+        ease: 'power3.inOut',
         overwrite: 'auto',
       })
     }
@@ -272,7 +272,7 @@ export default function HomePage() {
     // ── Phone model ────────────────────────────────────────
     const animateTo = (kf) => {
       gsap.to(scrollStateRef.current, {
-        ...kf, duration: 1.7, ease: 'power3.inOut', overwrite: 'auto',
+        ...kf, duration: 1.5, ease: 'power3.inOut', overwrite: 'auto',
       })
     }
 
@@ -293,7 +293,7 @@ export default function HomePage() {
         x: MAP_KEYFRAMES[idx].x,
         y: MAP_KEYFRAMES[idx].y,
         opacity: MAP_KEYFRAMES[idx].opacity,
-        duration: 1.7,
+        duration: 1.5,
         ease: 'power3.inOut',
         overwrite: 'auto',
       })
@@ -334,8 +334,8 @@ export default function HomePage() {
       isSnapping = true
       gsap.to(container, {
         scrollTop: idx * H(),
-        duration: 1.45,
-        ease: 'elastic.out(1, 0.75)',
+        duration: 1.5,
+        ease: 'power3.inOut',
         overwrite: true,
         onComplete: () => { isSnapping = false },
       })
