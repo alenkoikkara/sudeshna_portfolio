@@ -276,10 +276,10 @@ export default function HomePage() {
       })
     }
 
-    // Canvas wrapper is hidden on Home (0)
+    // Canvas wrapper is hidden on Home (0) and About (4)
     const animateCanvas = (idx) => {
       gsap.to(canvasWrapperRef.current, {
-        opacity: idx === 0 ? 0 : 1,
+        opacity: (idx === 0 || idx === 4) ? 0 : 1, // Visible ONLY on Work sections (1, 2, 3)
         duration: 1.1,
         ease: 'power2.inOut',
         overwrite: 'auto',
@@ -313,6 +313,48 @@ export default function HomePage() {
         animateGridMap(idx)
         updateBgText(SECTIONS[idx].bgText)
         gsap.set('#bg-text-container', { zIndex: idx === 0 ? 15 : 0 })
+        
+        // Carousel Overlay Animation
+        if (idx >= 1 && idx <= 3) {
+          const delayFade = prev === 0 ? 1.0 : 0; // Delay fade-in until phone model settles
+          gsap.to('#phone-carousel-overlay', {
+            opacity: 1,
+            duration: 0.8,
+            delay: delayFade,
+            ease: 'power2.inOut',
+            overwrite: 'auto'
+          })
+          
+          let targetX = 0;
+          let targetY = 0;
+          if (idx === 1) { targetX = 0; targetY = 0; }
+          if (idx === 2) { targetX = 0; targetY = -100; }
+          if (idx === 3) { targetX = -100; targetY = -100; }
+          
+          gsap.to('#phone-carousel-track', {
+            xPercent: targetX,
+            yPercent: targetY,
+            duration: 1.5,
+            ease: 'power3.inOut',
+            overwrite: 'auto'
+          })
+        } else {
+          gsap.to('#phone-carousel-overlay', {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            overwrite: 'auto'
+          })
+          if (idx === 0) {
+            gsap.to('#phone-carousel-track', {
+              yPercent: 100,
+              xPercent: 0,
+              duration: 1.5,
+              ease: 'power3.inOut',
+              overwrite: 'auto'
+            })
+          }
+        }
         
         gsap.to('#bottom-nav', {
           background: idx === 0 ? 'transparent' : 'rgba(250,250,250,0.88)',
@@ -543,6 +585,47 @@ export default function HomePage() {
             </ResponsiveGroup>
           </Suspense>
         </Canvas>
+      </div>
+
+      {/* ── Phone Screen Carousel Overlay (HTML) ────────────── */}
+      <div
+        id="phone-carousel-overlay"
+        style={{
+          position: 'fixed',
+          top: '49.8%',
+          left: '50%',
+          transform: 'translate(-50%, -49.5%)', // Tiny vertical nudge to center in bezels
+          width: '256px', 
+          height: '539px',
+          zIndex: 11,
+          opacity: 0,
+          pointerEvents: 'auto',
+          overflow: 'hidden',
+          borderRadius: '45px',
+          backgroundColor: '#000',
+        }}
+      >
+        <div 
+          id="phone-carousel-track" 
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          {/* Slide 1 (ASAP) */}
+          <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#ef4444' }}>
+            ASAP
+          </div>
+          {/* Slide 2 (ReturnLoop) - Below ASAP */}
+          <div className="absolute top-full left-0 w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#3b82f6' }}>
+            ReturnLoop
+          </div>
+          {/* Slide 3 (PetClear) - Right of ReturnLoop */}
+          <div className="absolute top-full left-full w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#22c55e' }}>
+            PetClear
+          </div>
+        </div>
       </div>
 
       {/* ── Home Section Blur Layer (Grained Glass) ──────────────────────────── */}

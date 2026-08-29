@@ -32,9 +32,9 @@ export default function BottomNav({ onNavigate }) {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '1.1rem clamp(1.5rem, 5vw, 3rem)',
-        background: 'transparent',
-        backdropFilter: 'blur(0px)',
-        WebkitBackdropFilter: 'blur(0px)',
+        // background: 'transparent',
+        // backdropFilter: 'blur(0px)',
+        // WebkitBackdropFilter: 'blur(0px)',
       }}
     >
       {NAV_ITEMS.map(({ label, section }) => (
