@@ -65,10 +65,14 @@ export default function CaseStudyShell({
       <div style={{ background: '#fafafa', minHeight: '100vh', color: '#111118', fontFamily: 'var(--font-sans)' }}>
       
       {/* ── Top Bar / Navigation ────────────────────────────────────────────── */}
-      <div style={{ position: 'absolute', top: '40px', left: 'clamp(1.5rem, 5vw, 3rem)', zIndex: 100 }}>
-        <Link to="/home" style={{ fontSize: '0.85rem', fontWeight: 500, color: '#111118', textDecoration: 'none', letterSpacing: '0.005em' }}>
-          &larr; Back to work
-        </Link>
+      <div className="cs-body-grid" style={{ position: 'fixed', top: '40px', left: 0, width: '100%', zIndex: 100, pointerEvents: 'none', paddingBottom: 0 }}>
+        <div className="cs-left-rail" style={{ position: 'static', top: 'auto' }}>
+          <div style={{ width: '160px', pointerEvents: 'auto' }}>
+            <Link to="/home" state={{ fromProject: projectName }} className="back-to-work-link">
+              <span>&larr;</span> Back to work
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* ── Hero ──────────────────────────────────────────────── */}

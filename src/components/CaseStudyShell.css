@@ -60,6 +60,30 @@
   }
 }
 
+.back-to-work-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(17, 17, 24, 0.4);
+  text-decoration: none;
+  letter-spacing: 0.005em;
+  transition: color 0.2s;
+}
+
+.back-to-work-link:hover {
+  color: #111118;
+}
+
+.back-to-work-link span {
+  transition: transform 0.2s ease;
+}
+
+.back-to-work-link:hover span {
+  transform: translateX(-4px);
+}
+
 @media (max-width: 768px) {
   .cs-hero {
     padding: 100px 20px 40px 20px;
