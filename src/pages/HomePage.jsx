@@ -8,6 +8,9 @@ import gsap from 'gsap'
 import AsapModel from '../components/AsapModel'
 import BottomNav from '../components/BottomNav'
 import iphoneMockup from '../assets/iphone mockup/iphone_mockup.png'
+import asaphome from '../assets/homescreens/asaphome.png'
+import returnloophome from '../assets/homescreens/returnloophome.png'
+import petclearhome from '../assets/homescreens/petclearhome.png'
 
 import petclearTripVideo from '../assets/videos/petclear/petclear_trip.mov'
 import petclearCommentVideo from '../assets/videos/petclear/petclear_comment.mov'
@@ -595,7 +598,7 @@ export default function HomePage() {
           top: '49.8%',
           left: '50%',
           transform: 'translate(-50%, -49.5%)', // Tiny vertical nudge to center in bezels
-          width: '256px', 
+          width: '255px', 
           height: '539px',
           zIndex: 11,
           opacity: 0,
@@ -615,15 +618,15 @@ export default function HomePage() {
         >
           {/* Slide 1 (ASAP) */}
           <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#ef4444' }}>
-            ASAP
+            <img className="w-full h-full object-cover" src={asaphome} alt="" />
           </div>
           {/* Slide 2 (ReturnLoop) - Below ASAP */}
           <div className="absolute top-full left-0 w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#3b82f6' }}>
-            ReturnLoop
+            <img className="w-full h-full object-cover" src={returnloophome} alt="" />
           </div>
           {/* Slide 3 (PetClear) - Right of ReturnLoop */}
           <div className="absolute top-full left-full w-full h-full flex flex-col items-center justify-center text-white font-bold text-2xl" style={{ backgroundColor: '#22c55e' }}>
-            PetClear
+            <img className="w-full h-full object-cover" src={petclearhome} alt="" />
           </div>
         </div>
       </div>
@@ -717,22 +720,22 @@ export default function HomePage() {
                 </h2>
                 <p style={{
                   opacity: 0,
-                  margin: 0,
+                  marginTop: '2rem',
                   fontSize: '1rem',
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: '#6b6b80',
-                  letterSpacing: '-0.01em',
+                  letterSpacing: '-0.0em',
                   textAlign: isLeft ? 'left' : 'right',
                 }}>
                   {proj.subtitle}
                 </p>
                 <p style={{
-                  opacity: 0,
-                  marginTop: '0.8rem',
+                  opacity: .7,
+                  marginTop: '0rem',
                   fontSize: '0.95rem',
                   fontWeight: 400,
-                  color: '#8b8b99',
-                  lineHeight: 1.5,
+                  color: '#111111',
+                  lineHeight: 1.4,
                   textAlign: isLeft ? 'left' : 'right',
                 }}>
                   {proj.description}
@@ -747,12 +750,13 @@ export default function HomePage() {
                     opacity: 0,
                     fontWeight: 600,
                     fontSize: '0.85rem',
+                    marginTop: '0.9rem',
                     lineHeight: 1,
                     color: '#7c3aed',
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '0.35rem',
+                    gap: '1.5rem',
                     transition: 'gap 0.2s ease',
                     alignSelf: isLeft ? 'flex-start' : 'flex-end',
                     cursor: 'pointer'
