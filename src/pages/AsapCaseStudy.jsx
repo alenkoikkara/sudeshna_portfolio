@@ -1,11 +1,25 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
+import asapHome from '../assets/homescreens/asaphome.png';
+import lofiAuthFlow from '../assets/allassets/asap-03b-lofi-01-auth-flow.png';
+import lofiHome from '../assets/allassets/asap-03b-lofi-02-home.png';
+import lofiBreakdown from '../assets/allassets/asap-03b-lofi-03-breakdown.png';
+import lofiBreakdownContd from '../assets/allassets/asap-03b-lofi-04-breakdown-contd.png';
+import compMap from '../assets/allassets/asap-05-competitive-positioning-map.png';
+import userFlow from '../assets/allassets/asap-06-user-flow.png';
+
+import screenAssignmentList from '../assets/allassets/screens/asap-01-assignment-list.png';
+import screenAiReasons from '../assets/allassets/screens/asap-02-ai-reasons.png';
+import screenAiBreakdown from '../assets/allassets/screens/asap-03-ai-breakdown.png';
+import screenFocusMode from '../assets/allassets/screens/asap-04-focus-mode.png';
+import screenTimer from '../assets/allassets/screens/asap-05-timer.png';
 export default function AsapCaseStudy() {
   const sections = [
     { id: '01', title: 'About Project' },
     { id: '02', title: 'Problem Statement' },
     { id: '03', title: 'How we used AI' },
+    { id: '03b', title: 'Lo-fi wireframes' },
     { id: '04', title: 'Solution + screens' },
     { id: '05', title: 'Competitive analysis' },
     { id: '06', title: 'User flow' },
@@ -29,7 +43,7 @@ export default function AsapCaseStudy() {
       projectName="ASAP"
       promiseLine="AI-powered planning app that scaffolds executive function until the student no longer needs it."
       metaStrip={metaStrip}
-      heroVisual="https://placehold.co/1200x800/e9d5ff/111118?text=ASAP1+Home+Screen"
+      heroVisual={asapHome}
       sections={sections}
       prevCase={{ url: '/work/ReturnLoop', name: 'ReturnLoop', promise: 'Frictionless Package Returns' }}
       nextCase={{ url: '/work/PetClear', name: 'PetClear', promise: 'Interactive Pet Travel Guide' }}
@@ -111,38 +125,87 @@ export default function AsapCaseStudy() {
         </div>
       </div>
       <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />
+      {/* 03b Lo-fi wireframes */}
+      <div id="sec-03b" className="cs-section" data-id="03b" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+        <div style={{ maxWidth: '720px' }}>
+          <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>
+            The wireframe boards are in the file and they are strong — numbered, state by state, with the AI prompt copy already written in ("not sure where to start? I can help break this into steps"). Show them as boards, not as individual screens: each is a labelled row of three states.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '48px', maxWidth: '1080px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontSize: '12px', letterSpacing: '0.4px', textTransform: 'uppercase', color: '#8a8a8a' }}>Getting in</span>
+            <img src={lofiAuthFlow} alt="ASAP lo-fi auth flow board" style={{ width: '100%', border: '1px solid #dcdcdc', borderRadius: '12px', background: '#fff' }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontSize: '12px', letterSpacing: '0.4px', textTransform: 'uppercase', color: '#8a8a8a' }}>Home, three states: empty · with task · completed</span>
+            <img src={lofiHome} alt="ASAP lo-fi home states board" style={{ width: '100%', border: '1px solid #dcdcdc', borderRadius: '12px', background: '#fff' }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontSize: '12px', letterSpacing: '0.4px', textTransform: 'uppercase', color: '#8a8a8a' }}>The breakdown</span>
+            <img src={lofiBreakdown} alt="ASAP lo-fi breakdown board" style={{ width: '100%', border: '1px solid #dcdcdc', borderRadius: '12px', background: '#fff' }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontSize: '12px', letterSpacing: '0.4px', textTransform: 'uppercase', color: '#8a8a8a' }}>Breakdown continued</span>
+            <img src={lofiBreakdownContd} alt="ASAP lo-fi breakdown continued board" style={{ width: '100%', border: '1px solid #dcdcdc', borderRadius: '12px', background: '#fff' }} />
+          </div>
+          <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#8a8a8a' }}>
+            Note: The flow was tested across four distinct groups (student, career-changer, ECP, entrepreneur) with 16 boards total.
+          </p>
+        </div>
+      </div>
+      <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />
 
       {/* 04 Solution + screens */}
-      <div id="sec-04" className="cs-section" data-id="04" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
-        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Solution &amp; Behaviors</h2>
-        
+      <div id="sec-04" className="cs-section" data-id="04" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px', maxWidth: '1080px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
           <div>
             <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>One assignment at a time</p>
             <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>No overwhelming lists. The interface focuses the student entirely on the next immediate action.</p>
           </div>
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <img src="https://placehold.co/320x640/e9d5ff/111?text=ASAP1+List" alt="Assignment List" style={{ width: '100%', maxWidth: '320px', borderRadius: '24px' }} />
+          <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
+            <img src={screenAssignmentList} alt="Assignment List" style={{ width: '100%', maxWidth: '320px' }} />
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
           <div style={{ order: 2 }}>
-            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>AI suggests subtasks with reasons</p>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>AI suggests subtasks with reasons and estimates, student edits freely</p>
             <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>The app breaks down complex assignments, providing estimates and rationale, but the student edits freely.</p>
           </div>
-          <div style={{ display: 'flex', gap: '20px', order: 1 }}>
-            <img src="https://placehold.co/320x640/e9d5ff/111?text=Container+4/5" alt="AI Breakdown" style={{ width: '100%', maxWidth: '320px', borderRadius: '24px' }} />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', order: 1 }}>
+            <img src={screenAiReasons} alt="AI Breakdown" style={{ width: '100%', maxWidth: '320px' }} />
           </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
           <div>
-            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>Focus mode &amp; timer</p>
-            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>Locks everything except the current task, using a standard or Pomodoro timer to build momentum.</p>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>Focus mode</p>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>Locks everything except the current task to build momentum.</p>
           </div>
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <img src="https://placehold.co/320x640/e9d5ff/111?text=ASAP3/4+Timer" alt="Focus Mode" style={{ width: '100%', maxWidth: '320px', borderRadius: '24px' }} />
+          <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
+            <img src={screenAiBreakdown} alt="Focus Mode" style={{ width: '100%', maxWidth: '320px' }} />
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
+          <div style={{ order: 2 }}>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>Timer (standard / Pomodoro)</p>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>Keeps track of time spent directly on the active task.</p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', order: 1 }}>
+            <img src={screenFocusMode} alt="Timer Screen" style={{ width: '100%', maxWidth: '320px' }} />
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', fontWeight: 700 }}>Independence bar</p>
+            <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>Visual indicator of progress towards fully independent planning.</p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
+            <img src={screenTimer} alt="Independence Bar" style={{ width: '100%', maxWidth: '320px' }} />
           </div>
         </div>
 
@@ -154,9 +217,8 @@ export default function AsapCaseStudy() {
 
       {/* 05 Competitive analysis */}
       <div id="sec-05" className="cs-section" data-id="05" style={{ padding: '72px 0', display: 'grid', gridTemplateColumns: '480px 420px', gap: '64px', alignItems: 'center' }}>
-        <div style={{ background: '#f8f8f8', padding: '40px', borderRadius: '12px', border: '1px solid #eaeaea', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: '13px', color: '#888' }}>[Positioning Map Placeholder]</span>
-        </div>
+        <div style={{ background: '#f8f8f8', padding: '40px', borderRadius: '12px', border: '1px solid #eaeaea', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={compMap} alt="Competitive Positioning Map" style={{ width: '100%', borderRadius: '8px' }} />        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Competitive analysis</h2>
           <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>
@@ -172,8 +234,8 @@ export default function AsapCaseStudy() {
       {/* 06 User flow */}
       <div id="sec-06" className="cs-section" data-id="06" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>User flow</h2>
-        <div style={{ width: '100%', height: '240px', background: '#f0f0f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: '13px', color: '#888' }}>[User Flow SVG Placeholder]</span>
+        <div style={{ width: '100%', background: '#f0f0f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src={userFlow} alt="User Flow" style={{ width: '100%', borderRadius: '8px' }} />
         </div>
         <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e', textAlign: 'center' }}>
           One task in, one step out; AI escalates help: clarify → break down → coach only when needed.

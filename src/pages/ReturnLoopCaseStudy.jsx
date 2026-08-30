@@ -1,6 +1,14 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
+import returnLoopHome from '../assets/homescreens/returnloophome.png';
+import persona1 from '../assets/allassets/returnloop-06-persona-1.png';
+import persona2 from '../assets/allassets/returnloop-06-persona-2.png';
+import screenScanLabel from '../assets/allassets/screens/returnloop-02-scan-label.png';
+import screenPickupWindow from '../assets/allassets/screens/returnloop-03-pickup-window.png';
+import screenTrackPickup from '../assets/allassets/screens/returnloop-04-track-pickup.png';
+import screenChatWithDriver from '../assets/allassets/screens/returnloop-06-chat-with-driver.png';
+// Unused: returnloop-01-home.png, returnloop-05-return-confirmed.png, returnloop-07-login.png, returnloop-08-signup.png
 export default function ReturnLoopCaseStudy() {
   const sections = [
     { id: '01', title: 'About Project' },
@@ -28,7 +36,7 @@ export default function ReturnLoopCaseStudy() {
       projectName="ReturnLoop"
       promiseLine="ReturnLoop connects a ready package with a driver already passing by, so the errand disappears."
       metaStrip={metaStrip}
-      heroVisual="https://placehold.co/1200x800/fca5a5/111118?text=ReturnLoop+Home+Screen"
+      heroVisual={returnLoopHome}
       sections={sections}
       prevCase={{ url: '/work/PetClear', name: 'PetClear', promise: 'Interactive Pet Travel Guide' }}
       nextCase={{ url: '/work/ASAP', name: 'ASAP', promise: 'Executive Functioning App' }}
@@ -36,7 +44,6 @@ export default function ReturnLoopCaseStudy() {
       
       {/* 01 About Project */}
       <div id="sec-01" className="cs-section" data-id="01" style={{ maxWidth: '720px', padding: '72px 0' }}>
-        <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>About Project</h2>
         <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', margin: 0 }}>
           Returning something online should take five minutes; in reality it takes a trip most people never find time for. ReturnLoop connects a ready package with a driver already passing by, so the errand disappears.
         </p>
@@ -45,7 +52,6 @@ export default function ReturnLoopCaseStudy() {
 
       {/* 02 The Return I Never Made */}
       <div id="sec-02" className="cs-section" data-id="02" style={{ maxWidth: '720px', padding: '72px 0' }}>
-        <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>The Return I Never Made</h2>
         <p style={{ margin: 0, fontSize: '16px', lineHeight: 1.6, color: '#171717' }}>
           The package sat by the door until the window closed; friends had the same story — not "I don't want to return things" but "I meant to, and then I didn't."
         </p>
@@ -133,7 +139,7 @@ export default function ReturnLoopCaseStudy() {
       <div id="sec-05" className="cs-section" data-id="05" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Insight → decision</h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', gap: '16px', alignItems: 'center' }}>
             <span style={{ fontSize: '10.1px', fontWeight: 600, letterSpacing: '0.4px', color: '#888' }}>RESEARCH INSIGHT</span>
             <span />
@@ -200,8 +206,8 @@ export default function ReturnLoopCaseStudy() {
         </div>
         
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
-          <img src="https://placehold.co/500x300/fca5a5/111?text=Persona+1+Alex" alt="Persona Alex" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
-          <img src="https://placehold.co/500x300/fca5a5/111?text=Persona+2+Margaret" alt="Persona Margaret" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+          <img src={persona1} alt="Persona Alex" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+          <img src={persona2} alt="Persona Margaret" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
         </div>
       </div>
       <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />
@@ -210,7 +216,7 @@ export default function ReturnLoopCaseStudy() {
       <div id="sec-07" className="cs-section" data-id="07" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Journey map</h2>
 
-        <div style={{ overflowX: 'auto' }}>
+        <div style={{ overflowX: 'auto', maxWidth: '1080px' }}>
           <div style={{ minWidth: '800px', borderRadius: '8px', border: '1px solid #bfc8c9', overflow: 'hidden' }}>
             {/* Header */}
             <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr 1fr', background: '#f0f4f8', borderBottom: '1px solid #bfc8c9' }}>
@@ -253,21 +259,21 @@ export default function ReturnLoopCaseStudy() {
           <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>Key screens</h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/fca5a5/111?text=Scan+Label" alt="Scan Label" style={{ width: '100%', borderRadius: '16px', border: '1px solid #eaeaea' }} />
+            <img src={screenScanLabel} alt="Scan Label" style={{ width: '100%' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>Scanning removes printing (Alex)</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/fca5a5/111?text=Pickup+Window" alt="Pickup Window" style={{ width: '100%', borderRadius: '16px', border: '1px solid #eaeaea' }} />
+            <img src={screenPickupWindow} alt="Pickup Window" style={{ width: '100%' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>Flexible windows replace instant dispatch (Jack)</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/fca5a5/111?text=Live+Tracking" alt="Live Tracking" style={{ width: '100%', borderRadius: '16px', border: '1px solid #eaeaea' }} />
+            <img src={screenTrackPickup} alt="Live Tracking" style={{ width: '100%' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>Live tracking gives proof (Saddie)</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/fca5a5/111?text=Chat+With+Driver" alt="Chat with Driver" style={{ width: '100%', borderRadius: '16px', border: '1px solid #eaeaea' }} />
+            <img src={screenChatWithDriver} alt="Chat with Driver" style={{ width: '100%' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>Driver chat gives a human channel (Margaret)</p>
           </div>
         </div>

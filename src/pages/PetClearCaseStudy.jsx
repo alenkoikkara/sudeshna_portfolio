@@ -1,6 +1,13 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
+import petClearHome from '../assets/homescreens/petclearhome.png';
+import userFlow from '../assets/allassets/petclear-06-user-flow.png';
+import screenAiPetScan from '../assets/allassets/screens/petclear-01-ai-pet-scan.png';
+import screenTripCheckpoint from '../assets/allassets/screens/petclear-03-trip-checkpoint.png';
+import screenVaccinationTracker from '../assets/allassets/screens/petclear-04-vaccination-tracker.png';
+import screenDocumentVault from '../assets/allassets/screens/petclear-05-document-vault.png';
+// Unused: petclear-02-build-pet-profile.png, petclear-06-travel-history.png, petclear-07-community.png
 export default function PetClearCaseStudy() {
   const sections = [
     { id: '01', title: 'About Project' },
@@ -27,7 +34,7 @@ export default function PetClearCaseStudy() {
       projectName="PetClear"
       promiseLine="No surprises at the airport."
       metaStrip={metaStrip}
-      heroVisual="https://placehold.co/1200x800/bfdbfe/111118?text=PetClear+Loading+Screen"
+      heroVisual={petClearHome}
       sections={sections}
       prevCase={{ url: '/work/ASAP', name: 'ASAP', promise: 'Executive Functioning App' }}
       nextCase={{ url: '/work/ReturnLoop', name: 'ReturnLoop', promise: 'Frictionless Package Returns' }}
@@ -35,7 +42,6 @@ export default function PetClearCaseStudy() {
       
       {/* 01 About Project */}
       <div id="sec-01" className="cs-section" data-id="01" style={{ maxWidth: '720px', padding: '72px 0' }}>
-        <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>About Project</h2>
         <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', margin: 0 }}>
           Traveling with a pet shouldn't be a guessing game. Every country, airline, and document comes with different rules, deadlines, and requirements. PetClear gives you a personalized checklist based on your pet and travel route showing exactly what you need, where to get it, and when it's due. Everything organized. Everything tracked. No surprises at the airport.
         </p>
@@ -51,7 +57,7 @@ export default function PetClearCaseStudy() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ padding: '24px', border: '1px solid #eaeaea', borderRadius: '8px', background: '#fafafa' }}>
             <p style={{ margin: 0, fontSize: '15px', fontWeight: 600, color: '#171717' }}>Information Gap</p>
             <p style={{ margin: '8px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>Requirements invisible during booking — NOC, fitness certs, timing windows.</p>
@@ -77,7 +83,7 @@ export default function PetClearCaseStudy() {
           </p>
         </div>
 
-        <div style={{ background: '#474747', padding: '48px', borderRadius: '16px', color: '#fff', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div style={{ background: '#474747', padding: '48px', borderRadius: '16px', color: '#fff', display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '1080px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
             {/* Column 1 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -116,11 +122,15 @@ export default function PetClearCaseStudy() {
               </div>
             </div>
           </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: '#333', padding: '24px', borderRadius: '8px' }}>
+        </div>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', maxWidth: '1080px', marginTop: '4px' }}>
+          <div style={{ background: '#333', padding: '16px 24px', borderRadius: '4px' }}>
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#eee' }}>
               <strong>Verdict:</strong> Every airline listed carrier sizes and fees, none generated a route-specific checklist.
             </p>
+          </div>
+          <div style={{ background: '#333', padding: '16px 24px', borderRadius: '4px' }}>
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#eee' }}>
               <strong>Verdict:</strong> 5 of 7 airlines could not or would not give complete requirements on call — Lufthansa explicitly refused, only United was clear, for domestic only.
             </p>
@@ -189,10 +199,10 @@ export default function PetClearCaseStudy() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           {/* Feature 1 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/bfdbfe/111?text=AI+Pet+Scan" alt="AI Pet Scan" style={{ width: '100%', borderRadius: '16px' }} />
+            <img src={screenAiPetScan} alt="AI Pet Scan" style={{ width: '100%' }} />
             <div>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>AI pet scan</p>
               <p style={{ margin: '4px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>Identifies breed, route checklist with lead times.</p>
@@ -200,7 +210,7 @@ export default function PetClearCaseStudy() {
           </div>
           {/* Feature 2 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/bfdbfe/111?text=Trip+Checkpoint" alt="Trip Checkpoint" style={{ width: '100%', borderRadius: '16px' }} />
+            <img src={screenTripCheckpoint} alt="Trip Checkpoint" style={{ width: '100%' }} />
             <div>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Trip checkpoint</p>
               <p style={{ margin: '4px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>Expiry alerts and country validity.</p>
@@ -208,7 +218,7 @@ export default function PetClearCaseStudy() {
           </div>
           {/* Feature 3 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/bfdbfe/111?text=Vaccine+Tracker" alt="Vaccine Tracker" style={{ width: '100%', borderRadius: '16px' }} />
+            <img src={screenVaccinationTracker} alt="Vaccine Tracker" style={{ width: '100%' }} />
             <div>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Vaccine tracker</p>
               <p style={{ margin: '4px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>One place, always current.</p>
@@ -216,7 +226,7 @@ export default function PetClearCaseStudy() {
           </div>
           {/* Feature 4 */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src="https://placehold.co/240x480/bfdbfe/111?text=Document+Vault" alt="Document Vault" style={{ width: '100%', borderRadius: '16px' }} />
+            <img src={screenDocumentVault} alt="Document Vault" style={{ width: '100%' }} />
             <div>
               <p style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Document vault</p>
               <p style={{ margin: '4px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>Real travellers, same route.</p>
@@ -230,11 +240,11 @@ export default function PetClearCaseStudy() {
       <div id="sec-06" className="cs-section" data-id="06" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>User flow</h2>
         
-        <div style={{ width: '100%', height: '160px', background: '#f0f0f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: '13px', color: '#888' }}>[User Flow SVG Placeholder (521x72)]</span>
+        <div style={{ width: '100%', background: '#f0f0f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: '1080px' }}>
+          <img src={userFlow} alt="User Flow" style={{ width: '100%', borderRadius: '8px' }} />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginTop: '16px', maxWidth: '1080px' }}>
           <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#5f5e5e' }}>
             <strong>One entry, one profile:</strong> Sign-up and login converge fast.
           </p>
@@ -252,7 +262,7 @@ export default function PetClearCaseStudy() {
       <div id="sec-07" className="cs-section" data-id="07" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Before &amp; after</h2>
         
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', maxWidth: '1080px' }}>
           {/* Row 1 */}
           <div style={{ padding: '24px', borderBottom: '1px solid #eaeaea', borderRight: '1px solid #eaeaea' }}>
             <span style={{ fontSize: '10.1px', fontWeight: 600, letterSpacing: '0.4px', color: '#888', display: 'block', marginBottom: '8px' }}>BEFORE</span>
@@ -289,8 +299,6 @@ export default function PetClearCaseStudy() {
 
       {/* 08 Impact + close */}
       <div id="sec-08" className="cs-section" data-id="08" style={{ padding: '72px 0', maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '48px' }}>
-        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>Impact</h2>
-        
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '20px 0', borderBottom: '1px solid #eaeaea', display: 'flex', gap: '16px' }}>
             <span style={{ fontSize: '14px', fontWeight: 700, minWidth: '120px' }}>Transparency</span>
