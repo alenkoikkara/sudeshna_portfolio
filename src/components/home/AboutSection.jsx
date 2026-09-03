@@ -1,4 +1,5 @@
 import React from 'react';
+import sudeshnaPolaroid from '../../assets/about/sudeshna-polaroid.png';
 
 const SECTION_STYLE = {
   height: '100svh',
@@ -24,17 +25,15 @@ export default function AboutSection() {
         <div style={{ opacity: 0 }} className="relative flex flex-col items-center md:items-end w-full">
           {/* Polaroid Image Placeholder */}
           <div className="w-full max-w-90 bg-[#fdfdfd] p-4 pb-20 shadow-[0_20px_40px_rgba(0,0,0,0.15),0_0_2px_rgba(0,0,0,0.1)] transform -rotate-3 z-10 relative">
-            
+
             {/* Glossy Photo Area (Standard Polaroid 1:1) */}
             <div className="w-full aspect-square bg-linear-to-br from-gray-700 to-gray-900 shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] relative overflow-hidden flex items-center justify-center">
               {/* Fake glossy reflection */}
               <div className="absolute inset-0 bg-linear-to-tr from-transparent via-[rgba(255,255,255,0.05)] to-[rgba(255,255,255,0.15)] pointer-events-none"></div>
-              
-              <div className="text-gray-400 font-medium tracking-widest text-xs uppercase z-10 text-center px-4 leading-relaxed">
-                Image Placeholder<br/><span className="text-[9px] opacity-70">(1:1 Ratio)</span>
-              </div>
+
+              <img src={sudeshnaPolaroid} alt="Sudeshna" className="w-full h-full object-cover scale-[1.4] object-[center_20%] z-0" />
             </div>
-            
+
             {/* Polaroid Caption */}
             <div className="absolute bottom-6 left-0 w-full text-center">
               <span style={{ fontFamily: "'Comic Sans MS', 'Comic Sans', cursive" }} className="text-gray-700 text-xl font-medium opacity-90 transform -rotate-2 inline-block">
@@ -45,16 +44,16 @@ export default function AboutSection() {
 
           {/* Apple Notes Card (Yellow Variant) */}
           <div className="w-75 h-75 bg-[#fef3c7] rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.15),0_0_1px_rgba(0,0,0,0.2)] -mt-12 md:-mr-12 z-20 relative flex flex-col justify-start border border-[#fde68a]">
-            
+
             {/* Lined Paper Background (Apple Notes Style) */}
-            <div className="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden" 
-                 style={{
-                   backgroundSize: '100% 28px',
-                   backgroundImage: 'linear-gradient(transparent 27px, rgba(0,0,0,0.06) 27px, rgba(0,0,0,0.06) 28px)',
-                   backgroundPosition: '0 52px' // offset so lines start below the date
-                 }}>
-                 {/* Subtle Texture */}
-                 <div className="absolute inset-0 mix-blend-multiply opacity-[0.1]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+            <div className="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden"
+              style={{
+                backgroundSize: '100% 28px',
+                backgroundImage: 'linear-gradient(transparent 27px, rgba(0,0,0,0.06) 27px, rgba(0,0,0,0.06) 28px)',
+                backgroundPosition: '0 52px' // offset so lines start below the date
+              }}>
+              {/* Subtle Texture */}
+              <div className="absolute inset-0 mix-blend-multiply opacity-[0.1]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
             </div>
 
             {/* Graphical Push Pin */}
@@ -83,9 +82,9 @@ export default function AboutSection() {
 
         {/* Right Column: Text */}
         <div style={{ opacity: 0 }} className="flex flex-col justify-center max-w-lg pt-12 md:pt-0 text-left">
-          <h2 className="text-xl md:text-2xl font-medium text-gray-800 mb-8">building for the whole user.</h2>
-          
-          <div className="space-y-6 text-base md:text-lg text-gray-700 leading-relaxed font-medium">
+          <h2 className="text-xl md:text-2xl font-medium text-gray-800 mb-8">Building for the whole user.</h2>
+
+          <div className="space-y-6 text-base md:text-lg text-gray-700 font-medium">
             <p>
               I like starting with a question, not a screen, who's using this, what they need to do, and where it's currently falling apart for them? Design, to me, is less about making something look good and more about making it make sense: the flow feels obvious, the friction disappears, the thing just works.
             </p>

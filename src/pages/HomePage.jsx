@@ -233,9 +233,9 @@ export default function HomePage() {
         }
         
         gsap.to('#bottom-nav', {
-          background: idx === 0 ? 'transparent' : 'rgba(250,250,250,0.88)',
-          backdropFilter: idx === 0 ? 'blur(0px)' : 'blur(16px)',
-          WebkitBackdropFilter: idx === 0 ? 'blur(0px)' : 'blur(16px)',
+          background: (idx === 0 || idx === 4) ? 'transparent' : 'rgba(250,250,250,0.88)',
+          backdropFilter: (idx === 0 || idx === 4) ? 'none' : 'blur(16px)',
+          WebkitBackdropFilter: (idx === 0 || idx === 4) ? 'none' : 'blur(16px)',
           duration: 0.8, ease: 'power2.inOut', overwrite: 'auto'
         })
         gsap.to('#home-blur', {
