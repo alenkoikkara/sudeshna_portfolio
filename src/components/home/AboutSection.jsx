@@ -83,7 +83,7 @@ export default function AboutSection() {
 
         {/* Right Column: Text */}
         <div style={{ opacity: 0 }} className="flex flex-col justify-center max-w-lg pt-12 md:pt-0 text-left">
-          <h4 className="text-xl md:text-2xl font-medium text-gray-800 mb-8">building for the whole user.</h4>
+          <h2 className="text-xl md:text-2xl font-medium text-gray-800 mb-8">building for the whole user.</h2>
           
           <div className="space-y-6 text-base md:text-lg text-gray-700 leading-relaxed font-medium">
             <p>

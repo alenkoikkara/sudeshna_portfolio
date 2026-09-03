@@ -19,13 +19,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/work/ASAP" element={<AsapCaseStudy />} />
-        <Route path="/work/PetClear" element={<PetClearCaseStudy />} />
-        <Route path="/work/ReturnLoop" element={<ReturnLoopCaseStudy />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/work/ASAP" element={<AsapCaseStudy />} />
+          <Route path="/work/PetClear" element={<PetClearCaseStudy />} />
+          <Route path="/work/ReturnLoop" element={<ReturnLoopCaseStudy />} />
+        </Routes>
+      </main>
     </BrowserRouter>
   )
 }
