@@ -2,26 +2,18 @@ import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
 import asapHome from '../assets/homescreens/asaphome.png';
-import lofiAuthFlow from '../assets/asap/asap-03b-lofi-01-auth-flow.png';
-import lofiHome from '../assets/asap/asap-03b-lofi-02-home.png';
-import lofiBreakdown from '../assets/asap/asap-03b-lofi-03-breakdown.png';
-import lofiBreakdownContd from '../assets/asap/asap-03b-lofi-04-breakdown-contd.png';
-import compMap from '../assets/asap/asap-05-competitive-positioning-map.png';
-import userFlow from '../assets/asap/asap-06-user-flow.png';
+import userFlowImg from '../assets/asap/asap-user-flow-new.png';
+import compMatrixImg from '../assets/asap/asap-competitive-matrix-new.png';
 
 import screenAssignmentList from '../assets/asap/asap-01-assignment-list.png';
-import screenAiReasons from '../assets/asap/asap-02-ai-reasons.png';
 import screenAiBreakdown from '../assets/asap/asap-03-ai-breakdown.png';
 import screenFocusMode from '../assets/asap/asap-04-focus-mode.png';
-import screenTimer from '../assets/asap/asap-05-timer.png';
+import screenTimer from '../assets/asap/asap-04-timer.png';
+import screenIndependenceBar from '../assets/asap/asap-05-independence.png';
 import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function AsapCaseStudy() {
-  const { data, loading, error } = useCaseStudyData('asap');
-
-  if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
-  if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;
-  if (!data) return null;
+  const data = useCaseStudyData('asap');
   const sections = [
     { id: '01', title: data.s1_title || 'About Project' },
     { id: '02', title: data.s2_title || 'Problem Statement' },
@@ -211,7 +203,7 @@ export default function AsapCaseStudy() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', maxWidth: '1080px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
-            <img src={screenAssignmentList} alt="One Assignment" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenAssignmentList} alt="One Assignment" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s4_c1_h || "One assignment at a time"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s4_c1_b || "No overwhelming lists. The interface focuses the student entirely on the next immediate action."}</p>
@@ -223,26 +215,26 @@ export default function AsapCaseStudy() {
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s4_c2_h || "AI suggests subtasks with reasons and estimates, student edits freely"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s4_c2_b || "The app breaks down complex assignments, providing estimates and rationale, but the student edits freely."}</p>
             </div>
-            <img src={screenAiBreakdown} alt="AI Breakdown" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenAiBreakdown} alt="AI Breakdown" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <img src={screenFocusMode} alt="Focus Mode" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+              <img src={screenFocusMode} alt="Focus Mode" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
               <div>
                 <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: 600 }}>{data.s4_c3_h || "Focus mode"}</h4>
                 <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#555' }}>{data.s4_c3_b || "Locks everything except the current task to build momentum."}</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <img src={screenTimer} alt="Timer" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+              <img src={screenTimer} alt="Timer" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
               <div>
                 <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: 600 }}>{data.s4_c4_h || "Timer (standard / Pomodoro)"}</h4>
                 <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#555' }}>{data.s4_c4_b || "Keeps track of time spent directly on the active task."}</p>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ width: '100%', aspectRatio: '1', background: '#f5f5f5', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa', fontSize: '13px' }}>Image</div>
+              <img src={screenIndependenceBar} alt="Independence bar" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
               <div>
                 <h4 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: 600 }}>{data.s4_c5_h || "Independence bar"}</h4>
                 <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#555' }}>{data.s4_c5_b || "Visual indicator of progress towards fully independent planning."}</p>
@@ -269,8 +261,8 @@ export default function AsapCaseStudy() {
               {data.s5_body2 || "ASAP is the only one built to work its way out of a job..."}
             </p>
           </div>
-          <div style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: '12px', padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '240px' }}>
-            <span style={{ color: '#aaa', fontSize: '14px' }}>[Competitive Matrix Diagram]</span>
+          <div style={{ background: '#fdfdfd', border: '1px solid #eaeaea', borderRadius: '12px', padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src={compMatrixImg} alt="Competitive Matrix Diagram" style={{ maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
           </div>
         </div>
       </div>
@@ -279,8 +271,8 @@ export default function AsapCaseStudy() {
       {/* 06 User flow */}
       <div id="sec-06" className="cs-section" data-id="06" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s6_title || 'User flow'}</h2>
-        <div style={{ width: '100%', maxWidth: '1080px', height: '300px', background: '#fafafa', border: '1px solid #eaeaea', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ color: '#aaa', fontSize: '14px' }}>[User Flow Diagram Placeholder]</span>
+        <div style={{ width: '100%', maxWidth: '1080px', background: '#fafafa', border: '1px solid #eaeaea', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <img src={userFlowImg} alt="User Flow Diagram" style={{ maxWidth: '100%', height: 'auto', borderRadius: '4px' }} />
         </div>
         <p style={{ margin: 0, fontSize: '14px', fontStyle: 'italic', color: '#555', textAlign: 'center', maxWidth: '1080px' }}>
           {data.s6_caption || "One task in, one step out; AI escalates help: clarify → break down → coach only when needed."}
@@ -292,21 +284,45 @@ export default function AsapCaseStudy() {
       <div id="sec-07" className="cs-section" data-id="07" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s7_title || 'Synthetic vs human'}</h2>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1080px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', maxWidth: '1080px' }}>
+          {/* Synthetic 1 */}
           <div style={{ padding: '24px', background: '#fff', border: '1px solid #eaeaea', borderRadius: '8px', borderTop: '4px solid #0d5c63' }}>
-            <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>{data.s7_r1_n || "Priya, 19"}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>{data.s7_r1_n || "Priya, 19"}</h3>
+              <span style={{ fontSize: '10px', fontWeight: 700, background: '#f1f5f5', color: '#0d5c63', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Synthetic</span>
+            </div>
             <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{data.s7_r1_d || "First-gen student"}</p>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s7_r1_b || "Felt the \"Low confidence\" label reflected on her, not the AI."}</p>
           </div>
+          
+          {/* Synthetic 2 */}
           <div style={{ padding: '24px', background: '#fff', border: '1px solid #eaeaea', borderRadius: '8px', borderTop: '4px solid #0d5c63' }}>
-            <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>{data.s7_r2_n || "Jordan, 20"}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>{data.s7_r2_n || "Jordan, 20"}</h3>
+              <span style={{ fontSize: '10px', fontWeight: 700, background: '#f1f5f5', color: '#0d5c63', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Synthetic</span>
+            </div>
             <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{data.s7_r2_d || "ADHD, skeptical"}</p>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s7_r2_b || "Needed a mid-task \"I'm stuck\" option."}</p>
           </div>
+          
+          {/* Synthetic 3 */}
           <div style={{ padding: '24px', background: '#fff', border: '1px solid #eaeaea', borderRadius: '8px', borderTop: '4px solid #0d5c63' }}>
-            <h3 style={{ margin: '0 0 4px 0', fontSize: '15px', fontWeight: 600 }}>{data.s7_r3_n || "Maya, 18"}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 600 }}>{data.s7_r3_n || "Maya, 18"}</h3>
+              <span style={{ fontSize: '10px', fontWeight: 700, background: '#f1f5f5', color: '#0d5c63', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Synthetic</span>
+            </div>
             <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{data.s7_r3_d || "First-year"}</p>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s7_r3_b || "Missed the explainability link entirely."}</p>
+          </div>
+          
+          {/* Human */}
+          <div style={{ padding: '24px', background: '#fffaf8', border: '1px solid #f7dfd4', borderRadius: '8px', borderTop: '4px solid #d94838' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 600, color: '#a63d17' }}>{data.s7_r4_n || "Human Name"}</h3>
+              <span style={{ fontSize: '10px', fontWeight: 700, background: '#d94838', color: '#fff', padding: '2px 6px', borderRadius: '4px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Real Human</span>
+            </div>
+            <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#a63d17', textTransform: 'uppercase', letterSpacing: '0.5px', opacity: 0.8 }}>{data.s7_r4_d || "Human Description"}</p>
+            <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s7_r4_b || "Human body content goes here."}</p>
           </div>
         </div>
         
@@ -369,6 +385,13 @@ export default function AsapCaseStudy() {
             <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 600 }}>{data.s9_h3 || "Test with real users earlier"}</h3>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#555' }}>
               {data.s9_b3 || "A human in Phase 2 would have caught the confidence label and mood-priority gaps weeks sooner."}
+            </p>
+          </div>
+          <div style={{ height: '1px', background: '#eaeaea' }} />
+          <div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: 600 }}>{data.s9_h4 || "Speed is real — but so is fragility"}</h3>
+            <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#555' }}>
+              {data.s9_b4 || "Figma Make built a prototype in one evening, then broke under too many prompts. Fast, but brittle."}
             </p>
           </div>
         </div>

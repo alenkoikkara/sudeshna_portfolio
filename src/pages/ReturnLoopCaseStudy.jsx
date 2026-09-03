@@ -8,15 +8,10 @@ import screenScanLabel from '../assets/returnloop/returnloop-02-scan-label.png';
 import screenPickupWindow from '../assets/returnloop/returnloop-03-pickup-window.png';
 import screenTrackPickup from '../assets/returnloop/returnloop-04-track-pickup.png';
 import screenChatWithDriver from '../assets/returnloop/returnloop-06-chat-with-driver.png';
-// Unused: returnloop-01-home.png, returnloop-05-return-confirmed.png, returnloop-07-login.png, returnloop-08-signup.png
 import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function ReturnLoopCaseStudy() {
-  const { data, loading, error } = useCaseStudyData('returnloop');
-
-  if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
-  if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;
-  if (!data) return null;
+  const data = useCaseStudyData('returnloop');
   const sections = [
     { id: '01', title: data.s1_title || 'About Project' },
     { id: '02', title: data.s2_title || 'The Return I Never Made' },
@@ -266,19 +261,19 @@ export default function ReturnLoopCaseStudy() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src={screenScanLabel} alt="Scan Label" style={{ width: '100%' }} />
+            <img src={screenScanLabel} alt="Scan Label" style={{ width: '65%', margin: '0 auto', display: 'block' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c1 || "Scanning removes printing (Alex)"}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src={screenPickupWindow} alt="Pickup Window" style={{ width: '100%' }} />
+            <img src={screenPickupWindow} alt="Pickup Window" style={{ width: '65%', margin: '0 auto', display: 'block' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c2 || "Flexible windows replace instant dispatch (Jack)"}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src={screenTrackPickup} alt="Live Tracking" style={{ width: '100%' }} />
+            <img src={screenTrackPickup} alt="Live Tracking" style={{ width: '65%', margin: '0 auto', display: 'block' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c3 || "Live tracking gives proof (Saddie)"}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <img src={screenChatWithDriver} alt="Chat with Driver" style={{ width: '100%' }} />
+            <img src={screenChatWithDriver} alt="Chat with Driver" style={{ width: '65%', margin: '0 auto', display: 'block' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c4 || "Driver chat gives a human channel (Margaret)"}</p>
           </div>
         </div>

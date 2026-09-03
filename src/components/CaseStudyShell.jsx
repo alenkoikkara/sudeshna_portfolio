@@ -100,8 +100,8 @@ export default function CaseStudyShell({
         </div>
 
         {/* Key Visual */}
-        <div style={{ width: '100%', aspectRatio: '16/9', background: '#f0f0f0', borderRadius: '8px', overflow: 'hidden' }}>
-          <img src={heroVisual} alt={`${projectName} Hero`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ width: '100%', aspectRatio: '16/9', background: '#fafafa', borderRadius: '8px', overflow: 'hidden' }}>
+          <img src={heroVisual} alt={`${projectName} Hero`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
       </div>
 

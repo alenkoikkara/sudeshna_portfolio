@@ -2,20 +2,14 @@ import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
 import petClearHome from '../assets/homescreens/petclearhome.png';
-import userFlow from '../assets/petclear/petclear-06-user-flow.png';
 import screenAiPetScan from '../assets/petclear/petclear-01-ai-pet-scan.png';
 import screenTripCheckpoint from '../assets/petclear/petclear-03-trip-checkpoint.png';
 import screenVaccinationTracker from '../assets/petclear/petclear-04-vaccination-tracker.png';
 import screenDocumentVault from '../assets/petclear/petclear-05-document-vault.png';
-// Unused: petclear-02-build-pet-profile.png, petclear-06-travel-history.png, petclear-07-community.png
 import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function PetClearCaseStudy() {
-  const { data, loading, error } = useCaseStudyData('petclear');
-
-  if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
-  if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;
-  if (!data) return null;
+  const data = useCaseStudyData('petclear');
   const sections = [
     { id: '01', title: data.s1_title || 'About Project' },
     { id: '02', title: data.s2_title || 'Problem statement' },
@@ -202,7 +196,7 @@ export default function PetClearCaseStudy() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', maxWidth: '1080px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
-            <img src={screenAiPetScan} alt="AI Pet Scan" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenAiPetScan} alt="AI Pet Scan" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f1_h || "AI pet scan"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f1_b || "Identifies breed, route checklist with lead times."}</p>
@@ -214,11 +208,11 @@ export default function PetClearCaseStudy() {
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f2_h || "Trip checkpoint"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f2_b || "Expiry alerts and country validity."}</p>
             </div>
-            <img src={screenTripCheckpoint} alt="Trip Checkpoint" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenTripCheckpoint} alt="Trip Checkpoint" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
-            <img src={screenVaccinationTracker} alt="Vaccine Tracker" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenVaccinationTracker} alt="Vaccine Tracker" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f3_h || "Vaccine tracker"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f3_b || "One place, always current."}</p>
@@ -230,7 +224,7 @@ export default function PetClearCaseStudy() {
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f4_h || "Document vault"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f4_b || "Real travellers, same route."}</p>
             </div>
-            <img src={screenDocumentVault} alt="Document Vault" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
+            <img src={screenDocumentVault} alt="Document Vault" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
         </div>
       </div>
