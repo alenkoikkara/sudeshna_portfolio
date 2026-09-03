@@ -1,7 +1,7 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
-import asapHome from '../assets/homescreens/asaphome.png';
+import asapHome from '../assets/asap/asap-hero-visual.png';
 import userFlowImg from '../assets/asap/asap-user-flow-new.png';
 import compMatrixImg from '../assets/asap/asap-competitive-matrix-new.png';
 
