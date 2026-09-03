@@ -2,17 +2,17 @@ import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
 import returnLoopHome from '../assets/homescreens/returnloophome.png';
-import persona1 from '../assets/allassets/returnloop-06-persona-1.png';
-import persona2 from '../assets/allassets/returnloop-06-persona-2.png';
-import screenScanLabel from '../assets/allassets/screens/returnloop-02-scan-label.png';
-import screenPickupWindow from '../assets/allassets/screens/returnloop-03-pickup-window.png';
-import screenTrackPickup from '../assets/allassets/screens/returnloop-04-track-pickup.png';
-import screenChatWithDriver from '../assets/allassets/screens/returnloop-06-chat-with-driver.png';
+import persona1 from '../assets/returnloop/returnloop-06-persona-1.png';
+import persona2 from '../assets/returnloop/returnloop-06-persona-2.png';
+import screenScanLabel from '../assets/returnloop/returnloop-02-scan-label.png';
+import screenPickupWindow from '../assets/returnloop/returnloop-03-pickup-window.png';
+import screenTrackPickup from '../assets/returnloop/returnloop-04-track-pickup.png';
+import screenChatWithDriver from '../assets/returnloop/returnloop-06-chat-with-driver.png';
 // Unused: returnloop-01-home.png, returnloop-05-return-confirmed.png, returnloop-07-login.png, returnloop-08-signup.png
-import { useSheetData } from '../utils/useSheetData';
+import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function ReturnLoopCaseStudy() {
-  const { data, loading, error } = useSheetData('returnloop');
+  const { data, loading, error } = useCaseStudyData('returnloop');
 
   if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
   if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;

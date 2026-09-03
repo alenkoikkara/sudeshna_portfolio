@@ -2,22 +2,22 @@ import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
 import asapHome from '../assets/homescreens/asaphome.png';
-import lofiAuthFlow from '../assets/allassets/asap-03b-lofi-01-auth-flow.png';
-import lofiHome from '../assets/allassets/asap-03b-lofi-02-home.png';
-import lofiBreakdown from '../assets/allassets/asap-03b-lofi-03-breakdown.png';
-import lofiBreakdownContd from '../assets/allassets/asap-03b-lofi-04-breakdown-contd.png';
-import compMap from '../assets/allassets/asap-05-competitive-positioning-map.png';
-import userFlow from '../assets/allassets/asap-06-user-flow.png';
+import lofiAuthFlow from '../assets/asap/asap-03b-lofi-01-auth-flow.png';
+import lofiHome from '../assets/asap/asap-03b-lofi-02-home.png';
+import lofiBreakdown from '../assets/asap/asap-03b-lofi-03-breakdown.png';
+import lofiBreakdownContd from '../assets/asap/asap-03b-lofi-04-breakdown-contd.png';
+import compMap from '../assets/asap/asap-05-competitive-positioning-map.png';
+import userFlow from '../assets/asap/asap-06-user-flow.png';
 
-import screenAssignmentList from '../assets/allassets/screens/asap-01-assignment-list.png';
-import screenAiReasons from '../assets/allassets/screens/asap-02-ai-reasons.png';
-import screenAiBreakdown from '../assets/allassets/screens/asap-03-ai-breakdown.png';
-import screenFocusMode from '../assets/allassets/screens/asap-04-focus-mode.png';
-import screenTimer from '../assets/allassets/screens/asap-05-timer.png';
-import { useSheetData } from '../utils/useSheetData';
+import screenAssignmentList from '../assets/asap/asap-01-assignment-list.png';
+import screenAiReasons from '../assets/asap/asap-02-ai-reasons.png';
+import screenAiBreakdown from '../assets/asap/asap-03-ai-breakdown.png';
+import screenFocusMode from '../assets/asap/asap-04-focus-mode.png';
+import screenTimer from '../assets/asap/asap-05-timer.png';
+import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function AsapCaseStudy() {
-  const { data, loading, error } = useSheetData('asap');
+  const { data, loading, error } = useCaseStudyData('asap');
 
   if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
   if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;

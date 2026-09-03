@@ -2,16 +2,16 @@ import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
 import petClearHome from '../assets/homescreens/petclearhome.png';
-import userFlow from '../assets/allassets/petclear-06-user-flow.png';
-import screenAiPetScan from '../assets/allassets/screens/petclear-01-ai-pet-scan.png';
-import screenTripCheckpoint from '../assets/allassets/screens/petclear-03-trip-checkpoint.png';
-import screenVaccinationTracker from '../assets/allassets/screens/petclear-04-vaccination-tracker.png';
-import screenDocumentVault from '../assets/allassets/screens/petclear-05-document-vault.png';
+import userFlow from '../assets/petclear/petclear-06-user-flow.png';
+import screenAiPetScan from '../assets/petclear/petclear-01-ai-pet-scan.png';
+import screenTripCheckpoint from '../assets/petclear/petclear-03-trip-checkpoint.png';
+import screenVaccinationTracker from '../assets/petclear/petclear-04-vaccination-tracker.png';
+import screenDocumentVault from '../assets/petclear/petclear-05-document-vault.png';
 // Unused: petclear-02-build-pet-profile.png, petclear-06-travel-history.png, petclear-07-community.png
-import { useSheetData } from '../utils/useSheetData';
+import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function PetClearCaseStudy() {
-  const { data, loading, error } = useSheetData('petclear');
+  const { data, loading, error } = useCaseStudyData('petclear');
 
   if (loading) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Loading case study data...</div>;
   if (error) return <div style={{ padding: '200px', textAlign: 'center', fontFamily: 'sans-serif' }}>Error loading data.</div>;
