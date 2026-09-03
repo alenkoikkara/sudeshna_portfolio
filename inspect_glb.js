@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { NodeIO } = require('@gltf-transform/core');
 
 async function inspect(file) {

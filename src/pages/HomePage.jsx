@@ -1,8 +1,6 @@
-import { useRef, useEffect, useState, Suspense } from 'react'
+import { useRef, useEffect, Suspense } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Environment, useGLTF } from '@react-three/drei'
-import * as THREE from 'three'
+import { Canvas, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
 
 import AsapModel from '../components/AsapModel'
@@ -51,8 +49,6 @@ export default function HomePage() {
   const bgRef1 = useRef(null)
   const bgRef2 = useRef(null)
   const bgRefs = [bgRef0, bgRef1, bgRef2]
-  const [activeDot, setActiveDot] = useState(0)
-
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -73,29 +69,34 @@ export default function HomePage() {
     const sectionEls = container.querySelectorAll('.scroll-section')
     const heroContent = sectionEls[0]?.querySelector('.section-content')
 
-    // ── Hide all elements initially ───
-    gsap.set(bgEls, { opacity: 0 })
-    gsap.set(canvasWrapperRef.current, { opacity: 0 })
-    gsap.set('#home-blur', { opacity: 0 })
-    gsap.set('#bottom-nav', { opacity: 0, y: 50 })
-    if (heroContent) gsap.set(heroContent.children, { opacity: 0, y: 20 })
+    // ── Initial State & Loading sequence ───────────────────────────────
+    if (initialIdx > 0) {
+      // Returning from a project: skip hero animations, prep layout instantly
+      gsap.set(bgEls, { opacity: 1 })
+      gsap.set('#home-blur', { opacity: 1 })
+      gsap.set('#bottom-nav', { opacity: 1, y: 0 })
+      if (heroContent) gsap.set(heroContent.children, { opacity: 1, y: 0 })
+      
+      // Delay snap slightly so refs and layout are fully ready
+      setTimeout(() => snapTo(initialIdx), 50)
+    } else {
+      // Normal intro load: hide first, then animate
+      gsap.set(bgEls, { opacity: 0 })
+      gsap.set(canvasWrapperRef.current, { opacity: 0 })
+      gsap.set('#home-blur', { opacity: 0 })
+      gsap.set('#bottom-nav', { opacity: 0, y: 50 })
+      if (heroContent) gsap.set(heroContent.children, { opacity: 0, y: 20 })
 
-    // ── Loading sequence ───────────────────────────────
-    const tl = gsap.timeline({ delay: 0.2 })
-    
-    if (heroContent) {
-      tl.to(heroContent.children, { opacity: 1, y: 0, duration: 1.5, stagger: 0.15, ease: 'power3.out' })
-    }
-    // Only background elements and blur fade in on load, phone remains hidden
-    tl.to([bgEls, '#home-blur'], { opacity: 1, duration: 2.0, ease: 'power2.inOut' }, '-=0.5')
-    
-    tl.to('#bottom-nav', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '<0.5')
-
-    tl.add(() => {
-      if (initialIdx > 0) {
-        snapTo(initialIdx)
+      const tl = gsap.timeline({ delay: 0.2 })
+      
+      if (heroContent) {
+        tl.to(heroContent.children, { opacity: 1, y: 0, duration: 1.5, stagger: 0.15, ease: 'power3.out' })
       }
-    }, '+=0.2')
+      // Only background elements and blur fade in on load, phone remains hidden
+      tl.to([bgEls, '#home-blur'], { opacity: 1, duration: 2.0, ease: 'power2.inOut' }, '-=0.5')
+      
+      tl.to('#bottom-nav', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '<0.5')
+    }
 
     // ── Init bg text positions ───────────────────────────
     gsap.set(bgEls[0], { y: 0 })
@@ -180,7 +181,7 @@ export default function HomePage() {
       if (idx !== prev) {
         hideSection(prev)
         currentIdx = idx
-        setActiveDot(idx)
+
         animateTo(KEYFRAMES[idx])
         animateCanvas(idx)
         animateGridMap(idx)

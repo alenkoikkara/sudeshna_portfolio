@@ -56,9 +56,7 @@ export default function CaseStudyShell({
       document.getElementById(`sec-${id}`)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  // Calculate progress %
-  const activeIdx = sections.findIndex(s => s.id === activeSection);
-  const progressPercent = sections.length > 1 ? (activeIdx / (sections.length - 1)) * 100 : 0;
+
 
   return (
     <ReactLenis root ref={lenisRef}>
