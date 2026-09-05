@@ -1,7 +1,7 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
-import returnLoopHome from '../assets/homescreens/returnloophome.png';
+import returnLoopHero from '../assets/returnloop/returnloop-hero-visual.png';
 import persona1 from '../assets/returnloop/returnloop-06-persona-1.png';
 import persona2 from '../assets/returnloop/returnloop-06-persona-2.png';
 import screenScanLabel from '../assets/returnloop/returnloop-02-scan-label.png';
@@ -27,9 +27,7 @@ export default function ReturnLoopCaseStudy() {
   const metaStrip = [
     { label: 'Role', value: data.metaRole || 'Lead UX Designer' },
     { label: 'Timeline', value: data.metaTimeline || '2 Months' },
-    { label: 'Team', value: data.metaTeam || '[Team TBD]' },
-    { label: 'Tools', value: data.metaTools || '[Tools TBD]' },
-    { label: 'Platform', value: data.metaPlatform || '[Platform TBD]' }
+    { label: 'Team', value: data.metaTeam || '[Team TBD]' }
   ];
 
   return (
@@ -38,7 +36,7 @@ export default function ReturnLoopCaseStudy() {
       projectName={data.projectName || "ReturnLoop"}
       promiseLine={data.promiseLine || "ReturnLoop connects a ready package with a driver already passing by, so the errand disappears."}
       metaStrip={metaStrip}
-      heroVisual={returnLoopHome}
+      heroVisual={returnLoopHero}
       sections={sections}
       prevCase={{ url: '/work/PetClear', name: 'PetClear', promise: 'Interactive Pet Travel Guide' }}
       nextCase={{ url: '/work/ASAP', name: 'ASAP', promise: 'Executive Functioning App' }}
@@ -73,17 +71,20 @@ export default function ReturnLoopCaseStudy() {
         </div>
 
         <div style={{ maxWidth: '720px', display: 'flex', flexDirection: 'column' }}>
+          {data.s3_insight_heading && (
+            <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', fontWeight: 600 }}>{data.s3_insight_heading}</h3>
+          )}
           <div style={{ padding: '20px 0', borderTop: '1px solid #eaeaea' }}>
-            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight1 || "The return window is the real villain."}</span>
+            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight1 || "The return window is the real villain - several kept an item simply because time ran out."}</span>
           </div>
           <div style={{ padding: '20px 0', borderTop: '1px solid #eaeaea' }}>
-            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: data.s3_insight2 || '"If I need to print a label, I give up." — <strong>Alex</strong>' }} />
+            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: data.s3_insight2 || 'Label printing is a silent exit - "If I need to print a label, I give up and let the return window expire." — <strong>Alex</strong>' }} />
           </div>
           <div style={{ padding: '20px 0', borderTop: '1px solid #eaeaea' }}>
-            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight3 || "A failed drop-off trip kills momentum."}</span>
+            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight3 || "A failed drop-off trip kills momentum - over half described a wasted trip: wrong carrier, closed store, refused package."}</span>
           </div>
           <div style={{ padding: '20px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea' }}>
-            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight4 || "Trust came up more than price did."}</span>
+            <span style={{ fontSize: '14px', color: '#3f3f3f', lineHeight: 1.5 }}>{data.s3_insight4 || "Trust came up more than price did - almost nobody objected to $4–5. The recurring question was who is this person, and how do I know my package arrived?"}</span>
           </div>
         </div>
 
@@ -104,28 +105,39 @@ export default function ReturnLoopCaseStudy() {
 
         <div style={{ maxWidth: '880px', borderRadius: '8px', border: '1px solid #bfc8c9', overflow: 'hidden' }}>
           {/* Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: '#f6fafe', borderBottom: '1px solid #bfc8c9' }}>
-            <div style={{ padding: '16px', fontWeight: 600, fontSize: '14px', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_h1 || 'Uber'}</div>
-            <div style={{ padding: '16px', fontWeight: 600, fontSize: '14px', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_h2 || 'DoorDash'}</div>
-            <div style={{ padding: '16px', fontWeight: 700, fontSize: '14px', background: '#e4eced', color: '#093f44' }}>{data.s4_grid_h3 || 'ReturnLoop'}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', background: '#fff', borderBottom: '1px solid #bfc8c9' }}>
+            <div style={{ padding: '16px', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }} />
+            <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', borderRight: '1px solid #bfc8c9', color: '#3f3f3f' }}>{data.s4_grid_h1 || 'Uber'}</div>
+            <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', borderRight: '1px solid #bfc8c9', color: '#3f3f3f' }}>{data.s4_grid_h2 || 'DoorDash'}</div>
+            <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', background: '#e4eced', color: '#093f44' }}>{data.s4_grid_h3 || 'ReturnLoop'}</div>
           </div>
           {/* Row 1 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: '1px solid #eee' }}>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r1_c1 || 'Standalone'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r1_c2 || 'Batched'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r1_c3 || 'Standalone'}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_h || 'Scope'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_c1 || 'Eats only'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_c2 || 'Any retailer'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r1_c3 || 'Any retailer'}</div>
           </div>
           {/* Row 2 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: '1px solid #eee' }}>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r2_c1 || 'Photo proof'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r2_c2 || 'Photo proof'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r2_c3 || 'Verification depth'}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_h || 'Context'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_c1 || 'In-app feature'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_c2 || 'In-app tab'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r2_c3 || 'Standalone'}</div>
           </div>
           {/* Row 3 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r3_c1 || 'In-app feature'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s4_grid_r3_c2 || 'In-app tab'}</div>
-            <div style={{ padding: '16px', fontSize: '13px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r3_c3 || 'Purpose-built'}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_h || 'Logic'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_c1 || 'Single trip'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_c2 || 'Single trip'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r3_c3 || 'Batched'}</div>
+          </div>
+          {/* Row 4 */}
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', background: '#fff' }}>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_h || 'Proof'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_c1 || 'Photo'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_c2 || 'Photo'}</div>
+            <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r4_c3 || 'Multi-verify'}</div>
           </div>
         </div>
 
@@ -277,6 +289,15 @@ export default function ReturnLoopCaseStudy() {
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c4 || "Driver chat gives a human channel (Margaret)"}</p>
           </div>
         </div>
+
+        <div style={{ maxWidth: '880px', marginTop: '32px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#171717' }}>
+            {data.s8_footer1 || "Welcome → Login → Home → Scan Label → Pickup Window → Live Tracking → Carrier Confirmed → Chat with Driver"}
+          </p>
+          <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#5f5e5e' }}>
+            {data.s8_footer2 || "Each answers a specific finding: scanning removes printing (Alex), flexible windows replace instant dispatch (Jack), live tracking gives proof (Saddie), carrier confirmation closes the loop independently, and driver chat gives a human channel (Margaret)."}
+          </p>
+        </div>
       </div>
       <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />
 
@@ -285,9 +306,6 @@ export default function ReturnLoopCaseStudy() {
         <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>{data.s9_title || 'Key takeaway'}</h2>
         <p style={{ margin: '0 0 16px 0', fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f', textAlign: 'justify' }}>
           {data.s9_body1 || "DoorDash built a return pickup feature in 2023 and none of the participants knew it existed. The problem wasn't a missing feature, it was a missing experience. Uber and DoorDash proved the mechanic works; what they didn't build is the trust."}
-        </p>
-        <p style={{ margin: 0, fontSize: '18px', fontWeight: 500, lineHeight: 1.5, color: '#000', textAlign: 'justify' }}>
-          {data.s9_body2 || "People don't want a cheaper return — they want one they don't have to think about twice."}
         </p>
       </div>
 

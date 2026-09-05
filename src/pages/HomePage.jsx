@@ -409,7 +409,7 @@ export default function HomePage() {
               width: block.w,
               height: block.h,
               backgroundColor: block.color,
-              borderRadius: '32px',
+              borderRadius: '44px',
               transform: 'translate(-50%, -50%)',
               boxShadow: block.color === 'transparent' && !block.isMockup ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
               display: 'flex',
@@ -428,7 +428,7 @@ export default function HomePage() {
                   <video
                     src={block.video}
                     autoPlay loop muted playsInline
-                    style={{ position: 'absolute', padding: "1% 0%", top: '0%', left: '4%', width: '92%', height: '100%', objectFit: 'contain', borderRadius: '32px', zIndex: 0 }}
+                    style={{ position: 'absolute', padding: "1% 0%", top: '0%', left: '4%', width: '92%', height: '100%', objectFit: 'contain', borderRadius: '38px', zIndex: 0 }}
                   />
                 )}
                 <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />

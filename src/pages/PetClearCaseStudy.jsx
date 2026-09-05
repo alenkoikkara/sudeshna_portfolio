@@ -1,11 +1,13 @@
 import React from 'react';
 import CaseStudyShell from '../components/CaseStudyShell';
 
-import petClearHome from '../assets/homescreens/petclearhome.png';
+import petClearHero from '../assets/petclear/petclear-hero-visual.png';
 import screenAiPetScan from '../assets/petclear/petclear-01-ai-pet-scan.png';
 import screenTripCheckpoint from '../assets/petclear/petclear-03-trip-checkpoint.png';
 import screenVaccinationTracker from '../assets/petclear/petclear-04-vaccination-tracker.png';
 import screenDocumentVault from '../assets/petclear/petclear-05-document-vault.png';
+import screenUserFlow from '../assets/petclear/petclear-06-user-flow.png';
+import screenCommunity from '../assets/petclear/petclear-07-community.png';
 import { useCaseStudyData } from '../utils/useCaseStudyData';
 
 export default function PetClearCaseStudy() {
@@ -24,9 +26,7 @@ export default function PetClearCaseStudy() {
   const metaStrip = [
     { label: 'Role', value: data.metaRole || 'Product Strategist' },
     { label: 'Timeline', value: data.metaTimeline || '4 Months' },
-    { label: 'Team', value: data.metaTeam || '[Team TBD]' },
-    { label: 'Tools', value: data.metaTools || '[Tools TBD]' },
-    { label: 'Platform', value: data.metaPlatform || '[Platform TBD]' }
+    { label: 'Team', value: data.metaTeam || '[Team TBD]' }
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function PetClearCaseStudy() {
       projectName={data.projectName || "PetClear"}
       promiseLine={data.promiseLine || "No surprises at the airport."}
       metaStrip={metaStrip}
-      heroVisual={petClearHome}
+      heroVisual={petClearHero}
       sections={sections}
       prevCase={{ url: '/work/ASAP', name: 'ASAP', promise: 'Executive Functioning App' }}
       nextCase={{ url: '/work/ReturnLoop', name: 'ReturnLoop', promise: 'Frictionless Package Returns' }}
@@ -53,9 +53,12 @@ export default function PetClearCaseStudy() {
       <div id="sec-02" className="cs-section" data-id="02" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
         <div style={{ maxWidth: '720px' }}>
           <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>{data.s2_title || 'Problem statement'}</h2>
-          <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>
+          <p style={{ margin: '0 0 24px 0', fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>
             {data.s2_body || "Airlines take the pet fee and say nothing about what comes next..."}
           </p>
+          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 500, lineHeight: 1.5, color: '#000' }}>
+            {data.s2_subtitle || "Not a failure of effort, but information at exact moments matter the most. PetDoc fixes that."}
+          </h3>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1080px' }}>
@@ -141,39 +144,103 @@ export default function PetClearCaseStudy() {
       <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />
 
       {/* 04 User persona */}
-      <div id="sec-04" className="cs-section" data-id="04" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s4_title || 'User persona'}</h2>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', maxWidth: '1080px' }}>
-          <div style={{ background: '#f8f8f8', padding: '32px', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <p style={{ margin: 0, fontSize: '18px', lineHeight: 1.5, color: '#171717', fontWeight: 500, fontStyle: 'italic' }}>
-              {data.s4_quote || '"I did everything I was supposed to do. Nobody told me there was more."'}
+      <div id="sec-04" className="cs-section" data-id="04" style={{ padding: '72px 0' }}>
+        <div style={{ background: '#f4f1eb', padding: '64px 48px', display: 'flex', gap: '64px', borderTop: '2px solid #333' }}>
+          
+          {/* Left Column */}
+          <div style={{ flex: '0 0 240px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div>
+              <span style={{ border: '1px solid #999', padding: '4px 8px', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#333', display: 'inline-block' }}>
+                Underprepared
+              </span>
+            </div>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: '96px', lineHeight: 1, color: '#222', margin: '-16px 0 -8px 0' }}>
+              T
+            </div>
+            <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#555' }}>
+              {data.s4_represents || "Any age • any pet • domestic or international • always underprepared by the system"}
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#555', textTransform: 'uppercase' }}>{data.s4_g1_h || "Goal"}</span>
-                <p style={{ margin: '4px 0 0 0', fontSize: '14px', lineHeight: 1.5, color: '#333' }}>{data.s4_g1_b || "Travel with pet, no last-minute surprises; one trusted source; confirmed ready before the airport."}</p>
+          </div>
+
+          {/* Right Column */}
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+            <h2 style={{ margin: 0, fontFamily: 'Georgia, serif', fontSize: '40px', lineHeight: 1.2, color: '#222', fontWeight: 400 }}>
+              {data.s4_quote || '"I did everything I was supposed to do. Nobody told me there was more."'}
+            </h2>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <div style={{ height: '1px', background: '#ccc', width: '100%' }} />
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
+                {/* Goals */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase' }}>Goals</span>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>01</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_goal1 || "Travel with pet, no last-minute surprises"}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>02</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_goal2 || "One source, fully trusted"}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>03</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_goal3 || "Confirmed ready before the airport"}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pain Points */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase' }}>Pain Points</span>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>01</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_pain1 || "Airline website incomplete or vague"}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>02</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_pain2 || "Conflicting answers across sources"}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '12px', padding: '16px 0', borderBottom: '1px solid #ddd' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: '#999', paddingTop: '3px' }}>03</span>
+                      <span style={{ fontSize: '15px', color: '#222' }}>{data.s4_pain3 || "Requirements discovered too late to act"}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#555', textTransform: 'uppercase' }}>{data.s4_g2_h || "Represents"}</span>
-                <p style={{ margin: '4px 0 0 0', fontSize: '14px', lineHeight: 1.5, color: '#333' }}>{data.s4_g2_b || "Any age, any pet, domestic or international — always underprepared by the system."}</p>
-              </div>
-              <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: '#555', textTransform: 'uppercase' }}>{data.s4_g3_h || "Pain Points"}</span>
-                <p style={{ margin: '4px 0 0 0', fontSize: '14px', lineHeight: 1.5, color: '#333' }}>{data.s4_g3_b || "Airline website incomplete or vague. Conflicting answers across sources."}</p>
+
+              <div style={{ height: '2px', background: '#333', width: '100%', marginTop: '16px' }} />
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase' }}>
+                  {data.s4_list_h || "REPRESENTS • FIVE REAL PARTICIPANTS, DIFFERENT FAILURE POINTS"}
+                </span>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
+                  <div style={{ paddingRight: '16px', borderRight: '1px solid #ccc' }}>
+                    <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l1_h?.replace(':','') || "Kshitij"}</div>
+                    <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l1_b?.replace('.','') || "missing NOC"}</div>
+                  </div>
+                  <div style={{ padding: '0 16px', borderRight: '1px solid #ccc' }}>
+                    <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l2_h?.replace(':','') || "Aryan"}</div>
+                    <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l2_b?.replace('.','') || "fitness cert via WhatsApp"}</div>
+                  </div>
+                  <div style={{ padding: '0 16px', borderRight: '1px solid #ccc' }}>
+                    <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l3_h?.replace(':','') || "Akansha"}</div>
+                    <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l3_b?.replace('.','') || "4 conflicting answers"}</div>
+                  </div>
+                  <div style={{ padding: '0 16px', borderRight: '1px solid #ccc' }}>
+                    <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l4_h?.replace(':','') || "Peter"}</div>
+                    <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l4_b?.replace('.','') || "vaccine 5 days short"}</div>
+                  </div>
+                  <div style={{ paddingLeft: '16px' }}>
+                    <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l5_h?.replace(':','') || "Osaris"}</div>
+                    <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l5_b?.replace('.','') || "cert expired unnoticed"}</div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'center' }}>
-            <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#171717' }}>{data.s4_list_h || "Five real participants. Different failure points."}</p>
-            <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <li style={{ fontSize: '14px', color: '#555' }}><strong>{data.s4_l1_h || "Kshitij:"}</strong> {data.s4_l1_b || "Missing NOC."}</li>
-              <li style={{ fontSize: '14px', color: '#555' }}><strong>{data.s4_l2_h || "Aryan:"}</strong> {data.s4_l2_b || "Fitness cert via WhatsApp."}</li>
-              <li style={{ fontSize: '14px', color: '#555' }}><strong>{data.s4_l3_h || "Akansha:"}</strong> {data.s4_l3_b || "4 conflicting answers."}</li>
-              <li style={{ fontSize: '14px', color: '#555' }}><strong>{data.s4_l4_h || "Peter:"}</strong> {data.s4_l4_b || "Vaccine 5 days short."}</li>
-              <li style={{ fontSize: '14px', color: '#555' }}><strong>{data.s4_l5_h || "Osaris:"}</strong> {data.s4_l5_b || "Cert expired unnoticed."}</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -222,9 +289,17 @@ export default function PetClearCaseStudy() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f4_h || "Document vault"}</h3>
-              <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f4_b || "Real travellers, same route."}</p>
+              <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f4_b || "One place, all docs, always current"}</p>
             </div>
             <img src={screenDocumentVault} alt="Document Vault" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
+            <img src={screenCommunity} alt="Community" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
+            <div>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f5_h || "Community"}</h3>
+              <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f5_b || "Real travelers, same route"}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -252,8 +327,8 @@ export default function PetClearCaseStudy() {
           </div>
         </div>
 
-        <div style={{ width: '100%', maxWidth: '1080px', height: '300px', background: '#f5f5f5', border: '1px solid #eaeaea', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ color: '#aaa', fontSize: '14px' }}>[User Flow Diagram Placeholder]</span>
+        <div style={{ width: '100%', maxWidth: '1080px' }}>
+          <img src={screenUserFlow} alt="User Flow Diagram" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
         </div>
       </div>
       <div style={{ height: '0.5px', background: '#474747', width: '100%' }} />

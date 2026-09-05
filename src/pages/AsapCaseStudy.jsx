@@ -31,9 +31,7 @@ export default function AsapCaseStudy() {
   const metaStrip = [
     { label: 'Role', value: data.metaRole || 'Lead Product Designer' },
     { label: 'Timeline', value: data.metaTimeline || '3 Months' },
-    { label: 'Team', value: data.metaTeam || '[Team TBD]' },
-    { label: 'Tools', value: data.metaTools || '[Tools TBD]' },
-    { label: 'Platform', value: data.metaPlatform || '[Platform TBD]' }
+    { label: 'Team', value: data.metaTeam || '[Team TBD]' }
   ];
 
   return (

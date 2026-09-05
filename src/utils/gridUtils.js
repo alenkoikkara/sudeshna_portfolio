@@ -7,6 +7,10 @@ import returnloopUpdateVideo from '../assets/videos/returnloop/returnloop_update
 import returnloopMapVideo from '../assets/videos/returnloop/returnloop_map.mov'
 import returnloopLoginVideo from '../assets/videos/returnloop/returnloop_login.mov'
 
+import asapListVideo from '../assets/videos/asap/asap_list.mov'
+import asapTimerVideo from '../assets/videos/asap/asap_timer.mov'
+import asapDoneVideo from '../assets/videos/asap/asap_done.mov'
+
 export const generateGridBlocks = () => {
   const blocks = [];
   const cols = 20;
@@ -95,13 +99,21 @@ export const generateGridBlocks = () => {
 
   // Specific user-requested hidden blocks
   hideBlocks([
-    [3, 2], [3, 4], 
+    [3, 2], [3, 4], [5, 2],
     [16, 2], 
     [0, 0], [1, 0], [2, 0],
     [10, 6], [10, 7]
   ]);
 
   // Videos
+  setBlockVideo(4, 3, asapListVideo);
+  setBlockVideo(5, 3, asapTimerVideo);
+  setBlockVideo(4, 4, asapDoneVideo);
+  
+  getBlock(4, 3).color = '#000000';
+  getBlock(4, 4).color = '#000000';
+  getBlock(5, 3).color = '#000000';
+
   setBlockVideo(16, 3, petclearLoginFlowVideo);
   setBlockVideo(16, 4, petclearTripVideo);
   setBlockVideo(17, 3, petclearCommentVideo);
