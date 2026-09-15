@@ -434,7 +434,7 @@ export default function HomePage() {
                 <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
               </div>
             )}
-            <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span>
+            {/* <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span> */}
           </div>
         ))}
       </div>
