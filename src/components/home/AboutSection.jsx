@@ -1,6 +1,5 @@
 import React from 'react';
 import sudeshnaPolaroid from '../../assets/about/sudeshna-polaroid.png';
-import { useIsMobile } from '../../hooks/useIsMobile';
 
 const SECTION_STYLE = {
   height: '100svh',
@@ -9,29 +8,11 @@ const SECTION_STYLE = {
 };
 
 export default function AboutSection() {
-  const isMobile = useIsMobile();
-  const sectionStyle = isMobile ? {
-    width: '100%',
-    position: 'relative',
-    padding: '4rem 1.5rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: '8rem', // Ensure space for bottom nav
-  } : {
-    height: '100svh',
-    width: '100%',
-    position: 'relative',
-  };
-
   return (
-    <section id="about" className="scroll-section" style={sectionStyle}>
+    <section id="about" className="scroll-section" style={SECTION_STYLE}>
       <div
-        className="section-content w-full max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 lg:gap-24 items-center px-0 md:px-12 lg:px-24"
-        style={isMobile ? {
-          pointerEvents: 'auto',
-          width: '100%',
-        } : {
+        className="section-content w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center px-6 md:px-12 lg:px-24"
+        style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -41,7 +22,7 @@ export default function AboutSection() {
         }}
       >
         {/* Left Column: Visuals */}
-        <div style={{ opacity: isMobile ? 1 : 0 }} className="relative flex flex-col items-center md:items-end w-full">
+        <div style={{ opacity: 0 }} className="relative flex flex-col items-center md:items-end w-full">
           {/* Polaroid Image Placeholder */}
           <div className="w-full max-w-90 bg-[#fdfdfd] p-4 pb-20 shadow-[0_20px_40px_rgba(0,0,0,0.15),0_0_2px_rgba(0,0,0,0.1)] transform -rotate-3 z-10 relative">
 
@@ -100,7 +81,7 @@ export default function AboutSection() {
         </div>
 
         {/* Right Column: Text */}
-        <div style={{ opacity: isMobile ? 1 : 0 }} className="flex flex-col justify-center max-w-lg pt-12 md:pt-0 text-left">
+        <div style={{ opacity: 0 }} className="flex flex-col justify-center max-w-lg pt-12 md:pt-0 text-left">
           <h2 className="text-xl md:text-2xl font-medium text-gray-800 mb-8">Building for the whole user.</h2>
 
           <div className="space-y-6 text-base md:text-lg text-gray-700 font-medium">

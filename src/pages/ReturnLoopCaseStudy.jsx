@@ -105,35 +105,35 @@ export default function ReturnLoopCaseStudy() {
 
         <div style={{ maxWidth: '880px', borderRadius: '8px', border: '1px solid #bfc8c9', overflow: 'hidden' }}>
           {/* Header */}
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr] bg-white border-b border-[#bfc8c9]">
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', background: '#fff', borderBottom: '1px solid #bfc8c9' }}>
             <div style={{ padding: '16px', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }} />
             <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', borderRight: '1px solid #bfc8c9', color: '#3f3f3f' }}>{data.s4_grid_h1 || 'Uber'}</div>
             <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', borderRight: '1px solid #bfc8c9', color: '#3f3f3f' }}>{data.s4_grid_h2 || 'DoorDash'}</div>
             <div style={{ padding: '16px', fontWeight: 500, fontSize: '15px', background: '#e4eced', color: '#093f44' }}>{data.s4_grid_h3 || 'ReturnLoop'}</div>
           </div>
           {/* Row 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr] border-b border-[#bfc8c9] bg-white">
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
             <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_h || 'Scope'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_c1 || 'Eats only'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r1_c2 || 'Any retailer'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r1_c3 || 'Any retailer'}</div>
           </div>
           {/* Row 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr] border-b border-[#bfc8c9] bg-white">
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
             <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_h || 'Context'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_c1 || 'In-app feature'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r2_c2 || 'In-app tab'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r2_c3 || 'Standalone'}</div>
           </div>
           {/* Row 3 */}
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr] border-b border-[#bfc8c9] bg-white">
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', borderBottom: '1px solid #bfc8c9', background: '#fff' }}>
             <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_h || 'Logic'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_c1 || 'Single trip'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r3_c2 || 'Single trip'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#093f44', background: '#f4f8f8', fontWeight: 500 }}>{data.s4_grid_r3_c3 || 'Batched'}</div>
           </div>
           {/* Row 4 */}
-          <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr] bg-white">
+          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr', background: '#fff' }}>
             <div style={{ padding: '16px', fontSize: '15px', color: '#555', background: '#f6fafe', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_h || 'Proof'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_c1 || 'Photo'}</div>
             <div style={{ padding: '16px', fontSize: '15px', color: '#3f3f3f', borderRight: '1px solid #bfc8c9' }}>{data.s4_grid_r4_c2 || 'Photo'}</div>
@@ -154,14 +154,14 @@ export default function ReturnLoopCaseStudy() {
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s5_title || 'Insight → decision'}</h2>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '1080px' }}>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_40px_1fr] gap-4 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', gap: '16px', alignItems: 'center' }}>
             <span style={{ fontSize: '10.1px', fontWeight: 600, letterSpacing: '0.4px', color: '#888' }}>{data.s5_col1 || 'RESEARCH INSIGHT'}</span>
             <span />
             <span style={{ fontSize: '10.1px', fontWeight: 600, letterSpacing: '0.4px', color: '#0d5c63' }}>{data.s5_col2 || 'DESIGN DECISION'}</span>
           </div>
           
           {/* Row 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_40px_1fr] gap-4 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', gap: '16px', alignItems: 'center' }}>
             <div style={{ padding: '24px', background: '#fafafa', borderRadius: '8px', border: '1px solid #eaeaea', fontSize: '14px', color: '#5f5e5e', lineHeight: 1.5 }}>
               {data.s5_r1_left || "\"It just sits there. I'll do it tomorrow.\" (Jack)"}
             </div>
@@ -171,7 +171,7 @@ export default function ReturnLoopCaseStudy() {
             </div>
           </div>
           {/* Row 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_40px_1fr] gap-4 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', gap: '16px', alignItems: 'center' }}>
             <div style={{ padding: '24px', background: '#fafafa', borderRadius: '8px', border: '1px solid #eaeaea', fontSize: '14px', color: '#5f5e5e', lineHeight: 1.5 }}>
               {data.s5_r2_left || "\"If I need to print a label, I give up.\" (Alex)"}
             </div>
@@ -181,7 +181,7 @@ export default function ReturnLoopCaseStudy() {
             </div>
           </div>
           {/* Row 3 */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_40px_1fr] gap-4 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 40px 1fr', gap: '16px', alignItems: 'center' }}>
             <div style={{ padding: '24px', background: '#fafafa', borderRadius: '8px', border: '1px solid #eaeaea', fontSize: '14px', color: '#5f5e5e', lineHeight: 1.5 }}>
               {data.s5_r3_left || "\"Who is this, and did it arrive?\" (nearly everyone)"}
             </div>
@@ -198,7 +198,7 @@ export default function ReturnLoopCaseStudy() {
           <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#3f3f3f' }}>
             {data.s5_change_body || "v1 marked a return complete the instant a driver scanned it; two interview stories proved that wasn't enough, so the flow now waits for carrier confirmation."}
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div style={{ padding: '16px', border: '1px solid #ddd', borderRadius: '8px', textAlign: 'center', fontSize: '13px', color: '#888' }}>
               <strike>{data.s5_change_old || "Carrier confirmed"}</strike>
             </div>
@@ -217,7 +217,7 @@ export default function ReturnLoopCaseStudy() {
           <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#3f3f3f' }} dangerouslySetInnerHTML={{ __html: data.s6_body || "Personas were grouped by <em>why</em> people stalled, not by demographics, so each represents a distinct reason the process breaks down." }} />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
           <img src={persona1} alt="Persona Alex" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
           <img src={persona2} alt="Persona Margaret" style={{ width: '100%', borderRadius: '12px', border: '1px solid #eaeaea' }} />
         </div>
@@ -231,7 +231,7 @@ export default function ReturnLoopCaseStudy() {
         <div style={{ overflowX: 'auto', maxWidth: '1080px' }}>
           <div style={{ minWidth: '800px', borderRadius: '8px', border: '1px solid #bfc8c9', overflow: 'hidden' }}>
             {/* Header */}
-            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr_1fr_1fr] bg-[#f0f4f8] border-b border-[#bfc8c9]">
+            <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr 1fr', background: '#f0f4f8', borderBottom: '1px solid #bfc8c9' }}>
               <div style={{ padding: '16px', borderRight: '1px solid #bfc8c9' }} />
               <div style={{ padding: '16px', fontSize: '13px', fontWeight: 600, borderRight: '1px solid #e6e6e6' }}>{data.s7_h2 || 'Decide'}</div>
               <div style={{ padding: '16px', fontSize: '13px', fontWeight: 600, borderRight: '1px solid #e6e6e6' }}>{data.s7_h3 || 'Prepare'}</div>
@@ -240,7 +240,7 @@ export default function ReturnLoopCaseStudy() {
               <div style={{ padding: '16px', fontSize: '13px', fontWeight: 600 }}>{data.s7_h6 || 'Outcome'}</div>
             </div>
             {/* Row 1: Today */}
-            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr_1fr_1fr] border-b border-[#f1f5f9]">
+            <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr 1fr', borderBottom: '1px solid #f1f5f9' }}>
               <div style={{ padding: '16px', fontSize: '13px', fontWeight: 600, background: '#f8fafc', borderRight: '1px solid #eee' }}>{data.s7_r1_c1 || 'Today'}</div>
               <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s7_r1_c2 || 'Low urgency'}</div>
               <div style={{ padding: '16px', fontSize: '13px', color: '#555', borderRight: '1px solid #eee' }}>{data.s7_r1_c3 || 'Prints label, packs'}</div>
@@ -249,7 +249,7 @@ export default function ReturnLoopCaseStudy() {
               <div style={{ padding: '16px', fontSize: '13px', color: '#555' }}>{data.s7_r1_c6 || 'Makes it or gives up'}</div>
             </div>
             {/* Row 2: ReturnLoop */}
-            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_1fr_1fr_1fr_1fr] bg-[#0d5c63] text-white">
+            <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr 1fr 1fr 1fr', background: '#0d5c63', color: '#fff' }}>
               <div style={{ padding: '16px', fontSize: '13px', fontWeight: 600, borderRight: '1px solid rgba(255,255,255,0.1)' }}>{data.s7_r2_c1 || 'ReturnLoop'}</div>
               <div style={{ padding: '16px', fontSize: '13px', borderRight: '1px solid rgba(255,255,255,0.1)' }}>{data.s7_r2_c2 || 'Deadline captured'}</div>
               <div style={{ padding: '16px', fontSize: '13px', borderRight: '1px solid rgba(255,255,255,0.1)' }}>{data.s7_r2_c3 || 'Scans digital label'}</div>
@@ -271,7 +271,7 @@ export default function ReturnLoopCaseStudy() {
           <h2 style={{ margin: '0 0 16px 0', fontSize: '20px', fontWeight: 500 }}>{data.s8_title || 'Key screens'}</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <img src={screenScanLabel} alt="Scan Label" style={{ width: '65%', margin: '0 auto', display: 'block' }} />
             <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.5, color: '#3f3f3f' }}>{data.s8_c1 || "Scanning removes printing (Alex)"}</p>

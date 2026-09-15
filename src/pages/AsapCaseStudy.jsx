@@ -69,7 +69,7 @@ export default function AsapCaseStudy() {
         </div>
         
         {/* Stat strip breakout 1080px */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4 max-w-[880px]">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', maxWidth: '880px', marginTop: '16px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <span style={{ fontSize: '32px', fontWeight: 600, color: '#0d5c63', letterSpacing: '-0.5px' }}>{data.s2_stat1_val || "25"}</span>
             <span style={{ fontSize: '13px', lineHeight: 1.4, color: '#555' }}>{data.s2_stat1_lbl || "Age when the prefrontal cortex fully matures"}</span>
@@ -101,7 +101,7 @@ export default function AsapCaseStudy() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '960px' }}>
           {/* Phase 1: Research */}
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_1fr_1fr] gap-6 pb-6 border-b border-[#eaeaea]">
+          <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 1fr 1fr', gap: '24px', paddingBottom: '24px', borderBottom: '1px solid #eaeaea' }}>
             <div>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 600, color: '#171717' }}>{data.s3_r1_h1 || "Research"}</h3>
               <p style={{ margin: 0, fontSize: '12px', color: '#888' }}>{data.s3_r1_h2 || "Anara, Google Scholar, NotebookLM"}</p>
@@ -121,7 +121,7 @@ export default function AsapCaseStudy() {
           </div>
 
           {/* Phase 2: Prototype */}
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_1fr_1fr] gap-6 pb-6 border-b border-[#eaeaea]">
+          <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 1fr 1fr', gap: '24px', paddingBottom: '24px', borderBottom: '1px solid #eaeaea' }}>
             <div>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 600, color: '#171717' }}>{data.s3_r2_h1 || "Prototype"}</h3>
               <p style={{ margin: 0, fontSize: '12px', color: '#888' }}>{data.s3_r2_h2 || "Figma Make, Claude"}</p>
@@ -141,7 +141,7 @@ export default function AsapCaseStudy() {
           </div>
 
           {/* Phase 3: Testing */}
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_1fr_1fr] gap-6">
+          <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 1fr 1fr', gap: '24px' }}>
             <div>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 600, color: '#171717' }}>{data.s3_r3_h1 || "Testing"}</h3>
               <p style={{ margin: 0, fontSize: '12px', color: '#888' }}>{data.s3_r3_h2 || "Claude Opus, synthetic personas"}</p>
@@ -172,7 +172,7 @@ export default function AsapCaseStudy() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', maxWidth: '1080px' }}>
           <div style={{ padding: '16px', background: '#f5f5f5', borderRadius: '8px', fontSize: '13px', color: '#555' }}>
             {data.s3b_c1 || "Getting in"}
           </div>
@@ -200,7 +200,7 @@ export default function AsapCaseStudy() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', maxWidth: '1080px' }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <img src={screenAssignmentList} alt="One Assignment" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s4_c1_h || "One assignment at a time"}</h3>
@@ -208,7 +208,7 @@ export default function AsapCaseStudy() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s4_c2_h || "AI suggests subtasks with reasons and estimates, student edits freely"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s4_c2_b || "The app breaks down complex assignments, providing estimates and rationale, but the student edits freely."}</p>
@@ -216,7 +216,7 @@ export default function AsapCaseStudy() {
             <img src={screenAiBreakdown} alt="AI Breakdown" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <img src={screenFocusMode} alt="Focus Mode" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
               <div>
@@ -250,7 +250,7 @@ export default function AsapCaseStudy() {
       {/* 05 Competitive analysis */}
       <div id="sec-05" className="cs-section" data-id="05" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s5_title || 'Competitive analysis'}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-[1080px] items-center">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', maxWidth: '1080px', alignItems: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#555' }}>
               {data.s5_body1 || "Google Calendar, Notion, Todoist, Apple Reminders..."}
@@ -282,7 +282,7 @@ export default function AsapCaseStudy() {
       <div id="sec-07" className="cs-section" data-id="07" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s7_title || 'Synthetic vs human'}</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           {/* Synthetic 1 */}
           <div style={{ padding: '24px', background: '#fff', border: '1px solid #eaeaea', borderRadius: '8px', borderTop: '4px solid #0d5c63' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
@@ -341,7 +341,7 @@ export default function AsapCaseStudy() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', maxWidth: '1080px' }}>
           <div style={{ background: '#f5f5f5', borderRadius: '12px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '16px', border: '1px solid #eaeaea' }}>
             <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.5px', color: '#888', textTransform: 'uppercase' }}>{data.s8_h1 || 'BEFORE'}</span>
             <div style={{ fontSize: '20px', fontWeight: 500, color: '#3f3f3f' }}>{data.s8_h1b || "Low confidence"}</div>
@@ -400,7 +400,7 @@ export default function AsapCaseStudy() {
       <div id="sec-10" className="cs-section" data-id="10" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s10_title || 'Reflection + close'}</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '32px', maxWidth: '1080px' }}>
           <div>
             <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: 600, color: '#0d5c63' }}>{data.s10_h1 || "Where AI helped"}</h3>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#555' }}>

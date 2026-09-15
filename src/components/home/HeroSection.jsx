@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIsMobile } from '../../hooks/useIsMobile';
 
 const SECTION_STYLE = {
   height: '100svh',
@@ -8,34 +7,11 @@ const SECTION_STYLE = {
 };
 
 export default function HeroSection() {
-  const isMobile = useIsMobile();
-  
-  const sectionStyle = isMobile ? {
-    width: '100%',
-    position: 'relative',
-    padding: '6rem 1.5rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '60svh',
-  } : {
-    height: '100svh',
-    width: '100%',
-    position: 'relative',
-  };
-
   return (
-    <section id="home" className="scroll-section" style={sectionStyle}>
+    <section id="home" className="scroll-section" style={SECTION_STYLE}>
       <div
         className="section-content"
-        style={isMobile ? {
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0',
-          pointerEvents: 'none',
-          width: '100%',
-          maxWidth: '520px',
-        } : {
+        style={{
           position: 'absolute',
           top: '50%',
           transform: 'translateY(-50%)',
@@ -48,7 +24,7 @@ export default function HeroSection() {
         }}
       >
         <p style={{
-          opacity: isMobile ? 1 : 0,
+          opacity: 0,
           margin: 0,
           fontSize: 'clamp(1.5rem, 2.6vw, 3rem)',
           fontWeight: 700,

@@ -61,7 +61,7 @@ export default function PetClearCaseStudy() {
           </h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ padding: '24px', background: '#fafafa', border: '1px solid #eaeaea', borderRadius: '8px' }}>
             <h3 style={{ margin: '0 0 8px 0', fontSize: '15px', fontWeight: 600 }}>{data.s2_c1_h || "Information Gap"}</h3>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, color: '#555' }}>{data.s2_c1_b || "Requirements invisible during booking — NOC, fitness certs, timing windows."}</p>
@@ -87,7 +87,7 @@ export default function PetClearCaseStudy() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 max-w-[1080px]">
+        <div style={{ maxWidth: '1080px', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '16px' }}>
           <div style={{ padding: '16px', background: '#fff', border: '1px solid #eaeaea', borderRadius: '8px' }}>
             <span style={{ fontSize: '13px', fontWeight: 600, color: '#d94838' }}>{data.s3_r1_h || "Singapore Airlines:"}</span>
             <p style={{ margin: '8px 0 0 0', fontSize: '13px', lineHeight: 1.5, color: '#555' }}>{data.s3_r1_b || "Approved titre-test labs not mentioned."}</p>
@@ -171,7 +171,7 @@ export default function PetClearCaseStudy() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               <div style={{ height: '1px', background: '#ccc', width: '100%' }} />
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }}>
                 {/* Goals */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase' }}>Goals</span>
@@ -217,7 +217,7 @@ export default function PetClearCaseStudy() {
                 <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', color: '#777', textTransform: 'uppercase' }}>
                   {data.s4_list_h || "REPRESENTS • FIVE REAL PARTICIPANTS, DIFFERENT FAILURE POINTS"}
                 </span>
-                <div className="grid grid-cols-2 md:grid-cols-5">
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)' }}>
                   <div style={{ paddingRight: '16px', borderRight: '1px solid #ccc' }}>
                     <div style={{ fontSize: '16px', fontFamily: 'Georgia, serif', color: '#222', marginBottom: '4px' }}>{data.s4_l1_h?.replace(':','') || "Kshitij"}</div>
                     <div style={{ fontSize: '13px', color: '#777', lineHeight: 1.4 }}>{data.s4_l1_b?.replace('.','') || "missing NOC"}</div>
@@ -262,7 +262,7 @@ export default function PetClearCaseStudy() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '64px', maxWidth: '1080px' }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <img src={screenAiPetScan} alt="AI Pet Scan" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f1_h || "AI pet scan"}</h3>
@@ -270,7 +270,7 @@ export default function PetClearCaseStudy() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f2_h || "Trip checkpoint"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f2_b || "Expiry alerts and country validity."}</p>
@@ -278,7 +278,7 @@ export default function PetClearCaseStudy() {
             <img src={screenTripCheckpoint} alt="Trip Checkpoint" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <img src={screenVaccinationTracker} alt="Vaccine Tracker" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f3_h || "Vaccine tracker"}</h3>
@@ -286,7 +286,7 @@ export default function PetClearCaseStudy() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f4_h || "Document vault"}</h3>
               <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.6, color: '#3f3f3f' }}>{data.s5_f4_b || "One place, all docs, always current"}</p>
@@ -294,7 +294,7 @@ export default function PetClearCaseStudy() {
             <img src={screenDocumentVault} alt="Document Vault" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center' }}>
             <img src={screenCommunity} alt="Community" style={{ width: '65%', margin: '0 auto', display: 'block', borderRadius: '12px' }} />
             <div>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '18px', fontWeight: 500 }}>{data.s5_f5_h || "Community"}</h3>
@@ -309,7 +309,7 @@ export default function PetClearCaseStudy() {
       <div id="sec-06" className="cs-section" data-id="06" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s6_title || 'User flow'}</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '24px', maxWidth: '1080px' }}>
           <div style={{ padding: '24px', background: '#fafafa', border: '1px solid #eaeaea', borderRadius: '8px' }}>
             <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6, color: '#3f3f3f' }}>
               {data.s6_b1 || "One entry, one profile: Sign-up and login converge fast."}
@@ -337,7 +337,7 @@ export default function PetClearCaseStudy() {
       <div id="sec-07" className="cs-section" data-id="07" style={{ padding: '72px 0', display: 'flex', flexDirection: 'column', gap: '48px' }}>
         <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 500 }}>{data.s7_title || 'Before & after'}</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-[1080px]">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', maxWidth: '1080px' }}>
           {/* Row 1 */}
           <div style={{ padding: '24px', borderBottom: '1px solid #eaeaea', borderRight: '1px solid #eaeaea' }}>
             <span style={{ fontSize: '10.1px', fontWeight: 600, letterSpacing: '0.4px', color: '#888', display: 'block', marginBottom: '8px' }}>{data.s7_c1_h || "BEFORE"}</span>
