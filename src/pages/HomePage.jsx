@@ -1,5 +1,6 @@
 import { useRef, useEffect, Suspense } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { Canvas, useThree } from '@react-three/fiber'
 import gsap from 'gsap'
 
@@ -44,6 +45,8 @@ export default function HomePage() {
     if (projectIndex !== -1) initialIdx = projectIndex + 1;
   }
 
+  const isMobile = useIsMobile();
+
   // Individual refs for bg texts (hooks can't be in loops)
   const bgRef0 = useRef(null)
   const bgRef1 = useRef(null)
@@ -66,23 +69,26 @@ export default function HomePage() {
     let isTouching = false
 
     const bgEls = bgRefs.map(r => r.current)
+    const validBgEls = bgEls.filter(Boolean)
     const sectionEls = container.querySelectorAll('.scroll-section')
     const heroContent = sectionEls[0]?.querySelector('.section-content')
 
     // ── Initial State & Loading sequence ───────────────────────────────
-    if (initialIdx > 0) {
-      // Returning from a project: skip hero animations, prep layout instantly
-      gsap.set(bgEls, { opacity: 1 })
+    if (initialIdx > 0 || isMobile) {
+      // Returning from a project or on mobile: skip hero animations, prep layout instantly
+      if (validBgEls.length) gsap.set(validBgEls, { opacity: 1 })
       gsap.set('#home-blur', { opacity: 1 })
       gsap.set('#bottom-nav', { opacity: 1, y: 0 })
       if (heroContent) gsap.set(heroContent.children, { opacity: 1, y: 0 })
       
-      // Delay snap slightly so refs and layout are fully ready
-      setTimeout(() => snapTo(initialIdx), 50)
+      if (initialIdx > 0) {
+        // Delay snap slightly so refs and layout are fully ready
+        setTimeout(() => snapTo(initialIdx), 50)
+      }
     } else {
       // Normal intro load: hide first, then animate
-      gsap.set(bgEls, { opacity: 0 })
-      gsap.set(canvasWrapperRef.current, { opacity: 0 })
+      if (validBgEls.length) gsap.set(validBgEls, { opacity: 0 })
+      if (canvasWrapperRef.current) gsap.set(canvasWrapperRef.current, { opacity: 0 })
       gsap.set('#home-blur', { opacity: 0 })
       gsap.set('#bottom-nav', { opacity: 0, y: 50 })
       if (heroContent) gsap.set(heroContent.children, { opacity: 0, y: 20 })
@@ -93,15 +99,15 @@ export default function HomePage() {
         tl.to(heroContent.children, { opacity: 1, y: 0, duration: 1.5, stagger: 0.15, ease: 'power3.out' })
       }
       // Only background elements and blur fade in on load, phone remains hidden
-      tl.to([bgEls, '#home-blur'], { opacity: 1, duration: 2.0, ease: 'power2.inOut' }, '-=0.5')
+      tl.to([...validBgEls, '#home-blur'], { opacity: 1, duration: 2.0, ease: 'power2.inOut' }, '-=0.5')
       
       tl.to('#bottom-nav', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '<0.5')
     }
 
     // ── Init bg text positions ───────────────────────────
-    gsap.set(bgEls[0], { y: 0 })
-    gsap.set(bgEls[1], { y: H() })
-    gsap.set(bgEls[2], { y: H() })
+    if (bgEls[0]) gsap.set(bgEls[0], { y: 0 })
+    if (bgEls[1]) gsap.set(bgEls[1], { y: H() })
+    if (bgEls[2]) gsap.set(bgEls[2], { y: H() })
 
     // ── Bg text transitions ────────────────────────────────
     const updateBgText = (newIdx) => {
@@ -110,17 +116,21 @@ export default function HomePage() {
       const goingDown = newIdx > prev
       currentBgIdx = newIdx
 
-      gsap.fromTo(
-        bgEls[newIdx],
-        { y: goingDown ? H() : -H() },
-        { y: 0, duration: 1.5, ease: 'power3.inOut', overwrite: 'auto' }
-      )
-      gsap.to(bgEls[prev], {
-        y: goingDown ? -H() : H(),
-        duration: 1.5,
-        ease: 'power3.inOut',
-        overwrite: 'auto',
-      })
+      if (bgEls[newIdx]) {
+        gsap.fromTo(
+          bgEls[newIdx],
+          { y: goingDown ? H() : -H() },
+          { y: 0, duration: 1.5, ease: 'power3.inOut', overwrite: 'auto' }
+        )
+      }
+      if (bgEls[prev]) {
+        gsap.to(bgEls[prev], {
+          y: goingDown ? -H() : H(),
+          duration: 1.5,
+          ease: 'power3.inOut',
+          overwrite: 'auto',
+        })
+      }
     }
 
     // ── Section content in / out ───────────────────────────
@@ -152,6 +162,7 @@ export default function HomePage() {
 
     // Canvas wrapper is hidden on Home (0) and About (4)
     const animateCanvas = (idx) => {
+      if (!canvasWrapperRef.current) return
       gsap.to(canvasWrapperRef.current, {
         opacity: (idx === 0 || idx === 4) ? 0 : 1, // Visible ONLY on Work sections (1, 2, 3)
         duration: 1.1,
@@ -249,8 +260,9 @@ export default function HomePage() {
       }
 
       isSnapping = true
+      const targetScroll = isMobile ? (sectionEls[idx]?.offsetTop || 0) : (idx * H())
       gsap.to(container, {
-        scrollTop: idx * H(),
+        scrollTop: targetScroll,
         duration: 1.5,
         ease: 'power3.inOut',
         overwrite: true,
@@ -306,11 +318,13 @@ export default function HomePage() {
       if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); snapTo(currentIdx - 1) }
     }
 
-    container.addEventListener('wheel', onWheel, { passive: false })
-    container.addEventListener('touchstart', onTouchStart, { passive: true })
-    container.addEventListener('touchmove', onTouchMove, { passive: false })
-    container.addEventListener('touchend', onTouchEnd, { passive: true })
-    window.addEventListener('keydown', onKeyDown)
+    if (!isMobile) {
+      window.addEventListener('keydown', onKeyDown)
+      container.addEventListener('wheel', onWheel, { passive: false })
+      container.addEventListener('touchstart', onTouchStart, { passive: false })
+      container.addEventListener('touchmove', onTouchMove, { passive: false })
+      container.addEventListener('touchend', onTouchEnd)
+    }
 
     // expose snapTo so BottomNav can call it
     snapToRef.current = snapTo
@@ -323,7 +337,7 @@ export default function HomePage() {
       window.removeEventListener('keydown', onKeyDown)
       clearTimeout(wheelTimer)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMobile]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -353,7 +367,7 @@ export default function HomePage() {
             ref={bgRefs[i]}
             style={{
               position: 'absolute', inset: 0,
-              display: 'flex',
+              display: (isMobile && i !== 0) ? 'none' : 'flex',
               alignItems: i === 2 ? 'flex-start' : 'center',
               justifyContent: i === 2 ? 'flex-end' : 'flex-start',
               padding: i === 2 ? 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem) 0' : '0 clamp(1.5rem, 4vw, 4rem)',
@@ -389,62 +403,65 @@ export default function HomePage() {
       }} />
 
       {/* ── Translating Grid Map ─────────────────────────────── */}
-      <div
-        ref={gridMapRef}
-        style={{
-          position: 'fixed',
-          top: '50%', left: '50%',
-          width: 0, height: 0,
-          pointerEvents: 'none',
-          zIndex: 5,
-        }}
-      >
-        {GRID_BLOCKS.map(block => (
-          <div
-            key={block.id}
-            style={{
-              position: 'absolute',
-              left: block.x,
-              top: block.y,
-              width: block.w,
-              height: block.h,
-              backgroundColor: block.color,
-              borderRadius: '44px',
-              transform: 'translate(-50%, -50%)',
-              boxShadow: block.color === 'transparent' && !block.isMockup ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: block.color === '#ffffff' || (block.color === 'transparent' && !block.isMockup) ? 'transparent' : 'rgba(0,0,0,0.5)',
-              fontSize: '2rem',
-              fontWeight: 800,
-              fontFamily: 'sans-serif',
-              overflow: 'hidden'
-            }}
-          >
-            {block.isMockup && (
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                {block.video && (
-                  <video
-                    src={block.video}
-                    autoPlay loop muted playsInline
-                    style={{ position: 'absolute', padding: "1% 0%", top: '0%', left: '4%', width: '92%', height: '100%', objectFit: 'contain', borderRadius: '38px', zIndex: 0 }}
-                  />
-                )}
-                <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
-              </div>
-            )}
-            <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span>
-          </div>
-        ))}
-      </div>
+      {!isMobile && (
+        <div
+          ref={gridMapRef}
+          style={{
+            position: 'fixed',
+            top: '50%', left: '50%',
+            width: 0, height: 0,
+            pointerEvents: 'none',
+            zIndex: 5,
+          }}
+        >
+          {GRID_BLOCKS.map(block => (
+            <div
+              key={block.id}
+              style={{
+                position: 'absolute',
+                left: block.x,
+                top: block.y,
+                width: block.w,
+                height: block.h,
+                backgroundColor: block.color,
+                borderRadius: '44px',
+                transform: 'translate(-50%, -50%)',
+                boxShadow: block.color === 'transparent' && !block.isMockup ? 'none' : '0 20px 40px rgba(0,0,0,0.05)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: block.color === '#ffffff' || (block.color === 'transparent' && !block.isMockup) ? 'transparent' : 'rgba(0,0,0,0.5)',
+                fontSize: '2rem',
+                fontWeight: 800,
+                fontFamily: 'sans-serif',
+                overflow: 'hidden'
+              }}
+            >
+              {block.isMockup && (
+                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                  {block.video && (
+                    <video
+                      src={block.video}
+                      autoPlay loop muted playsInline
+                      style={{ position: 'absolute', padding: "1% 0%", top: '0%', left: '4%', width: '92%', height: '100%', objectFit: 'contain', borderRadius: '38px', zIndex: 0 }}
+                    />
+                  )}
+                  <img src={iphoneMockup} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1, pointerEvents: 'none' }} />
+                </div>
+              )}
+              {/* <span style={{ position: 'relative', zIndex: 2 }}>{block.c},{block.r}</span> */}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── 3-D Canvas ─────────────────────────────────────── */}
-      <div ref={canvasWrapperRef} style={{
-        position: 'fixed', inset: 0,
-        zIndex: 10,
-        pointerEvents: 'none',
-      }}>
+      {!isMobile && (
+        <div ref={canvasWrapperRef} style={{
+          position: 'fixed', inset: 0,
+          zIndex: 10,
+          pointerEvents: 'none',
+        }}>
         <Canvas
           camera={{ position: [0, 0, 6], fov: 45 }}
           gl={{ antialias: true, alpha: true }}
@@ -462,10 +479,12 @@ export default function HomePage() {
           </Suspense>
         </Canvas>
       </div>
+      )}
 
       {/* ── Phone Screen Carousel Overlay (HTML) ────────────── */}
-      <div
-        id="phone-carousel-overlay"
+      {!isMobile && (
+        <div
+          id="phone-carousel-overlay"
         style={{
           position: 'fixed',
           top: '49.8%',
@@ -503,6 +522,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      )}
 
       {/* ── Home Section Blur Layer (Grained Glass) ──────────────────────────── */}
       <div id="home-blur" style={{
@@ -525,15 +545,19 @@ export default function HomePage() {
         <HeroSection />
 
         {/* Sections 1-3 — Work */}
-        {WORK_PROJECTS.map((proj, i) => (
-          <WorkSection
-            key={proj.title}
-            id={SECTIONS[i + 1].id}
-            proj={proj}
-            isLeft={proj.align === 'left'}
-            navigate={navigate}
-          />
-        ))}
+        {WORK_PROJECTS.map((proj, i) => {
+          const images = [asaphome, returnloophome, petclearhome];
+          return (
+            <WorkSection
+              key={proj.title}
+              id={SECTIONS[i + 1].id}
+              proj={proj}
+              image={images[i]}
+              isLeft={proj.align === 'left'}
+              navigate={navigate}
+            />
+          );
+        })}
 
         {/* Section 4 — About */}
         <AboutSection />
